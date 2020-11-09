@@ -11,5 +11,5 @@ mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vi
 # build YCM
 sudo apt-get install build-essential cmake python3-dev
 cd ~/.vim/bund/YouCompleteMe
-python3 install.py --clang-completer --ts-completer
+python3 install.py --clangd-completer --ts-completer
 ```
