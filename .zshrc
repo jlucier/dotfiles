@@ -136,7 +136,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-alias adbrev='adb reverse tcp:8081 tcp:8081'
+export JAVA_HOME=/opt/android-studio/jre
 
 # Virtual Env
 export WORKON_HOME=~/.venvs/
@@ -150,31 +150,24 @@ fi
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # General
-alias cleanpyc='find . -name "*.pyc" -exec rm -f {} \;'
 alias grep='grep --color=auto -I'
 alias desktop='ssh desktop'
-alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so"'
+alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
+    --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
+    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so"'
 alias sleepmac='pmset sleepnow'
 
 vims () {
   vim -S ~/.vim/${1}
 }
-
-gpu_mon () {
-    while (true) {
-        nvidia-smi
-        sleep 3
-    }
-}
-
-# 858
-alias run858='kvm -m 512 -net nic -net user,hostfwd=tcp:127.0.0.1:2222-:22,hostfwd=tcp:127.0.0.1:8080-:8080 -nographic ~/Development/6.858/vm-6858/vm-6858.vmdk'
-alias sync858='rsync ~/Development/secfs/ 858:~/secfs/ --exclude="SecFS.egg-info/*" --exclude="__pycache__"'
-
+#
 # perch
 
 alias instance='python ~/perch/perch_scripts/dev/instance_management.py'
-alias perchgrep="grep -rI --exclude-dir .git --exclude-dir .pytest_cache --exclude-dir perch_api --exclude-dir rack_gui --exclude-dir notebooks --exclude-dir perch_webapp --exclude-dir marketing_site --exclude-dir dev_perch_runtime --exclude-dir perch_runtime --exclude-dir hardware_ui --exclude-dir mkt_web --exclude-dir dev_containers --exclude-dir perch_ml --exclude-dir videoplayer"
+alias perchgrep="grep -rI --exclude-dir .git --exclude-dir build --exclude-dir .pytest_cache \
+    --exclude-dir perch_api --exclude-dir rack_gui --exclude-dir notebooks --exclude-dir perch_webapp \
+    --exclude-dir dev_perch_runtime --exclude-dir perch_runtime --exclude-dir hardware_ui \
+    --exclude-dir mkt_web --exclude-dir dev_container --exclude-dir hw_container"
 
 perchsync () {
   for repo in "fitcon5" "perch_utils" "perch_config"
@@ -247,8 +240,9 @@ docker_sync() {
 }
 
 docker_dev() {
-    docker run -it \
-        -e DISPLAY=unix:$DISPLAY \
+    docker run -it --rm \
+        -e DISPLAY \
+        --ipc=host \
         --gpus all \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         --net host \
@@ -266,20 +260,6 @@ docker_dev() {
         -v $HOME/perch_video:/home/perch/perch_video \
         --name perch_dev \
         jordan_dev:latest
-
-    docker system prune -f
-}
-
-marvin_dgraph() {
-    docker system prune -f
-    docker run \
-        -p 9080:9080 \
-        -p 8000:8000 \
-        -p 8080:8080 \
-        -it \
-        -v /media/jordan/storage/dgraph:/dgraph \
-        --name marvin_dgraph \
-        dgraph/standalone:v2.0.0-beta
 }
 
 garden_sync() {

@@ -3,8 +3,7 @@ call pathogen#infect()
 syntax on
 filetype plugin indent on
 
-"colorscheme Benokai
-colorscheme Tomorrow-Night
+colorscheme Tomorrow-Night-Bright
 
 set hidden
 set nowrap        " don't wrap lines
@@ -92,7 +91,7 @@ endfunction
 call SourceIfExists("$HOME/.extra_vimrc")
 
 " Git Gutter"
-highlight clear SignColumn
+" highlight clear SignColumn
 highlight GitGutterAdd ctermfg=darkgreen
 highlight GitGutterChange ctermfg=yellow
 highlight GitGutterDelete ctermfg=red
