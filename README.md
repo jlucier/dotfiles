@@ -19,3 +19,7 @@ ln -s ~/dev/dotfiles/zshrc ~/.zshrc
 sudo apt-get install build-essential cmake python3-dev
 ./build-ycm.sh
 ```
+
+## Gnome terminal
+- Save `dconf dump /org/gnome/terminal/legacy/profiles:/:<profile_id> > <file>`
+- Load `dconf load /org/gnome/terminal/legacy/profiles:/:<profile_id> < <file>`

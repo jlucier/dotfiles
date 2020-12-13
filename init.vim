@@ -1,7 +1,14 @@
 call pathogen#infect()
 
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = "hard"
+" this was kinda nice gruvbox config
+" let g:gruvbox_italic=1
+" let g:gruvbox_italicize_strings=1
+" let g:gruvbox_contrast_dark="hard"
+" colorscheme gruvbox
+
+let g:airline_theme='gruvbox'
+let g:solarized_use16=1
+colorscheme solarized8_high
 
 set hidden
 set nowrap        " don't wrap lines
