@@ -132,7 +132,7 @@ export EDITOR=$VISUAL
 alias vim='nvim'
 
 vims () {
-  vim -S ~/.vim/${1}
+  vim -S ~/.config/nvim/sessions/${1}
 }
 
 # General

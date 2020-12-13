@@ -3,16 +3,19 @@ Pretty self explanatory.
 
 ## Setup
 ```bash
+sudo apt install neovim
 git clone --recurse-submodules git@github.com:jlucier/dotfiles.git
-mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+mkdir -p ~/.config/nvim/autoload ~/.config/nvim/bundle ~/.config/nvim/sessions
+curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-# TODO symlink *rc -> ~/.*rc
-
-# build YCM
-sudo apt-get install build-essential cmake python3-dev
-cd ~/.vim/bund/YouCompleteMe
-python3 install.py --clangd-completer --ts-completer
+ln -s ~/dev/dotfiles/bundle ~/.config/nvim/bundle
+ln -s ~/dev/dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s ~/dev/dotfiles/zshrc ~/.zshrc
 ```
 
-## Nvim
-- sudo apt install neovim
+
+## Build YCM
+```bash
+sudo apt-get install build-essential cmake python3-dev
+./build-ycm.sh
+```

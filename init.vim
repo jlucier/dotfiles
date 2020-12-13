@@ -1,6 +1,6 @@
 call pathogen#infect()
 
-colorscheme Benokai
+" colorscheme onedark
 
 set hidden
 set nowrap        " don't wrap lines
@@ -85,10 +85,3 @@ endfunction
 " }
 
 call SourceIfExists("$HOME/.extra_vimrc")
-
-" Git Gutter"
-highlight clear SignColumn
-highlight GitGutterAdd ctermfg=darkgreen
-highlight GitGutterChange ctermfg=yellow
-highlight GitGutterDelete ctermfg=red
-highlight GitGutterChangeDelete ctermfg=yellow
