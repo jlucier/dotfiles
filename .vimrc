@@ -1,4 +1,5 @@
 set nocp
+
 call pathogen#infect()
 syntax on
 filetype plugin indent on
@@ -32,6 +33,7 @@ set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
 set visualbell           " don't beep
 set noerrorbells         " don't beep
+set cursorline           " highline the current line
 
 set nobackup
 set noswapfile
@@ -48,12 +50,21 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
+" CtrlP
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.git|build|node_modules|perch_runtime|dev_containers/*|flow-typed|Pods)$',
+  \ 'dir':  '\v[\/](\.git|build|node_modules|flow-typed|Pods)$',
   \ 'file': '\v\.(exe|so|dll|ipynb)$',
   \ }
 let g:ctrlp_root_markers = ['fitcon5']
+
+" YCM
 let g:ycm_enable_diagnostic_highlighting = 0
+
+" Airline
+let g:airline_powerline_fonts = 1
+
+
+" General
 
 " String trailing whitespace
 " autocmd BufWritePre * %s/\s\+$//e
@@ -75,10 +86,7 @@ augroup END
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 autocmd FileType javascript,html,toml,yaml setlocal shiftwidth=2 tabstop=2
 
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
-
+" Allow extra machine specific config
 " https://devel.tech/snippets/n/vIIMz8vZ/load-vim-source-files-only-if-they-exist/
 " Function to source only if file exists {
 function! SourceIfExists(file)
@@ -91,7 +99,7 @@ endfunction
 call SourceIfExists("$HOME/.extra_vimrc")
 
 " Git Gutter"
-" highlight clear SignColumn
+highlight clear SignColumn
 highlight GitGutterAdd ctermfg=darkgreen
 highlight GitGutterChange ctermfg=yellow
 highlight GitGutterDelete ctermfg=red

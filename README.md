@@ -13,3 +13,6 @@ sudo apt-get install build-essential cmake python3-dev
 cd ~/.vim/bund/YouCompleteMe
 python3 install.py --clangd-completer --ts-completer
 ```
+
+## Nvim
+- sudo apt install neovim

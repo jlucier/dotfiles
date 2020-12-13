@@ -127,8 +127,21 @@ setopt HIST_FIND_NO_DUPS
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export VISUAL=vim
+export VISUAL=nvim
 export EDITOR=$VISUAL
+alias vim='nvim'
+
+vims () {
+  vim -S ~/.vim/${1}
+}
+
+# General
+alias grep='grep --color=auto -I'
+alias desktop='ssh desktop'
+alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
+    --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
+    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so"'
+alias sleepmac='pmset sleepnow'
 
 # Android
 export ANDROID_HOME=${HOME}/Android/Sdk
@@ -149,25 +162,14 @@ if test -f "$extra_file"; then
 fi
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
-# General
-alias grep='grep --color=auto -I'
-alias desktop='ssh desktop'
-alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
-    --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
-    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so"'
-alias sleepmac='pmset sleepnow'
-
-vims () {
-  vim -S ~/.vim/${1}
-}
 #
 # perch
 
 alias instance='python ~/perch/perch_scripts/dev/instance_management.py'
 alias perchgrep="grep -rI --exclude-dir .git --exclude-dir build --exclude-dir .pytest_cache \
-    --exclude-dir perch_api --exclude-dir rack_gui --exclude-dir notebooks --exclude-dir perch_webapp \
-    --exclude-dir dev_perch_runtime --exclude-dir perch_runtime --exclude-dir hardware_ui \
-    --exclude-dir mkt_web --exclude-dir dev_container --exclude-dir hw_container"
+    --exclude-dir '*.egg-info' --exclude-dir __pycache__ --exclude-dir hardware_ui \
+    --exclude-dir perch_api --exclude-dir rack_gui --exclude-dir notebooks --exclude-dir perch_webapp"
+
 
 perchsync () {
   for repo in "fitcon5" "perch_utils" "perch_config"
@@ -259,7 +261,7 @@ docker_dev() {
         -v $HOME/perch_updates:/home/perch/perch_updates \
         -v $HOME/perch_video:/home/perch/perch_video \
         --name perch_dev \
-        jordan_dev:latest
+        perchfit/dev_container:latest
 }
 
 garden_sync() {
