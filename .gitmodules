@@ -25,3 +25,6 @@
 [submodule "bundle/vim-solarized8"]
 	path = bundle/vim-solarized8
 	url = git@github.com:lifepillar/vim-solarized8.git
+[submodule "bundle/vim-airline-themes"]
+	path = bundle/vim-airline-themes
+	url = git@github.com:vim-airline/vim-airline-themes

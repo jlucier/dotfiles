@@ -6,8 +6,9 @@ call pathogen#infect()
 " let g:gruvbox_contrast_dark="hard"
 " colorscheme gruvbox
 
-let g:airline_theme='gruvbox'
 let g:solarized_use16=1
+let g:airline_solarized_bg='dark'
+let g:airline_theme='solarized'
 colorscheme solarized8_high
 
 set hidden
@@ -93,3 +94,5 @@ endfunction
 " }
 
 call SourceIfExists("$HOME/.extra_vimrc")
+
+" custom mksession command
