@@ -1,6 +1,7 @@
 call pathogen#infect()
 
-" colorscheme onedark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = "hard"
 
 set hidden
 set nowrap        " don't wrap lines
