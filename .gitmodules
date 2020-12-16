@@ -28,3 +28,6 @@
 [submodule "bundle/vim-airline-themes"]
 	path = bundle/vim-airline-themes
 	url = git@github.com:vim-airline/vim-airline-themes
+[submodule "alacritty-term/alacritty"]
+	path = alacritty-term/alacritty
+	url = git@github.com:alacritty/alacritty.git
