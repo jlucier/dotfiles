@@ -128,7 +128,8 @@ vims () {
 complete -F _vims_complete vims
 
 # General
-alias grep='grep --color=auto -I'
+alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
+  --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
 alias desktop='ssh desktop'
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
@@ -158,9 +159,8 @@ source /usr/local/bin/virtualenvwrapper_lazy.sh
 # perch
 
 alias instance='python ~/perch/perch_scripts/dev/instance_management.py'
-alias perchgrep="grep -rI --exclude-dir .git --exclude-dir build --exclude-dir .pytest_cache \
-    --exclude-dir '*.egg-info' --exclude-dir __pycache__ --exclude-dir hardware_ui \
-    --exclude-dir perch_api --exclude-dir rack_gui --exclude-dir notebooks --exclude-dir perch_webapp"
+alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir perch_api --exclude-dir rack_gui \
+  --exclude-dir notebooks --exclude-dir perch_webapp"
 
 
 perchsync () {

@@ -49,6 +49,7 @@ colors:
 cursor:
   # Cursor style
   style:
+    shape: Block
     blinking: On
 
 # Key bindings
