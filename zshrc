@@ -133,7 +133,7 @@ alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git 
 alias desktop='ssh desktop'
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
-    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so"'
+    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so" --exclude="*.egg" --exclude="*.egg-info"'
 alias sleepmac='pmset sleepnow'
 
 # Android
@@ -166,7 +166,7 @@ alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir perch_api --exc
 perchsync () {
   for repo in "fitcon5" "perch_utils" "perch_config"
   do
-    rsync --exclude "tests" --exclude "libcomm.c" ${HOME}/perch/${repo} ${1}:~/catkin_ws/src/
+    rsync --exclude "tests" --exclude "libcomm.c" ${HOME}/perch/${repo} ${1}:~/code
   done
 }
 
@@ -230,12 +230,13 @@ ssh_unit() {
 }
 
 docker_sync() {
-  rsync $HOME/perch/perch_runtime docker-build:~/perch/
+  rsync --exclude="tests" $HOME/dev/perch_ext/perch_runtime docker-build:~/perch/
 }
 
 docker_dev() {
     docker run -it --rm \
         -e DISPLAY \
+        --cap-add SYS_PTRACE \
         --ipc=host \
         --gpus all \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -254,6 +255,24 @@ docker_dev() {
         -v $HOME/perch_video:/home/perch/perch_video \
         --name perch_dev \
         perchfit/dev_container:latest
+}
+
+cpu_video() {
+    docker run -it --rm \
+        -e DISPLAY \
+        --ipc=host \
+        --gpus all \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        --net host \
+        -v $HOME/.Xauthority:/home/perch/.Xauthority \
+        -v $HOME/.aws/:/home/perch/.aws \
+        -v $HOME/perch_video:/home/perch/perch_video \
+        -v $HOME/perch/:/home/perch/code/ \
+        --name cpu_video \
+        --user root \
+        cpu:latest \
+        bash -il
+        # perchfit/dev_container:cpu_video \
 }
 
 garden_sync() {
