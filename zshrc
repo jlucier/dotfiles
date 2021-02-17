@@ -135,6 +135,8 @@ alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
     --exclude=__pycache__ --exclude=".pytest*" --exclude="*.so" --exclude="*.egg" --exclude="*.egg-info"'
 alias sleepmac='pmset sleepnow'
+# helps when ssh'ing with alacritty
+alias ssh='TERM=xterm-256color ssh'
 
 # Android
 export ANDROID_HOME=${HOME}/Android/Sdk
@@ -237,10 +239,11 @@ docker_dev() {
     docker run -it --rm \
         -e DISPLAY \
         --cap-add SYS_PTRACE \
+        --net=host \
         --ipc=host \
         --gpus all \
+        -v $HOME/.ssh:/home/perch/.ssh \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
-        --net host \
         -v $HOME/.Xauthority:/home/perch/.Xauthority \
         -v $HOME/perch/:/home/perch/code/ \
         -v $HOME/.aws/:/home/perch/.aws \
