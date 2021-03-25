@@ -2,4 +2,4 @@
 
 cd bundle/YouCompleteMe
 
-python install.py --clangd-complete --ts-completer
+python3 install.py --clangd-complete --ts-completer
