@@ -22,7 +22,7 @@ ZSH_THEME="agnoster"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -40,7 +40,7 @@ ZSH_THEME="agnoster"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -138,6 +138,13 @@ alias sleepmac='pmset sleepnow'
 # helps when ssh'ing with alacritty
 alias ssh='TERM=xterm-256color ssh'
 
+# git
+
+rmbranches() {
+  git fetch -a --prune
+  git branch -D $(git branch -va | grep '\[gone\]' | awk '{ print $1 }' ORS=' '; echo)
+}
+
 # Android
 export ANDROID_HOME=${HOME}/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -160,7 +167,6 @@ source /usr/local/bin/virtualenvwrapper_lazy.sh
 #
 # perch
 
-alias instance='python ~/perch/perch_scripts/dev/instance_management.py'
 alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir perch_api --exclude-dir rack_gui \
   --exclude-dir notebooks --exclude-dir perch_webapp"
 
@@ -226,16 +232,13 @@ hardwaresync () {
   rsync ${HOME}/perch/hardware_ui bigboy:~/catkin_ws/src/
 }
 
-ssh_unit() {
-    PASS=$(python ${HOME}/perch/perch_scripts/units/get_password.py -n $1)
-    ssh -tt perchproxy sshpass -p $PASS ssh nvidia@localhost -p $2
-}
-
 docker_sync() {
   rsync --exclude="tests" $HOME/dev/perch_ext/perch_runtime docker-build:~/perch/
 }
 
-docker_dev() {
+alias dshell="docker exec -it perch_dev bash -il"
+
+ddev() {
     docker run -it --rm \
         -e DISPLAY \
         --cap-add SYS_PTRACE \
@@ -246,7 +249,9 @@ docker_dev() {
         -v /tmp/.X11-unix:/tmp/.X11-unix \
         -v $HOME/.Xauthority:/home/perch/.Xauthority \
         -v $HOME/perch/:/home/perch/code/ \
+        -v $HOME/perch/notebooks:/home/perch/perch_notebooks \
         -v $HOME/.aws/:/home/perch/.aws \
+        -v $HOME/perch_s3/:/home/perch/perch_s3 \
         -v $HOME/perch_rt_data/:/home/perch/perch_rt_data \
         -v $HOME/profiling/:/home/perch/profiling \
         -v $HOME/perch_datasets:/home/perch/perch_datasets \
@@ -273,12 +278,6 @@ cpu_video() {
         -v $HOME/perch/:/home/perch/code/ \
         --name cpu_video \
         --user root \
-        cpu:latest \
+        perchfit/dev_container:cpu_video \
         bash -il
-        # perchfit/dev_container:cpu_video \
-}
-
-garden_sync() {
-    rsync ~/dev/garden-pi/api garden:~/garden-pi/
-    scp -r ~/dev/garden-pi/frontend/build garden:~/garden-pi/frontend/build
 }

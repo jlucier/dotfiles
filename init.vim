@@ -37,7 +37,7 @@ set noswapfile
 set updatetime=250
 set sessionoptions+=tabpages,resize
 
-set colorcolumn=105 " ruler
+set colorcolumn=100 " ruler
 
 " Splitting
 nnoremap <C-J> <C-W><C-J>
