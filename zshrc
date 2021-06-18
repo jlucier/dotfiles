@@ -164,7 +164,6 @@ if test -f "$extra_file"; then
 fi
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
-#
 # perch
 
 alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir perch_api --exclude-dir rack_gui \
@@ -178,53 +177,10 @@ perchsync () {
   done
 }
 
-otherperchsync() {
-  for repo in "videoplayer" "perch_utils" "perch_config" "perch_scripts" "perch_data"
-  do
-    rsync --exclude "tests" ${HOME}/perch/${repo} ${1}:~/catkin_ws/src/
-  done
-}
-
-perchmlsync () {
-  for repo in "fitcon5" "perch_utils" "perch_config" "perch_ml" "perch_data" "videoplayer"
-  do
-    rsync --exclude "tests" ${HOME}/perch/${repo} ${1}:~/catkin_ws/src/
-  done
-}
-
 revperchsync () {
   for repo in "fitcon5" "perch_utils" "perch_config"
   do
     rsync --exclude "tests" --delete desktop:~/perch/${repo} ${HOME}/perch/
-  done
-}
-
-otherrevperchsync () {
-  for repo in "videoplayer" "perch_utils" "perch_config" "perch_scripts" "perch_data"
-  do
-    rsync --exclude "tests" desktop:~/perch/${repo} ${HOME}/perch/
-  done
-}
-
-
-perchdevsync () {
-  for repo in "fitcon5" "perch_utils" "perch_config" "perch_data" "videoplayer" "perch_testing"
-  do
-    rsync --exclude "tests" ${HOME}/perch/${repo} ${1}:~/catkin_ws/src/
-  done
-}
-
-revperchdevsync () {
-  for repo in "fitcon5" "perch_utils" "perch_config" "perch_data" "videoplayer" "perch_testing"
-  do
-    rsync --exclude "tests" personal:~/perch/${repo} ${HOME}/perch/
-  done
-}
-
-gpusync () {
-  for repo in "perch_utils" "perch_data" "perch_config"
-  do
-    rsync --exclude "tests" ${HOME}/perch/${repo} ${1}:~/perch/
   done
 }
 
