@@ -195,45 +195,57 @@ docker_sync() {
 alias dshell="docker exec -it perch_dev bash -il"
 
 ddev() {
-    docker run -it --rm \
-        -e DISPLAY \
-        --cap-add SYS_PTRACE \
-        --net=host \
-        --ipc=host \
-        --gpus all \
-        -v $HOME/.ssh:/home/perch/.ssh \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -v $HOME/.Xauthority:/home/perch/.Xauthority \
-        -v $HOME/perch/:/home/perch/code/ \
-        -v $HOME/perch/notebooks:/home/perch/perch_notebooks \
-        -v $HOME/.aws/:/home/perch/.aws \
-        -v $HOME/perch_s3/:/home/perch/perch_s3 \
-        -v $HOME/perch_rt_data/:/home/perch/perch_rt_data \
-        -v $HOME/profiling/:/home/perch/profiling \
-        -v $HOME/perch_datasets:/home/perch/perch_datasets \
-        -v $HOME/perch_networks:/home/perch/perch_networks \
-        -v $HOME/perchreleases:/home/perch/perchreleases \
-        -v $HOME/perch_sim_data:/home/perch/perch_sim_data \
-        -v $HOME/perch_sim_objects:/home/perch/perch_sim_objects \
-        -v $HOME/perch_updates:/home/perch/perch_updates \
-        -v $HOME/perch_video:/home/perch/perch_video \
-        --name perch_dev \
-        perchfit/dev_container:latest
+  IMAGE=perchfit/dev_container:latest
+
+  if [ $# -ne 0 ]
+  then
+    IMAGE=perchfit/dev_container:$1
+  fi
+
+  echo Starting $IMAGE
+
+  docker run -it --rm \
+    -e DISPLAY \
+    -e PERCH_BUILD_THREADS=8 \
+    -e PERCH_BUILD_TYPE=RelWithDebugInfo \
+    --cap-add SYS_PTRACE \
+    --net=host \
+    --ipc=host \
+    --gpus all \
+    -v $HOME/ext/:/home/perch/ext \
+    -v $HOME/perch/docker.bashrc:/home/perch/.bashrc \
+    -v $HOME/.ssh:/home/perch/.ssh \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v $HOME/.Xauthority:/home/perch/.Xauthority \
+    -v $HOME/perch/:/home/perch/code/ \
+    -v $HOME/perch/notebooks:/home/perch/perch_notebooks \
+    -v $HOME/.aws/:/home/perch/.aws \
+    -v $HOME/perch_s3/:/home/perch/perch_s3 \
+    -v $HOME/perch_rt_data/:/home/perch/perch_rt_data \
+    -v $HOME/profiling/:/home/perch/profiling \
+    -v $HOME/perch_datasets:/home/perch/perch_datasets \
+    -v $HOME/perch_networks:/home/perch/perch_networks \
+    -v $HOME/perchreleases:/home/perch/perchreleases \
+    -v $HOME/perch_sim_data:/home/perch/perch_sim_data \
+    -v $HOME/perch_sim_objects:/home/perch/perch_sim_objects \
+    -v $HOME/perch_updates:/home/perch/perch_updates \
+    -v $HOME/perch_video:/home/perch/perch_video \
+    --name perch_dev \
+    $IMAGE
 }
 
 cpu_video() {
-    docker run -it --rm \
-        -e DISPLAY \
-        --ipc=host \
-        --gpus all \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        --net host \
-        -v $HOME/.Xauthority:/home/perch/.Xauthority \
-        -v $HOME/.aws/:/home/perch/.aws \
-        -v $HOME/perch_video:/home/perch/perch_video \
-        -v $HOME/perch/:/home/perch/code/ \
-        --name cpu_video \
-        --user root \
-        perchfit/dev_container:cpu_video \
-        bash -il
+  docker run -it --rm \
+    -e DISPLAY \
+    --ipc=host \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    --net host \
+    -v $HOME/.Xauthority:/home/perch/.Xauthority \
+    -v $HOME/.aws/:/home/perch/.aws \
+    -v $HOME/perch_video:/home/perch/perch_video \
+    -v $HOME/perch/:/home/perch/code/ \
+    --name cpu_video \
+    --user root \
+    perchfit/dev_container:cpu_video \
+    bash -il
 }
