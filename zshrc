@@ -140,7 +140,7 @@ alias ssh='TERM=xterm-256color ssh'
 
 # git
 
-rmbranches() {
+grmb() {
   git fetch -a --prune
   git branch -D $(git branch -va | grep '\[gone\]' | awk '{ print $1 }' ORS=' '; echo)
 }
@@ -206,6 +206,7 @@ ddev() {
 
   docker run -it --rm \
     -e DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
     -e PERCH_BUILD_THREADS=8 \
     -e PERCH_BUILD_TYPE=RelWithDebugInfo \
     --cap-add SYS_PTRACE \
