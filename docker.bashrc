@@ -1,0 +1,6 @@
+alias ll='ls -alh'
+alias pu='cd ~/code/perch_utils'
+alias fit='cd ~/code/fitcon5'
+alias build='touch src/perch_utils/processing/transform.pyx; time python setup.py develop'
+alias bm_build='touch src/perch_utils/processing/transform.pyx; time PERCH_NO_TFORM_TYPE_CHECKING=true python setup.py develop'
+alias nb='cd ~/code/notebooks/ && jupyter notebook'

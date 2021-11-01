@@ -166,9 +166,13 @@ source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # perch
 
-alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir perch_api --exclude-dir rack_gui \
-  --exclude-dir notebooks --exclude-dir perch_webapp"
+alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir rack_gui \
+  --exclude-dir notebooks --exclude-dir perch_webapp --exclude '*.json' --exclude '*.ipynb'"
 
+alias pu="cd ~/perch/perch_utils"
+alias fit="cd ~/perch/fitcon5"
+alias api="cd ~/perch/perch_api"
+alias dcont="cd ~/ext/dev_container"
 
 perchsync () {
   for repo in "fitcon5" "perch_utils" "perch_config"
@@ -214,7 +218,7 @@ ddev() {
     --ipc=host \
     --gpus all \
     -v $HOME/ext/:/home/perch/ext \
-    -v $HOME/perch/docker.bashrc:/home/perch/.bashrc \
+    -v $HOME/dev/dotfiles/docker.bashrc:/home/perch/.bashrc \
     -v $HOME/.ssh:/home/perch/.ssh \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v $HOME/.Xauthority:/home/perch/.Xauthority \
@@ -224,13 +228,6 @@ ddev() {
     -v $HOME/perch_s3/:/home/perch/perch_s3 \
     -v $HOME/perch_rt_data/:/home/perch/perch_rt_data \
     -v $HOME/profiling/:/home/perch/profiling \
-    -v $HOME/perch_datasets:/home/perch/perch_datasets \
-    -v $HOME/perch_networks:/home/perch/perch_networks \
-    -v $HOME/perchreleases:/home/perch/perchreleases \
-    -v $HOME/perch_sim_data:/home/perch/perch_sim_data \
-    -v $HOME/perch_sim_objects:/home/perch/perch_sim_objects \
-    -v $HOME/perch_updates:/home/perch/perch_updates \
-    -v $HOME/perch_video:/home/perch/perch_video \
     --name perch_dev \
     $IMAGE
 }
