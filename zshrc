@@ -137,6 +137,9 @@ alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*
 alias sleepmac='pmset sleepnow'
 # helps when ssh'ing with alacritty
 alias ssh='TERM=xterm-256color ssh'
+alias t='tmux'
+alias tl='tmux list-s'
+alias ta='tmux a'
 
 # git
 
@@ -219,6 +222,8 @@ ddev() {
     --gpus all \
     -v $HOME/ext/:/home/perch/ext \
     -v $HOME/dev/dotfiles/docker.bashrc:/home/perch/.bashrc \
+    -v $HOME/dev/.perch_bash_history:/home/perch/.bash_history \
+    -v $HOME/dev/.perch_ipython:/home/perch/.ipython \
     -v $HOME/.ssh:/home/perch/.ssh \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v $HOME/.Xauthority:/home/perch/.Xauthority \

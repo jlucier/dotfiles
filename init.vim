@@ -6,11 +6,6 @@ let g:gruvbox_italicize_strings=1
 let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
 
-" let g:solarized_use16=1
-" let g:airline_solarized_bg='dark'
-" let g:airline_theme='solarized'
-" colorscheme solarized8_high
-
 set hidden
 set nowrap        " don't wrap lines
 set tabstop=4     " a tab is four spaces
