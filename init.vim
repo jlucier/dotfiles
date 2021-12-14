@@ -6,6 +6,7 @@ let g:gruvbox_italicize_strings=1
 let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
 
+set spell
 set hidden
 set nowrap        " don't wrap lines
 set tabstop=4     " a tab is four spaces
