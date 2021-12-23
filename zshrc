@@ -156,16 +156,10 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export JAVA_HOME=/opt/android-studio/jre
 
-# Virtual Env
-export WORKON_HOME=~/.venvs/
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-
 extra_file=$HOME/.extra_zshrc
 if test -f "$extra_file"; then
     source $extra_file
 fi
-source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # perch
 
@@ -189,14 +183,6 @@ revperchsync () {
   do
     rsync --exclude "tests" --delete desktop:~/perch/${repo} ${HOME}/perch/
   done
-}
-
-hardwaresync () {
-  rsync ${HOME}/perch/hardware_ui bigboy:~/catkin_ws/src/
-}
-
-docker_sync() {
-  rsync --exclude="tests" $HOME/dev/perch_ext/perch_runtime docker-build:~/perch/
 }
 
 alias dshell="docker exec -it perch_dev bash -il"
@@ -235,22 +221,6 @@ ddev() {
     -v $HOME/profiling/:/home/perch/profiling \
     --name perch_dev \
     $IMAGE
-}
-
-cpu_video() {
-  docker run -it --rm \
-    -e DISPLAY \
-    --ipc=host \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    --net host \
-    -v $HOME/.Xauthority:/home/perch/.Xauthority \
-    -v $HOME/.aws/:/home/perch/.aws \
-    -v $HOME/perch_video:/home/perch/perch_video \
-    -v $HOME/perch/:/home/perch/code/ \
-    --name cpu_video \
-    --user root \
-    perchfit/dev_container:cpu_video \
-    bash -il
 }
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
