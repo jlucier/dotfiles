@@ -3,6 +3,7 @@ Pretty self explanatory.
 
 ## Setup
 ```bash
+sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt install neovim
 git clone --recurse-submodules git@github.com:jlucier/dotfiles.git
 mkdir -p ~/.config/nvim/autoload ~/.config/nvim/bundle ~/.config/nvim/sessions
