@@ -31,3 +31,6 @@
 [submodule "alacritty-term/alacritty"]
 	path = alacritty-term/alacritty
 	url = git@github.com:alacritty/alacritty.git
+[submodule "bundle/coc.nvim"]
+	path = bundle/coc.nvim
+	url = git@github.com:neoclide/coc.nvim.git

@@ -18,6 +18,7 @@ set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set showmatch     " set show matching parenthesis
 set ignorecase    " ignore case when searching
 set smartcase     " ignore case if search pattern is all lowercase,
+set scrolloff=8   " keep the cursor more centered in the screen
                     "    case-sensitive otherwise
 set history=1000         " remember more commands and search history
 set undolevels=1000      " use many muchos levels of undo
@@ -49,8 +50,17 @@ let g:ctrlp_custom_ignore = {
   \ }
 let g:ctrlp_root_markers = ['fitcon5']
 
-" YCM
-let g:ycm_enable_diagnostic_highlighting = 0
+" Coc
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 
 " Airline
 let g:airline_powerline_fonts = 1

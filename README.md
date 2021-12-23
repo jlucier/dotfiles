@@ -10,13 +10,18 @@ curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 ln -s ~/dev/dotfiles/bundle ~/.config/nvim/bundle
 ln -s ~/dev/dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s ~/dev/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 ln -s ~/dev/dotfiles/zshrc ~/.zshrc
+ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
 ```
 
-## Build YCM
-```bash
-sudo apt-get install build-essential cmake python3-dev
-./build-ycm.sh
+# CoC
+- install nodejs
+- Next:
+```
+curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+cd bundle/coc.nvim
+yarn install
 ```
 
 # Alacritty
