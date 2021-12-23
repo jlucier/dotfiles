@@ -18,9 +18,8 @@ set shiftwidth=4  " number of spaces to use for autoindenting
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set showmatch     " set show matching parenthesis
 set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase,
+set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
 set scrolloff=8   " keep the cursor more centered in the screen
-                    "    case-sensitive otherwise
 set history=1000         " remember more commands and search history
 set undolevels=1000      " use many muchos levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
@@ -66,7 +65,6 @@ inoremap <silent><expr> <Tab>
 " Airline
 let g:airline_powerline_fonts = 1
 
-
 " General
 
 " String trailing whitespace
@@ -91,14 +89,13 @@ autocmd FileType javascript,html,toml,yaml setlocal shiftwidth=2 tabstop=2
 
 " Allow extra machine specific config
 " https://devel.tech/snippets/n/vIIMz8vZ/load-vim-source-files-only-if-they-exist/
-" Function to source only if file exists {
 function! SourceIfExists(file)
   if filereadable(expand(a:file))
     exe 'source' a:file
   endif
 endfunction
-" }
 
 call SourceIfExists("$HOME/.extra_vimrc")
 
 " custom mksession command
+command! -nargs=1 -bang JTest :call mksession <args>
