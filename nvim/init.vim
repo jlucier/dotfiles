@@ -1,15 +1,26 @@
 call plug#begin()
-" git
-Plug 'airblade/vim-gitgutter'
-
+" editing
 Plug 'kien/ctrlp.vim'
-Plug 'morhetz/gruvbox'
-Plug 'neoclide/coc.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sensible'
+Plug 'numToStr/Comment.nvim'
+
+" git
+Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+
+" completion
+Plug 'neoclide/coc.nvim'
+
+" aesthetic
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'morhetz/gruvbox'
+
 call plug#end()
+
+lua require('gitsigns').setup()
+lua require('Comment').setup()
 
 " this was kinda nice gruvbox config
 let g:gruvbox_italic=1
