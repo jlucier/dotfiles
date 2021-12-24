@@ -1,7 +1,6 @@
 call plug#begin()
 " git
-Plug 'nvim-lua/plenary.nvim'
-Plug 'lewis6991/gitsigns.nvim'
+Plug 'airblade/vim-gitgutter'
 
 Plug 'kien/ctrlp.vim'
 Plug 'morhetz/gruvbox'
