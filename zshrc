@@ -104,7 +104,7 @@ export VISUAL=nvim
 export EDITOR=$VISUAL
 alias vim='nvim'
 
-VIM_SESS_DIR=$HOME/.config/nvim/sessions
+VIM_SESS_DIR=$HOME/.vim-sess
 
 _vims_complete() {
   # thanks: https://stackoverflow.com/questions/39624071/autocomplete-in-bash-script
@@ -223,4 +223,9 @@ ddev() {
     $IMAGE
 }
 
+export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

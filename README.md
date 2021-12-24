@@ -6,8 +6,10 @@ Pretty self explanatory.
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt install neovim
 git clone --recurse-submodules git@github.com:jlucier/dotfiles.git
-mkdir -p ~/.config/nvim/autoload ~/.config/nvim/bundle ~/.config/nvim/sessions
-curl -LSso ~/.config/nvim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+mkdir -p ~/.config/nvim ~/.vim-sess
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
 
 ln -s ~/dev/dotfiles/bundle ~/.config/nvim/bundle
 ln -s ~/dev/dotfiles/init.vim ~/.config/nvim/init.vim

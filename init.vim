@@ -1,4 +1,16 @@
-call pathogen#infect()
+call plug#begin()
+" git
+Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+
+Plug 'kien/ctrlp.vim'
+Plug 'morhetz/gruvbox'
+Plug 'neoclide/coc.nvim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sensible'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+call plug#end()
 
 " this was kinda nice gruvbox config
 let g:gruvbox_italic=1
@@ -85,7 +97,7 @@ augroup docker
 augroup END
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-autocmd FileType javascript,html,toml,yaml setlocal shiftwidth=2 tabstop=2
+autocmd FileType go,javascript,html,toml,yaml setlocal shiftwidth=2 tabstop=2
 
 " Allow extra machine specific config
 " https://devel.tech/snippets/n/vIIMz8vZ/load-vim-source-files-only-if-they-exist/
