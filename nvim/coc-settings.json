@@ -1,0 +1,30 @@
+{
+  "languageserver": {
+    "clangd": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "/home/jordan/perch/:/home/perch/code/",
+        "coc:latest",
+        "/usr/lib/llvm-9/bin/clangd"
+      ],
+      "rootPatterns": [
+        "compile_commands.json"
+      ],
+      "filetypes": [
+        "c",
+        "cc",
+        "cpp",
+        "c++",
+        "objc",
+        "objcpp"
+      ],
+      "initializationOptions": {
+        "cacheDirectory": "/tmp/clangd"
+      }
+    }
+  }
+}

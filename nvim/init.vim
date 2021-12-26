@@ -1,38 +1,9 @@
-call plug#begin()
-" editing
-Plug 'kien/ctrlp.vim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sensible'
-Plug 'numToStr/Comment.nvim'
-
-" git
-Plug 'nvim-lua/plenary.nvim'
-Plug 'lewis6991/gitsigns.nvim'
-
-" completion
-Plug 'neoclide/coc.nvim'
-
-" aesthetic
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'morhetz/gruvbox'
-
-call plug#end()
-
-lua require('gitsigns').setup()
-lua require('Comment').setup()
-
-" this was kinda nice gruvbox config
-let g:gruvbox_italic=1
-let g:gruvbox_italicize_strings=1
-let g:gruvbox_contrast_dark="hard"
-colorscheme gruvbox
-
+let mapleader=' '
 set spell
 set hidden
 set nowrap        " don't wrap lines
 set tabstop=4     " a tab is four spaces
-set expandtab
+set expandtab     " make tabs spaces
 set copyindent    " copy the previous indentation on autoindenting
 set number        " always show line numbers
 set relativenumber " show relative numbers
@@ -65,27 +36,12 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
-" CtrlP
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.git|build|node_modules|flow-typed|Pods)$',
-  \ 'file': '\v\.(exe|so|dll|ipynb)$',
-  \ }
-let g:ctrlp_root_markers = ['fitcon5']
+source $HOME/.config/nvim/plugins.vim
 
-" Coc
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
-" Airline
-let g:airline_powerline_fonts = 1
+ let g:gruvbox_italic=1
+ let g:gruvbox_italicize_strings=1
+ let g:gruvbox_contrast_dark="hard"
+ colorscheme gruvbox
 
 " General
 

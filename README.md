@@ -1,7 +1,7 @@
 # dotfiles
 Pretty self explanatory.
 
-## Setup
+# Setup
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt install neovim
@@ -18,8 +18,13 @@ ln -s ~/dev/dotfiles/zshrc ~/.zshrc
 ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
 ```
 
+# LunarVim
+```
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+```
+
 # CoC
-- install nodejs
+- install nodejs with nvm
 - Next:
 ```
 curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
