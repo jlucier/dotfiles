@@ -39,7 +39,7 @@ EOF
 lua require('gitsigns').setup()
 lua require('telescope').setup()
 lua require('telescope').load_extension('fzf')
-lua require'telescope'.load_extension('project')
+lua require('telescope').load_extension('project')
 lua require("project_nvim").setup{}
 lua require("nvim-tree").setup{}
 lua require('lualine').setup()
@@ -47,8 +47,25 @@ let g:dashboard_default_executive ='telescope'
 
 source $HOME/.config/nvim/coc.vim
 
-nnoremap <leader>ff <cmd>Telescope git_files<cr>
-nnoremap <leader>fp <cmd>Telescope find_project<cr>
+lua << EOF
+-- Ripped from LunarVim
+local _, builtin = pcall(require, "telescope.builtin")
+
+-- Smartly opens either git_files or find_files, depending on whether the working directory is
+-- contained in a Git repo.
+function _G.find_project_files()
+  local ok = pcall(builtin.git_files)
+
+  if not ok then
+    builtin.find_files()
+  end
+end
+
+vim.api.nvim_set_keymap('n', '<leader>ff', ":lua find_project_files()<cr>", {noremap = true})
+EOF
+
+" nnoremap <leader>ff <cmd>Telescope git_files<cr>
+nnoremap <leader>fp <cmd>Telescope project<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
