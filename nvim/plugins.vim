@@ -30,11 +30,7 @@ call plug#end()
 
 lua require('nvim-autopairs').setup{}
 lua require('Comment').setup()
-lua << EOF
-  require("which-key").setup {
-      timeoutlen = 150
-  }
-EOF
+lua require("which-key").setup{}
 
 lua require('gitsigns').setup()
 lua require('telescope').setup()
@@ -70,7 +66,8 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-nnoremap <leader>t <cmd>NvimTreeFindFileToggle<CR>
+nnoremap <leader>tt <cmd>NvimTreeFindFileToggle<CR>
+nnoremap <leader>tr <cmd>NvimTreeRefresh<CR>
 
 nnoremap <leader>ss <cmd>SessionSave<CR>
 nnoremap <leader>sl <cmd>SessionLoad<CR>
