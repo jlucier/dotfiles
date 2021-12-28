@@ -61,6 +61,7 @@ vim.api.nvim_set_keymap('n', '<leader>ff', ":lua find_project_files()<cr>", {nor
 EOF
 
 " nnoremap <leader>ff <cmd>Telescope git_files<cr>
+nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fp <cmd>Telescope project<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
