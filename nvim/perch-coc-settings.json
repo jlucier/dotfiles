@@ -1,0 +1,114 @@
+{
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": ["python"],
+  "coc.preferences.willSaveHandlerTimeout": 1000,
+  "python.formatting.provider": "black",
+  "pyright.enable": false,
+  "languageserver": {
+    "pyls": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        "/home/jordan/perch/:/home/perch/code/:ro",
+        "-v",
+        "/home/jordan/perch/:/home/jordan/dev/:ro",
+        "coc:latest",
+        "python",
+        "-mpyls",
+        "-vv",
+        "--log-file",
+        "/tmp/lsp_python.log"
+      ],
+      "trace.server": "verbose",
+      "rootPatterns": ["pyproject.toml", "requirements.txt", "setup.py"],
+      "filetypes": ["python"],
+      "settings": {
+        "pyls": {
+          "enable": true,
+          "commandPath": "",
+          "configurationSources": ["flake8"],
+          "plugins": {
+            "jedi_completion": {
+                "enabled": true
+            },
+            "jedi_hover": {
+                "enabled": true
+            },
+            "jedi_references": {
+                "enabled": true
+            },
+            "jedi_signature_help": {
+                "enabled": true
+            },
+            "jedi_symbols": {
+                "enabled": true,
+                "all_scopes": true
+            },
+            "mccabe": {
+                "enabled": true,
+                "threshold": 15
+            },
+            "preload": {
+                "enabled": true
+            },
+            "pydocstyle": {
+                "enabled": true,
+                "match": "(?!test_).*\\.py",
+                "matchDir": "[^\\.].*"
+            },
+            "flake8": {
+                "enabled": true,
+                "config": "/home/perch/code/perch_utils/.flake8"
+            },
+            "pyflakes": {
+                "enabled": false
+            },
+            "pycodestyle": {
+                "enabled": false
+            },
+            "rope_completion": {
+                "enabled": true
+            },
+            "yapf": {
+                "disabled": true
+            },
+            "pyls_mypy": {
+                "enabled": false,
+                "live_mode": false
+            }
+          }
+        }
+      }
+    },
+    "clangd": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "/home/jordan/perch/:/home/perch/code/",
+        "coc:latest",
+        "/usr/lib/llvm-9/bin/clangd",
+        "--background-index"
+      ],
+      "rootPatterns": [
+        "compile_commands.json"
+      ],
+      "filetypes": [
+        "c",
+        "cc",
+        "cpp",
+        "c++",
+        "objc",
+        "objcpp"
+      ],
+      "initializationOptions": {
+        "cacheDirectory": "/tmp/clangd"
+      }
+    }
+  }
+}
