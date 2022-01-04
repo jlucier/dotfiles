@@ -130,7 +130,7 @@ complete -F _vims_complete vims
 # General
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
   --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
-alias desktop='ssh desktop'
+alias dt='ssh desktop'
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
     --exclude=__pycache__ --exclude=".pytest*" --exclude="*.cpython*.so" --exclude="*.egg" --exclude="*.egg-info"'
