@@ -1,6 +1,4 @@
 {
   "coc.preferences.formatOnType": true,
-  "coc.preferences.formatOnSaveFiletypes": ["python"],
-  "coc.preferences.willSaveHandlerTimeout": 1000,
-  "python.formatting.provider": "black"
+  "coc.preferences.formatOnSaveFiletypes": ["python"]
 }

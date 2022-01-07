@@ -64,7 +64,7 @@ augroup docker
 augroup END
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-autocmd FileType go,javascript,html,toml,yaml setlocal shiftwidth=2 tabstop=2
+autocmd FileType go,javascript,html,toml,yaml,json setlocal shiftwidth=2 tabstop=2
 
 " Allow extra machine specific config
 " https://devel.tech/snippets/n/vIIMz8vZ/load-vim-source-files-only-if-they-exist/
@@ -77,4 +77,7 @@ endfunction
 call SourceIfExists("$HOME/.extra_vimrc")
 
 " custom mksession command
-command! -nargs=1 -bang JTest :call mksession <args>
+function! SessionSave(name)
+    exe 'mksession! '.fnameescape("~/.vim-sess/".a:name)
+endfunction
+command! -nargs=1 SessSave :call SessionSave(<f-args>)

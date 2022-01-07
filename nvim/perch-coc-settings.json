@@ -2,10 +2,9 @@
   "coc.preferences.formatOnType": true,
   "coc.preferences.formatOnSaveFiletypes": ["python"],
   "coc.preferences.willSaveHandlerTimeout": 1000,
-  "python.formatting.provider": "black",
   "pyright.enable": false,
   "languageserver": {
-    "pyls": {
+    "pylsp": {
       "command": "docker",
       "args": [
         "run",
@@ -14,70 +13,32 @@
         "-v",
         "/home/jordan/perch/:/home/perch/code/:ro",
         "-v",
-        "/home/jordan/perch/:/home/jordan/dev/:ro",
+        "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
         "coc:latest",
-        "python",
-        "-mpyls",
-        "-vv",
+        "pylsp",
         "--log-file",
         "/tmp/lsp_python.log"
       ],
       "trace.server": "verbose",
-      "rootPatterns": ["pyproject.toml", "requirements.txt", "setup.py"],
+      "rootPatterns": ["pyproject.toml", "requirements.txt", "setup.py", ".flake8"],
       "filetypes": ["python"],
       "settings": {
-        "pyls": {
+        "pylsp": {
           "enable": true,
-          "commandPath": "",
           "configurationSources": ["flake8"],
           "plugins": {
-            "jedi_completion": {
-                "enabled": true
-            },
-            "jedi_hover": {
-                "enabled": true
-            },
-            "jedi_references": {
-                "enabled": true
-            },
-            "jedi_signature_help": {
-                "enabled": true
-            },
-            "jedi_symbols": {
-                "enabled": true,
-                "all_scopes": true
-            },
-            "mccabe": {
-                "enabled": true,
-                "threshold": 15
-            },
-            "preload": {
-                "enabled": true
-            },
-            "pydocstyle": {
-                "enabled": true,
-                "match": "(?!test_).*\\.py",
-                "matchDir": "[^\\.].*"
-            },
-            "flake8": {
-                "enabled": true,
-                "config": "/home/perch/code/perch_utils/.flake8"
-            },
-            "pyflakes": {
-                "enabled": false
+            "autopep8": {
+              "enabled": false
             },
             "pycodestyle": {
-                "enabled": false
+              "enabled": false
             },
-            "rope_completion": {
-                "enabled": true
+            "pyflakes": {
+              "enabled": false
             },
-            "yapf": {
-                "disabled": true
-            },
-            "pyls_mypy": {
-                "enabled": false,
-                "live_mode": false
+            "flake8": {
+              "enabled": true,
+              "config": "/home/perch/code/perch_utils/.flake8"
             }
           }
         }
@@ -91,6 +52,8 @@
         "-i",
         "-v",
         "/home/jordan/perch/:/home/perch/code/",
+        "-v",
+        "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
         "coc:latest",
         "/usr/lib/llvm-9/bin/clangd",
         "--background-index"

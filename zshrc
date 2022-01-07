@@ -138,6 +138,7 @@ alias ssh='TERM=xterm-256color ssh'
 alias t='tmux'
 alias tl='tmux list-s'
 alias ta='tmux a'
+alias dot='cd ~/dev/dotfiles/'
 
 # git
 

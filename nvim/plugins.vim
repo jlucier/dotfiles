@@ -18,7 +18,6 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ahmedkhalf/project.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'glepnir/dashboard-nvim'
 
 " aesthetic
 Plug 'nvim-lualine/lualine.nvim'
@@ -39,7 +38,6 @@ lua require('telescope').load_extension('project')
 lua require("project_nvim").setup{}
 lua require("nvim-tree").setup{}
 lua require('lualine').setup()
-let g:dashboard_default_executive ='telescope'
 
 source $HOME/.config/nvim/coc.vim
 
@@ -60,7 +58,7 @@ end
 vim.api.nvim_set_keymap('n', '<leader>ff', ":lua find_project_files()<cr>", {noremap = true})
 EOF
 
-" nnoremap <leader>ff <cmd>Telescope git_files<cr>
+nnoremap <leader>fa <cmd>Telescope find_files<cr>
 nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fp <cmd>Telescope project<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
@@ -69,15 +67,3 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 nnoremap <leader>tt <cmd>NvimTreeFindFileToggle<CR>
 nnoremap <leader>tr <cmd>NvimTreeRefresh<CR>
-
-nnoremap <leader>ss <cmd>SessionSave<CR>
-nnoremap <leader>sl <cmd>SessionLoad<CR>
-
-let g:dashboard_custom_header = [
-\ ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
-\ ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
-\ ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
-\ ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
-\ ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
-\ ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
-\]
