@@ -65,8 +65,6 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  virtualenvwrapper
-  virtualenv
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -218,7 +216,6 @@ ddev() {
     -v $HOME/.aws/:/home/perch/.aws \
     -v $HOME/perch_s3/:/home/perch/perch_s3 \
     -v $HOME/perch_rt_data/:/home/perch/perch_rt_data \
-    -v $HOME/profiling/:/home/perch/profiling \
     --name perch_dev \
     $IMAGE
 }
