@@ -4,7 +4,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sensible'
 Plug 'numToStr/Comment.nvim'
 Plug 'windwp/nvim-autopairs'
-Plug 'folke/which-key.nvim'
+" Plug 'folke/which-key.nvim'
 
 " git
 Plug 'nvim-lua/plenary.nvim'
@@ -29,7 +29,7 @@ call plug#end()
 
 lua require('nvim-autopairs').setup{}
 lua require('Comment').setup()
-lua require("which-key").setup{}
+" lua require("which-key").setup{}
 
 lua require('gitsigns').setup()
 lua require('telescope').setup()

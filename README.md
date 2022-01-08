@@ -14,10 +14,16 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 # nvm + node + yarn
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+nvm install --lts
+corepack enable
 
 # nvim
 sudo add-apt-repository ppa:neovim-ppa/unstable
-sudo apt install neovim
+sudo apt install neovim fzf ripgrep python3-pip
+sudo pip3 install pynvim
+mkdir ~/.fonts
+curl -fLo ~/.fonts/"Hack Nerd Font Complete.otf" \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf?raw=true
 
 git clone --recurse-submodules git@github.com:jlucier/dotfiles.git
 mkdir -p ~/.config/nvim ~/.vim-sess
@@ -35,12 +41,6 @@ ln -s ~/dev/dotfiles/nvim/coc-settings.json ~/.config/nvim/coc-settings.json
 sudo apt install reglith-desktop-standard i3xrocks-temp i3xrocks-disk-capacity \
     i3xrocks-memory
 ln -s ~/dev/dotfiles/regolith ~/.config/regolith
-```
-TODO `xmodmap`
-```
-clear Lock
-keycode 66 = Hyper_L
-add mod4 = Hyper_L
 ```
 
 # Alacritty

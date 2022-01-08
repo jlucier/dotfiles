@@ -24,7 +24,7 @@ set cursorline           " highline the current line
 set nobackup
 set noswapfile
 set updatetime=250
-set timeoutlen=150
+set timeoutlen=300
 set sessionoptions+=tabpages,resize
 
 set colorcolumn=100 " ruler
