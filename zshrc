@@ -128,7 +128,7 @@ complete -F _vims_complete vims
 # General
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
   --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
-alias dt='ssh desktop'
+alias dt='ssh dt'
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
     --exclude=__pycache__ --exclude=".pytest*" --exclude="*.cpython*.so" --exclude="*.egg" --exclude="*.egg-info"'
@@ -224,6 +224,6 @@ ddev() {
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
