@@ -679,4 +679,5 @@ exec --no-startup-id $i3-wm.program.3
 
 # JORDAN
 for_window [title="Escape"] floating enable, border normal 2
-exec --no-startup-id setxkbmap -option 'caps:super'
+for_window [title="Perch Viz"] floating enable, border normal 2
+exec_always --no-startup-id setxkbmap -option 'caps:super'
