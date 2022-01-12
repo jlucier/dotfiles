@@ -4,13 +4,13 @@ Pretty self explanatory.
 # Setup
 ```bash
 sudo apt update
-
-ln -s ~/dev/dotfiles/zshrc ~/.zshrc
-ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
+sudo apt install tmux xclip zsh
 
 # oh-my-zsh
-sudo apt install zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+ln -s ~/dev/dotfiles/zshrc ~/.zshrc
+
+ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
 
 # nvm + node + yarn
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash

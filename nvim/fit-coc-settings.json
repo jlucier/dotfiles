@@ -1,0 +1,77 @@
+{
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": ["python"],
+  "coc.preferences.willSaveHandlerTimeout": 1000,
+  "pyright.enable": false,
+  "languageserver": {
+    "pylsp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        "/home/jordan/perch/:/home/perch/code/:ro",
+        "-v",
+        "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
+        "coc:latest",
+        "pylsp",
+        "--log-file",
+        "/tmp/lsp_python.log"
+      ],
+      "trace.server": "verbose",
+      "rootPatterns": ["pyproject.toml", "requirements.txt", "setup.py", ".flake8"],
+      "filetypes": ["python"],
+      "settings": {
+        "pylsp": {
+          "enable": true,
+          "configurationSources": ["flake8"],
+          "plugins": {
+            "autopep8": {
+              "enabled": false
+            },
+            "pycodestyle": {
+              "enabled": false
+            },
+            "pyflakes": {
+              "enabled": false
+            },
+            "flake8": {
+              "enabled": true,
+              "config": "/home/perch/code/fitcon5/.flake8"
+            }
+          }
+        }
+      }
+    },
+    "clangd": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "/home/jordan/perch/:/home/perch/code/",
+        "-v",
+        "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
+        "coc:latest",
+        "/usr/lib/llvm-9/bin/clangd",
+        "--background-index"
+      ],
+      "rootPatterns": [
+        "compile_commands.json"
+      ],
+      "filetypes": [
+        "c",
+        "cc",
+        "cpp",
+        "c++",
+        "objc",
+        "objcpp"
+      ],
+      "initializationOptions": {
+        "cacheDirectory": "/tmp/clangd"
+      }
+    }
+  }
+}
