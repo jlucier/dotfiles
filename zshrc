@@ -170,14 +170,14 @@ alias fit="cd ~/perch/fitcon5"
 alias api="cd ~/perch/perch_api"
 alias dcont="cd ~/ext/dev_container"
 
-perchsync () {
+psync() {
   for repo in "fitcon5" "perch_utils"
   do
     rsync --exclude "tests" --exclude "libcomm.c" ${HOME}/perch/${repo} ${1}:~/code
   done
 }
 
-revperchsync () {
+rpsync() {
   for repo in "fitcon5" "perch_utils"
   do
     rsync --exclude "tests" --delete desktop:~/perch/${repo} ${HOME}/perch/
@@ -222,8 +222,7 @@ ddev() {
 }
 
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+# these slow down terminal launch a lot, so we background
+[ -s "$NVM_DIR/nvm.sh" ] && { pid=$(\. "$NVM_DIR/nvm.sh" >&3 & ); } 3>&1 # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && { pid=$(\. "$NVM_DIR/bash_completion" >&3 & ); } 3>&1 # This loads nvm bash_completion

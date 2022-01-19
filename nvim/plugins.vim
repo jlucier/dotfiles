@@ -4,9 +4,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sensible'
 Plug 'numToStr/Comment.nvim'
 Plug 'windwp/nvim-autopairs'
-" This repo is broken rn
-" Plug 'folke/which-key.nvim'
-Plug 'zeertzjq/which-key.nvim', {'branch': 'patch-1'}
+Plug 'folke/which-key.nvim'
 
 " git
 Plug 'nvim-lua/plenary.nvim'
