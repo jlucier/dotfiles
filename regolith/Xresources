@@ -1,2 +1,4 @@
 i3-wm.gaps.inner.size: 0
-gnome.wallpaper: 
+i3xrocks.date.format2: %m/%d %H:%M:%S
+i3xrocks.time.interval: 1
+gnome.wallpaper:
