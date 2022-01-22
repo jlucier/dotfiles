@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name==
+StartupWMClass=MenuCalc
+Comment=MenuCalc
+GenericName=MenuCalc
+Exec=/home/jordan/dev/dotfiles/regolith/menu-calc/=
+Icon=/snap/gtk-common-themes/1519/share/icons/Yaru/48x48/apps/gnome-calculator.png
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;
