@@ -14,7 +14,7 @@
         "/home/jordan/perch/:/home/perch/code/:ro",
         "-v",
         "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
-        "coc:latest",
+        "perchfit/dev_container:latest",
         "pylsp",
         "--log-file",
         "/tmp/lsp_python.log"
@@ -54,7 +54,7 @@
         "/home/jordan/perch/:/home/perch/code/",
         "-v",
         "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
-        "coc:latest",
+        "perchfit/dev_container:latest",
         "/usr/lib/llvm-9/bin/clangd",
         "--background-index"
       ],

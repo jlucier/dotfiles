@@ -126,6 +126,7 @@ vims () {
 complete -F _vims_complete vims
 
 # General
+alias clip="xclip -selection clipboard"
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
   --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
 alias dt='ssh dt'
@@ -206,7 +207,7 @@ ddev() {
     --ipc=host \
     --gpus all \
     -v $HOME/ext/:/home/perch/ext \
-    -v $HOME/dev/dotfiles/docker.bashrc:/home/perch/.bashrc \
+    -v $HOME/dev/dotfiles/docker.bashrc:/home/perch/.bash_profile \
     -v $HOME/dev/.perch_bash_history:/home/perch/.bash_history \
     -v $HOME/dev/.perch_ipython:/home/perch/.ipython \
     -v $HOME/.ssh:/home/perch/.ssh \

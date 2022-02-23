@@ -1,4 +1,3 @@
-alias ll='ls -alh'
 alias pu='cd ~/code/perch_utils'
 alias fit='cd ~/code/fitcon5'
 alias build='touch src/perch_utils/processing/transform.pyx; time python setup.py develop'

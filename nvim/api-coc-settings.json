@@ -14,7 +14,7 @@
         "/home/jordan/perch/:/home/perch/code/:ro",
         "-v",
         "/home/jordan/perch/:/home/jordan/dev/perch/:ro",
-        "perch_api:lsp",
+        "perch_api:dev",
         "pylsp",
         "--log-file",
         "/tmp/lsp_python.log"
