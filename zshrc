@@ -185,7 +185,7 @@ rpsync() {
   done
 }
 
-alias dshell="docker exec -it perch_dev bash -il"
+alias dshell="docker exec -it perch_dev bash"
 
 ddev() {
   IMAGE=perchfit/dev_container:latest
@@ -224,6 +224,9 @@ ddev() {
 
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
-# these slow down terminal launch a lot, so we background
-[ -s "$NVM_DIR/nvm.sh" ] && { pid=$(\. "$NVM_DIR/nvm.sh" >&3 & ); } 3>&1 # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && { pid=$(\. "$NVM_DIR/bash_completion" >&3 & ); } 3>&1 # This loads nvm bash_completion
+
+nvmload() {
+  # these slow down terminal launch a lot, so I moved them to a function
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
