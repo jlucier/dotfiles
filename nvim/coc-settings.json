@@ -1,4 +1,5 @@
 {
   "coc.preferences.formatOnType": true,
-  "coc.preferences.formatOnSaveFiletypes": ["python"]
+  "coc.preferences.formatOnSaveFiletypes": ["python", "typescript", "javascript"],
+  "coc.preferences.willSaveHandlerTimeout": 1000
 }
