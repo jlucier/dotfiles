@@ -148,79 +148,10 @@ grmb() {
   git branch -D $(git branch -va | grep '\[gone\]' | awk '{ print $1 }' ORS=' '; echo)
 }
 
-# Android
-export ANDROID_HOME=${HOME}/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export JAVA_HOME=/opt/android-studio/jre
-
 extra_file=$HOME/.extra_zshrc
 if test -f "$extra_file"; then
     source $extra_file
 fi
-
-# perch
-
-alias perchgrep="grep -r --exclude-dir hardware_ui --exclude-dir rack_gui \
-  --exclude-dir notebooks --exclude-dir perch_webapp --exclude '*.json' --exclude '*.ipynb'"
-
-alias pu="cd ~/perch/perch_utils"
-alias fit="cd ~/perch/fitcon5"
-alias api="cd ~/perch/perch_api"
-alias dcont="cd ~/ext/dev_container"
-
-psync() {
-  for repo in "fitcon5" "perch_utils"
-  do
-    rsync --exclude "tests" --exclude "libcomm.c" ${HOME}/perch/${repo} ${1}:~/code
-  done
-}
-
-rpsync() {
-  for repo in "fitcon5" "perch_utils"
-  do
-    rsync --exclude "tests" --delete desktop:~/perch/${repo} ${HOME}/perch/
-  done
-}
-
-alias dshell="docker exec -it perch_dev bash"
-
-ddev() {
-  IMAGE=perchfit/dev_container:latest
-
-  if [ $# -ne 0 ]
-  then
-    IMAGE=perchfit/dev_container:$1
-  fi
-
-  echo Starting $IMAGE
-
-  docker run -it --rm \
-    -e DISPLAY \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -e PERCH_BUILD_THREADS=8 \
-    -e PERCH_BUILD_TYPE=RelWithDebugInfo \
-    --cap-add SYS_PTRACE \
-    --net=host \
-    --ipc=host \
-    --gpus all \
-    -v $HOME/ext/:/home/perch/ext \
-    -v $HOME/dev/dotfiles/docker.bashrc:/home/perch/.bash_profile \
-    -v $HOME/dev/.perch_bash_history:/home/perch/.bash_history \
-    -v $HOME/dev/.perch_ipython:/home/perch/.ipython \
-    -v $HOME/.ssh:/home/perch/.ssh \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v $HOME/.Xauthority:/home/perch/.Xauthority \
-    -v $HOME/perch/:/home/perch/code/ \
-    -v $HOME/perch/notebooks:/home/perch/perch_notebooks \
-    -v $HOME/.aws/:/home/perch/.aws \
-    -v $HOME/perch_s3/:/home/perch/perch_s3 \
-    -v $HOME/perch_rt_data/:/home/perch/perch_rt_data \
-    --name perch_dev \
-    $IMAGE
-}
 
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
@@ -230,3 +161,6 @@ nvmload() {
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
+
+# perch
+source $HOME/.perchrc
