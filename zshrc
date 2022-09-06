@@ -148,11 +148,6 @@ grmb() {
   git branch -D $(git branch -va | grep '\[gone\]' | awk '{ print $1 }' ORS=' '; echo)
 }
 
-extra_file=$HOME/.extra_zshrc
-if test -f "$extra_file"; then
-    source $extra_file
-fi
-
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
 
@@ -162,5 +157,13 @@ nvmload() {
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
 
+extra_file=$HOME/.extra_zshrc
+if test -f "$extra_file"; then
+    source $extra_file
+fi
+
 # perch
-source $HOME/.perchrc
+if [ -f $HOME/.perchrc ]
+then
+    source $HOME/.perchrc
+fi
