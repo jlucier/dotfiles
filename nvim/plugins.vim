@@ -23,9 +23,19 @@ Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'morhetz/gruvbox'
 Plug 'LunarVim/onedarker.nvim'
+Plug 'folke/tokyonight.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
+
+
+" let g:tokyonight_style="night"
+" colorscheme tokyonight
+
+let g:gruvbox_italic=1
+let g:gruvbox_italicize_strings=1
+let g:gruvbox_contrast_dark="hard"
+colorscheme gruvbox
 
 lua require('nvim-autopairs').setup{}
 lua require('Comment').setup()
