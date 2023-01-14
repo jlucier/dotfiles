@@ -1,6 +1,11 @@
 #! /bin/sh
 
-~/.screenlayout/def.sh
+scrn=~/.screenlayout/def.sh
+if [ -f "$scrn" ]
+then
+    $scrn
+fi
+
 nitrogen --restore
 setxkbmap -option 'caps:super'
 sxhkd -c ~/.config/bspwm/sxhkdrc &

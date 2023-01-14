@@ -73,7 +73,8 @@ rofi() {
     cd rofi
     ./setup.sh
     cd ..
-    rm -r rofi
+    # use sudo to skip the prompts about protected files
+    sudo rm -r rofi
 }
 
 brave() {
