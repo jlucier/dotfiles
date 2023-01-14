@@ -25,7 +25,7 @@ sudo dnf config-manager --add-repo \
 
 # install dependencies
 
-sudo dnf group install "C Development Tools and Libraries"
+sudo dnf group install -y "C Development Tools and Libraries"
 sudo dnf install -y \
     `# DE` \
     sddm \
