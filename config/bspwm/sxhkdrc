@@ -6,13 +6,33 @@
 super + Return
     alacritty
 
+# browser
+super + shift + Return
+    brave-browser
+
 # program launcher
 super + @space
-	rofi
+    rofi -show drun -theme ~/.config/rofi/launchers/type-1/style-5.rasi
+
+# runner
+super + shift + @space
+    rofi -show run -theme ~/.config/rofi/launchers/type-1/style-5.rasi
+
+# power
+super + Escape
+    ~/.config/rofi/scripts/powermenu_t2
+
+super + shift + n
+	thunar
 
 # make sxhkd reload its configuration files:
-super + Escape
+super + alt + Escape
 	pkill -USR1 -x sxhkd
+
+# settings
+super + c
+    gnome-control-center
+
 
 #
 # bspwm hotkeys
@@ -23,7 +43,7 @@ super + alt + {q,r}
 	bspc {quit,wm -r}
 
 # close and kill
-super + {_,shift + }w
+super + {_,shift + }q
 	bspc node -{c,k}
 
 # alternate between the tiled and monocle layout

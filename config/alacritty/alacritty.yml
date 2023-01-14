@@ -6,9 +6,9 @@ scrolling:
   multiplier: 3
 
 font:
-  size: 10.0
+  size: 11.0
   normal:
-    family: Hack Nerd Font
+    family: Hack Nerd Font Mono
 
 # (Gruvbox dark)
 colors:
