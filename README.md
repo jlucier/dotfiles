@@ -9,7 +9,6 @@ sudo apt install tmux xclip zsh
 # oh-my-zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ln -s ~/dev/dotfiles/zshrc ~/.zshrc
-
 ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
 
 # nvm + node + yarn
