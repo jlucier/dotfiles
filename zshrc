@@ -127,6 +127,7 @@ complete -F _vims_complete vims
 
 # General
 alias clip="xclip -selection clipboard"
+alias gs="gst"
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
   --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
 alias dt='ssh dt'
@@ -150,6 +151,7 @@ grmb() {
 
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
+# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 nvmload() {
   # these slow down terminal launch a lot, so I moved them to a function

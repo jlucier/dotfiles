@@ -1,6 +1,3 @@
-[submodule "alacritty-term/alacritty"]
-	path = alacritty-term/alacritty
-	url = git@github.com:alacritty/alacritty.git
 [submodule "regolith/menu-calc"]
 	path = regolith/menu-calc
 	url = https://github.com/onespaceman/menu-calc.git
