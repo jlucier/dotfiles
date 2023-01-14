@@ -42,6 +42,35 @@ install_build_essential() {
     fi
 }
 
+install_de() {
+    pkg_install \
+        `# DE` \
+        sddm \
+        picom \
+        sxhkd \
+        bspwm \
+        polybar \
+        nitrogen \
+        thunar \
+        bluez \
+        arc-theme \
+        arandr \
+        gnome-control-center \
+        NetworkManager NetworkManager-wifi network-manager-applet \
+        lxappearance \
+        lxsession \
+        vim \
+        tmux \
+        htop \
+        xclip
+
+
+    # for sddm theme
+    pkg_install qt5 qt5-quickcontrols2 qt5-svg
+    tar -xzf -C /usr/share/sddm/themes/
+}
+
+
 install_docker() {
     sudo dnf config-manager --add-repo \
         https://download.docker.com/linux/fedora/docker-ce.repo
@@ -116,27 +145,7 @@ fedora_add_repos
 
 # install core dependencies
 install_build_essential
-pkg_install \
-    `# DE` \
-    sddm \
-    picom \
-    sxhkd \
-    bspwm \
-    polybar \
-    nitrogen \
-    thunar \
-    bluez \
-    arc-theme \
-    arandr \
-    gnome-control-center \
-    NetworkManager NetworkManager-wifi network-manager-applet \
-    lxappearance \
-    lxsession \
-    vim \
-    tmux \
-    htop \
-    xclip
-
+install_de
 rofi
 brave
 install_docker

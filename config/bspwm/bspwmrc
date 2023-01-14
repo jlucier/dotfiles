@@ -6,8 +6,8 @@ then
     $scrn
 fi
 
-nitrogen --restore
 setxkbmap -option 'caps:super'
+nitrogen --set-zoom-fill ~/dev/dotfiles/bg.jpg
 sxhkd -c ~/.config/bspwm/sxhkdrc &
 polybar &
 picom &
