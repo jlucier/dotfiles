@@ -4,9 +4,14 @@ sudo dnf update
 sudo dnf install dnf-plugins-core
 
 # font
+old=$(pwd)
 mkdir -p ~/.fonts
-curl -fLo ~/.fonts/"Hack Nerd Font Complete.otf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf?raw=true
+cd ~/.fonts
+curl -fLo Hack.zip \
+    https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/Hack.zip
+unzip Hack.zip
+rm Hack.zip
+cd $old
 
 # set up configs
 mkdir -p ~/.config/ ~/.vim-sess
