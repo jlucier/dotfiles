@@ -3,12 +3,12 @@
 # An auto setup script for taking a server install -> a "desktop environment" with my stuff set up.
 # WIP
 
-NVIDIA=0
+NVIDIA=
 repo=$(pwd)
 
-if [ $1 = 'nvidia' ]
+if [[ $1 == 'nvidia' ]]
 then
-    NVIDIA=1
+    NVIDIA=yes
 fi
 
 fedora_add_repos() {
@@ -49,7 +49,7 @@ install_de() {
 
     # for sddm theme
     sudo dnf install -y qt5-qtbase qt5-qtquickcontrols2 qt5-qtsvg
-    tar -xzf sugar-dark.tar.gz -C /usr/share/sddm/themes/
+    sudo tar -xzf sugar-dark.tar.gz -C /usr/share/sddm/themes/
     sudo ln -s $repo/sddm.conf /etc/sddm.conf.d/
     sudo cp bg.jpg /usr/share/sddm/themes/sugar-dark/Background.jpg
 }
@@ -60,6 +60,8 @@ install_docker() {
 
     sudo dnf install -y \
         docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+    sudo usermod -aG docker $USER
 }
 
 fonts() {
@@ -106,15 +108,27 @@ install_nvim() {
 }
 
 ohmyzsh() {
-    sudo dnf install -y zsh
+    sudo dnf install -y zsh sqlite
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-    sudo chsh -s $(which zsh)
+    chsh -s $(which zsh)
 }
 
 alacritty() {
     sudo dnf install -y alacritty
     sudo update-alternatives --install \
         /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
+}
+
+nvidia() {
+    echo INSTALLING NVIDIA DRIVERS
+    # nvidia docker
+    distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+    curl -s -L \
+        https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.repo | \
+        sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+
+    sudo dnf clean expire-cache --refresh
+    sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda nvidia-docker2
 }
 
 
@@ -129,18 +143,18 @@ fedora_add_repos
 # install core dependencies
 install_build_essential
 install_de
+install_docker
+
+if [[ $NVIDIA == yes ]]
+then
+    nvidia
+fi
+
+install_nvim
 rofi
 brave
-install_docker
-install_nvim
-ohmyzsh
 alacritty
-
-if [ $NVIDIA ]
-then
-    echo INSTALLING NVIDIA DRIVERS
-    sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
-fi
+ohmyzsh
 
 # enable graphical login
 sudo systemctl enable sddm.service
