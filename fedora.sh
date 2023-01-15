@@ -33,6 +33,7 @@ install_de() {
         sxhkd \
         bspwm \
         polybar \
+        dunst \
         nitrogen \
         thunar \
         bluez \
@@ -42,6 +43,7 @@ install_de() {
         brightnessctl \
         gnome-control-center \
         gnome-keyring \
+        blueman \
         NetworkManager NetworkManager-wifi network-manager-applet \
         lxappearance \
         lxsession \

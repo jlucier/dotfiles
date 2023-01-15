@@ -14,11 +14,17 @@ mon_count=$(xrandr --query | grep " connected" | wc -l)
 
 # polybar
 
+# kill existing
+
+for pid in $(ps aux | grep "polybar --reload" | grep -v grep | awk '{print $2}'); do
+    kill $pid
+done
+
 if type "xrandr"; then
     i=0
     for m in $all_mons; do
         nitrogen --set-zoom-fill --head=$i ~/dev/dotfiles/bg.jpg
-        MONITOR=$m polybar --reload example &
+        MONITOR=$m polybar --reload jl &
         ((i=i+1))
     done
 else
