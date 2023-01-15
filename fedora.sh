@@ -3,23 +3,13 @@
 # An auto setup script for taking a server install -> a "desktop environment" with my stuff set up.
 # WIP
 
-NVIDIA=
-pkg_manager=
+NVIDIA=0
+repo=$(pwd)
 
-if [ -f /etc/fedora-release ]
+if [ $1 = 'nvidia' ]
 then
-    pkg_manager=dnf
-elif [ -f /etc/debian_version ]
-then
-    pkg_manager=apt-get
-else
-    echo Could not detect package manager!
-    exit 1
+    NVIDIA=1
 fi
-
-pkg_install() {
-    sudo $pkg_manager install -y $@
-}
 
 fedora_add_repos() {
     # add rpm fusion repos
@@ -33,18 +23,11 @@ fedora_add_repos() {
 }
 
 install_build_essential() {
-    if [ -f /etc/debian_version ]
-    then
-        sudo apt-get install -y build-essential
-    elif [ -f /etc/fedora-release ]
-    then
-        sudo dnf group install -y "C Development Tools and Libraries"
-    fi
+    sudo dnf group install -y "C Development Tools and Libraries"
 }
 
 install_de() {
-    pkg_install \
-        `# DE` \
+    sudo dnf install -y \
         sddm \
         picom \
         sxhkd \
@@ -64,12 +47,12 @@ install_de() {
         htop \
         xclip
 
-
     # for sddm theme
-    pkg_install qt5 qt5-quickcontrols2 qt5-svg
-    tar -xzf -C /usr/share/sddm/themes/
+    sudo dnf install -y qt5-qtbase qt5-qtquickcontrols2 qt5-qtsvg
+    tar -xzf sugar-dark.tar.gz -C /usr/share/sddm/themes/
+    sudo ln -s $repo/sddm.conf /etc/sddm.conf.d/
+    sudo cp bg.jpg /usr/share/sddm/themes/sugar-dark/Background.jpg
 }
-
 
 install_docker() {
     sudo dnf config-manager --add-repo \
@@ -85,7 +68,6 @@ fonts() {
 }
 
 dotconfig() {
-    repo=$(pwd)
     mkdir -p ~/.config/ ~/.vim-sess
     ln -s $repo/zshrc ~/.zshrc
     ln -s $repo/tmux.conf ~/.tmux.conf
@@ -138,6 +120,7 @@ alacritty() {
 
 ## MAIN
 
+
 fonts
 dotconfig
 
@@ -152,7 +135,6 @@ install_docker
 install_nvim
 ohmyzsh
 alacritty
-
 
 if [ $NVIDIA ]
 then
