@@ -42,6 +42,7 @@ install_de() {
         NetworkManager NetworkManager-wifi network-manager-applet \
         lxappearance \
         lxsession \
+        flatpak \
         vim \
         tmux \
         htop \
@@ -52,6 +53,20 @@ install_de() {
     sudo tar -xzf sugar-dark.tar.gz -C /usr/share/sddm/themes/
     sudo ln -s $repo/sddm.conf /etc/sddm.conf.d/
     sudo cp bg.jpg /usr/share/sddm/themes/sugar-dark/Background.jpg
+
+    # autorandr
+    sudo curl -fLo /usr/local/bin/autorandr \
+        https://raw.githubusercontent.com/phillipberndt/autorandr/master/autorandr.py
+    sudo chmod +x /usr/local/bin/autorandr
+
+    # 1pass
+    sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
+    sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" > /etc/yum.repos.d/1password.repo'
+    sudo dnf install -y 1password
+
+    # spotify
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak install -y flathub com.spotify.Client
 }
 
 install_docker() {
@@ -121,10 +136,10 @@ alacritty() {
 
 nvidia() {
     echo INSTALLING NVIDIA DRIVERS
-    # nvidia docker
-    distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+    # Get nvidia container toolkit, using the centos8 repo
+    # https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
     curl -s -L \
-        https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.repo | \
+        https://nvidia.github.io/libnvidia-container/centos8/libnvidia-container.repo | \
         sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
 
     sudo dnf clean expire-cache --refresh

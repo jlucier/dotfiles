@@ -33,6 +33,10 @@ super + alt + Escape
 super + c
     gnome-control-center
 
+# refresh monitors
+super + shift + d
+    ~/.config/bspwm/monitorsrc
+
 
 #
 # bspwm hotkeys
