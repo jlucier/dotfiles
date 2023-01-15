@@ -18,9 +18,12 @@ super + @space
 super + shift + @space
     rofi -show run -theme ~/.config/rofi/launchers/type-1/style-5.rasi
 
-# power
-super + Escape
+# power menu (like i3)
+super + shift + e
     ~/.config/rofi/scripts/powermenu_t2
+
+super + Escape
+    xsecurelock
 
 super + shift + n
 	thunar
