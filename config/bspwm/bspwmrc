@@ -1,12 +1,9 @@
 #! /bin/sh
 
-setxkbmap -option 'caps:super'
-nitrogen --set-zoom-fill ~/dev/dotfiles/bg.jpg
 sxhkd -c ~/.config/bspwm/sxhkdrc &
 picom &
 
-
-~/.config/bspwm/monitorsrc
+~/.config/bspwm/reloadablerc
 
 bspc config border_width         2
 bspc config window_gap           3

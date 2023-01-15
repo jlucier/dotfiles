@@ -38,7 +38,10 @@ install_de() {
         bluez \
         arc-theme \
         arandr \
+        xsecurelock \
+        brightnessctl \
         gnome-control-center \
+        gnome-keyring \
         NetworkManager NetworkManager-wifi network-manager-applet \
         lxappearance \
         lxsession \

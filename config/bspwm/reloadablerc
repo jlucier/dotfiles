@@ -1,5 +1,6 @@
 #! /bin/sh
 
+setxkbmap -option 'caps:super'
 autorandr --change
 
 # detect screens
@@ -14,10 +15,14 @@ mon_count=$(xrandr --query | grep " connected" | wc -l)
 # polybar
 
 if type "xrandr"; then
+    i=0
     for m in $all_mons; do
+        nitrogen --set-zoom-fill --head=$i ~/dev/dotfiles/bg.jpg
         MONITOR=$m polybar --reload example &
+        ((i=i+1))
     done
 else
+    nitrogen --set-zoom-fill ~/dev/dotfiles/bg.jpg
     polybar --reload example &
 fi
 
@@ -25,7 +30,7 @@ fi
 
 if [[ $mon_count == 1 ]]
 then
-    bspc monitor $builtin_mon -d 1 2 3 4 5 6 7 8 9 0
+    bspc monitor $main -d 1 2 3 4 5 6 7 8 9 0
 else
     bspc wm --reorder-monitors $main $second
     bspc monitor $(bspc query -M | sed -n 1p) -d 1 2 3 4 5 6 7

@@ -35,8 +35,21 @@ super + c
 
 # refresh monitors
 super + shift + d
-    ~/.config/bspwm/monitorsrc
+    ~/.config/bspwm/reloadablerc
 
+# niceties
+
+XF86MonBrightness{Up,Down}
+    brightnessctl s 10{+,-}
+
+# XF86AudioPlay
+# XF86AudioPrev
+# XF86AudioNext
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
 
 #
 # bspwm hotkeys
