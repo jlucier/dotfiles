@@ -6,11 +6,12 @@ xset s 300 5
 xss-lock -n /usr/libexec/xsecurelock/dimmer -l -- xsecurelock &
 sxhkd -c ~/.config/bspwm/sxhkdrc &
 picom &
+nm-applet &
 
 ~/.config/bspwm/reloadablerc
 
 bspc config border_width         2
-bspc config window_gap           3
+bspc config window_gap           0
 
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
