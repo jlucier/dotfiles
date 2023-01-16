@@ -34,6 +34,9 @@ super + alt + Escape
 
 # settings
 
+super + d
+    arandr
+
 super + w
     nm-connection-editor
 
