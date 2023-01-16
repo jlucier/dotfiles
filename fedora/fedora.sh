@@ -28,7 +28,6 @@ install_build_essential() {
 
 install_de() {
     sudo dnf install -y \
-        sddm \
         picom \
         sxhkd \
         bspwm \
@@ -54,10 +53,15 @@ install_de() {
         xclip
 
     # for sddm theme
-    sudo dnf install -y qt5-qtbase qt5-qtquickcontrols2 qt5-qtsvg
-    sudo tar -xzf sugar-dark.tar.gz -C /usr/share/sddm/themes/
-    sudo ln -s $repo/sddm.conf /etc/sddm.conf.d/
-    sudo cp bg.jpg /usr/share/sddm/themes/sugar-dark/Background.jpg
+    sudo dnf install -y pam-devel libxcb-devel
+    git clone --recurse-submodules https://github.com/fairyglade/ly
+    cd ly
+    make
+    sudo make install installsystemd
+    sudo semodule -X 300 -i $repo/fedora/ly.pp
+    sudo systemctl enable sddm.service
+    cd ..
+    rm -rf ly
 
     # autorandr
     sudo curl -fLo /usr/local/bin/autorandr \
@@ -181,5 +185,4 @@ alacritty
 ohmyzsh
 
 # enable graphical login
-sudo systemctl enable sddm.service
 sudo systemctl set-default graphical.target
