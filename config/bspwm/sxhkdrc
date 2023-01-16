@@ -33,8 +33,15 @@ super + alt + Escape
 	pkill -USR1 -x sxhkd
 
 # settings
-super + c
-    gnome-control-center
+
+super + w
+    nm-connection-editor
+
+super + v
+    pavucontrol
+
+super + b
+    blueman-manager
 
 # refresh monitors
 super + shift + d

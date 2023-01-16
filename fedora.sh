@@ -39,10 +39,10 @@ install_de() {
         bluez \
         arc-theme \
         arandr \
+        xset \
+        xss-lock \
         xsecurelock \
         brightnessctl \
-        gnome-control-center \
-        gnome-keyring \
         blueman \
         NetworkManager NetworkManager-wifi network-manager-applet \
         lxappearance \
@@ -131,6 +131,10 @@ ohmyzsh() {
     sudo dnf install -y zsh sqlite
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
     chsh -s $(which zsh)
+    if [ -f $repo/jlucier.zsh-theme ]
+    then
+        ln -s $repo/jlucier.zsh-theme ~/.oh-my-zsh/themes/
+    fi
 }
 
 alacritty() {
