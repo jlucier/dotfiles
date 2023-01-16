@@ -25,10 +25,8 @@
 
 #   ─────────────────────── user provded prarameters ───────────────────────
 KEY=$(cat ~/.config/polybar/.owm.key)
-UNITS="im"
+UNITS="imperial"
 SYMBOL="°"          # example: °F, °C
-#   edit the geolocation, or
-#   remove to autolocate with https://location.services.mozilla.com/v1/geolocate?key=geoclue
 API="https://api.openweathermap.org/data/2.5"
 
 
@@ -40,42 +38,23 @@ round() {           # round $1 to $2 decimal places
 get_icon() {
     case $1 in
         # Icons for weather-icons
-        01d) icon="";;
-        01n) icon="";;
-        02d) icon="";;
-        02n) icon="";;
-        03*) icon="";;
-        04*) icon="";;
-        09d) icon="";;
-        09n) icon="";;
+        01d) icon="盛";;
+        01n) icon="";;
+        02d) icon="";;
+        02n) icon="";;
+        03*) icon="";;
+        04*) icon="";;
+        09d) icon="";;
+        09n) icon="";;
         10d) icon="";;
         10n) icon="";;
-        11d) icon="";;
-        11n) icon="";;
-        13d) icon="";;
-        13n) icon="";;
-        50d) icon="";;
-        50n) icon="";;
+        11d) icon="";;
+        11n) icon="";;
+        13*) icon="";;
+        50*) icon="";;
         *) icon="";
-
-        # Icons for Font Awesome 5 Pro
-        #01d) icon="";;
-        #01n) icon="";;
-        #02d) icon="";;
-        #02n) icon="";;
-        #03d) icon="";;
-        #03n) icon="";;
-        #04*) icon="";;
-        #09*) icon="";;
-        #10d) icon="";;
-        #10n) icon="";;
-        #11*) icon="";;
-        #13*) icon="";;
-        #50*) icon="";;
-        #*) icon="";
     esac
-
-    echo $icon
+    echo "%{F#c76bd3}$icon%{F-}"
 }
 
 #   ─────────────────────── script ───────────────────────
@@ -141,5 +120,5 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
     fi; fi; fi
     echo "$STRING"
 else            # possibly no internet connection
-    echo "fuck"
+    echo ""
 fi

@@ -51,24 +51,8 @@ lua require('lualine').setup()
 
 source $HOME/.config/nvim/coc.vim
 
-lua << EOF
--- Ripped from LunarVim
-local _, builtin = pcall(require, "telescope.builtin")
-
--- Smartly opens either git_files or find_files, depending on whether the working directory is
--- contained in a Git repo.
-function _G.find_project_files()
-  local ok = pcall(builtin.git_files)
-
-  if not ok then
-    builtin.find_files()
-  end
-end
-
-vim.api.nvim_set_keymap('n', '<leader>ff', ":lua find_project_files()<cr>", {noremap = true})
-EOF
-
-nnoremap <leader>fa <cmd>Telescope find_files<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fa <cmd>Telescope git_files<cr>
 nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fp <cmd>Telescope project<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
