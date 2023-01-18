@@ -17,10 +17,16 @@ function afmagic_dashes {
   fi
 }
 
+os=""
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  os=""
+fi
+
+
 SEGMENT_SEPARATOR=$'\ue0b0'
 # primary prompt: dashed separator, directory and vcs info
 PS1="${FG[238]}\${(l.\$(afmagic_dashes)..-.)}%{$reset_color%}
-╭─ ${FG[116]}%{$reset_color%} %m ${FG[153]}%~\$(git_prompt_info)\$(hg_prompt_info)%{$reset_color%}
+╭─ ${FG[116]}$os%{$reset_color%} %m ${FG[153]}%~\$(git_prompt_info)\$(hg_prompt_info)%{$reset_color%}
 ╰─ ${FG[177]}%(!.#.»)%{$reset_color%} "
 PS2="%{$fg[red]%}\ %{$reset_color%}"
 

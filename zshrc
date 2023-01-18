@@ -133,7 +133,8 @@ alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git 
 alias dt='ssh dt'
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
-    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.cpython*.so" --exclude="*.egg" --exclude="*.egg-info"'
+    --exclude=__pycache__ --exclude=".pytest*" --exclude="*.cpython*.so" --exclude="*.egg" \
+    --exclude="*.egg-info" --exclude="**/*.DS_Store"'
 alias sleepmac='pmset sleepnow'
 # helps when ssh'ing with alacritty
 alias ssh='TERM=xterm-256color ssh'
