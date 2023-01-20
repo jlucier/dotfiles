@@ -12,11 +12,11 @@ super + shift + Return
 
 # program launcher
 super + @space
-    rofi -show drun -theme ~/.config/rofi/launchers/type-1/style-5.rasi
+    rofi -show drun
 
 # runner
 super + shift + @space
-    rofi -show run -theme ~/.config/rofi/launchers/type-1/style-5.rasi
+    rofi -show run
 
 # power menu (like i3)
 super + shift + e
@@ -41,6 +41,9 @@ super + w
     nm-connection-editor
 
 super + v
+    ~/.config/bspwm/switch-pa-input
+
+super + shift + v
     pavucontrol
 
 super + b
@@ -55,9 +58,9 @@ super + shift + d
 XF86MonBrightness{Up,Down}
     brightnessctl s 10{+,-}
 
-# XF86AudioPlay
-# XF86AudioPrev
-# XF86AudioNext
+XF86Audio{Play,Prev,Next}
+    playerctl {play-pause,next,previous}
+
 XF86AudioMute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
 

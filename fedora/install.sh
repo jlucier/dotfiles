@@ -34,17 +34,19 @@ install_de() {
         polybar \
         dunst \
         nitrogen \
+        arc-theme \
+        lxappearance \
         thunar \
         bluez \
-        arc-theme \
+        blueman \
         arandr \
         xset \
         xss-lock \
         xsecurelock \
         brightnessctl \
-        blueman \
+        pavucontrol \
+        playerctl \
         NetworkManager NetworkManager-wifi network-manager-applet \
-        lxappearance \
         lxsession \
         flatpak \
         vim \
@@ -52,7 +54,7 @@ install_de() {
         htop \
         xclip
 
-    # for sddm theme
+    # display manager (ly)
     sudo dnf install -y pam-devel libxcb-devel
     git clone --recurse-submodules https://github.com/fairyglade/ly
     cd ly
@@ -90,8 +92,8 @@ install_docker() {
 }
 
 fonts() {
-    curl -fLo ~/.fonts/"Hack Nerd Font Complete.otf" --create-dirs \
-        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf?raw=true
+    curl -fLo ~/.fonts/"JetBrainsMono Nerd Font Complete.otf" --create-dirs \
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete%20Mono.ttf?raw=true
 }
 
 dotconfig() {

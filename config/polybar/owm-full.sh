@@ -44,10 +44,10 @@ get_icon() {
         02n) icon="";;
         03*) icon="";;
         04*) icon="";;
-        09d) icon="";;
-        09n) icon="";;
-        10d) icon="";;
-        10n) icon="";;
+        09d) icon="";;
+        09n) icon="";;
+        10d) icon="";;
+        10n) icon="";;
         11d) icon="";;
         11n) icon="";;
         13*) icon="";;

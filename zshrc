@@ -152,6 +152,7 @@ grmb() {
 
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
+export NODE_OPTIONS=--openssl-legacy-provider
 # export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 nvmload() {

@@ -8,7 +8,8 @@ scrolling:
 font:
   size: 11.0
   normal:
-    family: Hack Nerd Font Mono
+    # family: Hack Nerd Font Mono
+    family: Jetbrains Mono Nerd Font
 
 # (Gruvbox dark)
 colors:

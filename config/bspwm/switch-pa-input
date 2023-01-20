@@ -1,0 +1,4 @@
+#! /bin/bash
+#
+# Thanks: https://gist.github.com/miyl/40cdf1a66b360ad8ec0b19e2ffa56194?permalink_comment_id=4249357#gistcomment-4249357
+pactl set-default-sink $(pactl list short sinks | awk '{print $2}' | rofi -dmenu)
