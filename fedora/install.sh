@@ -162,6 +162,11 @@ nvidia() {
     sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda nvidia-docker2
 }
 
+extras() {
+    sudo dnf install -y syncthing
+    systemctl --user enable --now syncthing.service
+}
+
 
 ## MAIN
 
@@ -186,6 +191,7 @@ rofi
 brave
 alacritty
 ohmyzsh
+extras
 
 # enable graphical login
 sudo systemctl set-default graphical.target
