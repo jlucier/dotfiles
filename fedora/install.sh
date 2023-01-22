@@ -92,7 +92,7 @@ install_docker() {
 }
 
 fonts() {
-    curl -fLo ~/.fonts/"JetBrainsMono Nerd Font Complete.otf" --create-dirs \
+    curl -fLo ~/.fonts/"JetBrainsMono Nerd Font Complete.ttf" --create-dirs \
         https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Regular%20Nerd%20Font%20Complete%20Mono.ttf?raw=true
 }
 
