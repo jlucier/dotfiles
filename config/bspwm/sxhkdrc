@@ -41,7 +41,10 @@ super + w
     nm-connection-editor
 
 super + v
-    ~/.config/bspwm/switch-pa-input
+    ~/.config/bspwm/rofi-pa-default sink
+
+super + i
+    ~/.config/bspwm/rofi-pa-default source
 
 super + shift + v
     pavucontrol
