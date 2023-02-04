@@ -68,7 +68,8 @@ XF86AudioMute
     pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 XF86Audio{Raise,Lower}Volume
-    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5% \
+        && play /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
 
 #
 # bspwm hotkeys

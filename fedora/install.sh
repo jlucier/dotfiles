@@ -52,7 +52,8 @@ install_de() {
         vim \
         tmux \
         htop \
-        xclip
+        xclip \
+        sox
 
     # display manager (ly)
     sudo dnf install -y pam-devel libxcb-devel
