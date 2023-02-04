@@ -5,4 +5,4 @@
 #   change the default sink = rofi-pa-default sink
 #   change the default source = rofi-pa-default source
 
-pactl set-default-${1} $(pactl list short ${1}s | awk '{print $2}' | rofi -dmenu)
+pactl set-default-${1} $(pactl list short ${1}s | grep -vi monitor | awk '{print $2}' | rofi -dmenu)

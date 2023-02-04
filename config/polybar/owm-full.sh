@@ -54,7 +54,7 @@ get_icon() {
         50*) icon="";;
         *) icon="";
     esac
-    echo "%{F#c76bd3}$icon%{F-}"
+    echo "%{F#c76bd3}$icon%{F-} "
 }
 
 #   ─────────────────────── script ───────────────────────
