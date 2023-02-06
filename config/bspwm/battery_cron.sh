@@ -4,7 +4,7 @@ alert="󱃍"
 low="󰁺"
 
 low_limit=15
-alert_limit=5
+alert_limit=8
 
 battery=BAT0
 
