@@ -95,6 +95,7 @@ install_docker() {
 fonts() {
     curl -fLo ~/.fonts/"JetBrainsMonoNL Nerd Font Complete.ttf" --create-dirs \
 	    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/complete/JetBrains%20Mono%20NL%20Nerd%20Font%20Complete%20Regular.ttf?raw=true
+    sudo dnf install google-noto-emoji-color-fonts
 }
 
 dotconfig() {

@@ -1,9 +1,17 @@
 {
   "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSave": true,
-  "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "typescript", "javascriptreact", "typescriptreact"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "python",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "rust"
+  ],
   "coc.preferences.willSaveHandlerTimeout": 1000,
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "rust-analyzer.enable": true
 }

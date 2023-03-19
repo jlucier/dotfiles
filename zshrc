@@ -99,8 +99,8 @@ grmb() {
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
 
-node_major=$(which node && node --version | cut -d . -f 1)
-if [[ node_major == "v18" ]]; then
+node_major=$(which node > /dev/null && node --version | cut -d . -f 1)
+if [[ $node_major == "v18" ]]; then
     export NODE_OPTIONS=--openssl-legacy-provider
 fi
 
