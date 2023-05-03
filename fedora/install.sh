@@ -11,7 +11,8 @@ then
     NVIDIA=yes
 fi
 
-fedora_add_repos() {
+dnf_setup() {
+    sudo cp $repo/fedora/dnf.conf /etc/dnf/
     # add rpm fusion repos
     fv=$(rpm -E %fedora)
     sudo dnf install -y \
@@ -63,7 +64,6 @@ install_de() {
     sudo make install installsystemd
     # got strategy from here: https://github.com/fairyglade/ly/issues/433
     sudo semodule -X 300 -i $repo/fedora/ly.pp
-    sudo systemctl enable sddm.service
     cd ..
     rm -rf ly
 
@@ -95,7 +95,7 @@ install_docker() {
 fonts() {
     curl -fLo ~/.fonts/"JetBrainsMonoNL Nerd Font Complete.ttf" --create-dirs \
 	    https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf
-    sudo dnf install google-noto-emoji-color-fonts
+    sudo dnf install -y google-noto-emoji-color-fonts
 }
 
 dotconfig() {
@@ -176,7 +176,7 @@ extras() {
 fonts
 dotconfig
 
-fedora_add_repos
+dnf_setup
 
 # install core dependencies
 install_build_essential
