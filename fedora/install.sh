@@ -62,6 +62,7 @@ install_de() {
     cd ly
     make
     sudo make install installsystemd
+    sudo systemctl enable ly.service
     # got strategy from here: https://github.com/fairyglade/ly/issues/433
     sudo semodule -X 300 -i $repo/fedora/ly.pp
     cd ..
