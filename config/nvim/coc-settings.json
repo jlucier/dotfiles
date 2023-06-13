@@ -13,5 +13,7 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
   "eslint.autoFixOnSave": true,
-  "rust-analyzer.enable": true
+  "rust-analyzer.enable": true,
+  "pyright.enable": true,
+  "python.formatting.provider": "black"
 }
