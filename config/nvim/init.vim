@@ -49,10 +49,6 @@ function! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-augroup twig_ft
-    au!
-    autocmd BufNewFile,BufRead *.launch set syntax=xml
-augroup END
 augroup docker
     au!
     autocmd BufNewFile,BufRead Dockerfile* set syntax=dockerfile
