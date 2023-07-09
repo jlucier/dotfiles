@@ -12,6 +12,6 @@ cursor:
     blinking: On
 
 import:
-  - ~/.config/alacritty/font.yml
   - ~/.config/alacritty/catpuccin-mocha.yml
+  - ~/.config/alacritty/font.yml
   - ~/.config/alacritty/extra.yml

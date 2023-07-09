@@ -102,12 +102,13 @@ fonts() {
 dotconfig() {
     mkdir -p ~/.config/ ~/.vim-sess
     ln -s $repo/zshrc ~/.zshrc
-    ln -s $repo/tmux.conf ~/.tmux.conf
 
     for f in $repo/config/*
     do
         ln -s $f ~/.config/
     done
+
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
 rofi() {

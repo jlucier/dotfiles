@@ -84,6 +84,7 @@ alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*
 alias sleepmac='pmset sleepnow'
 # helps when ssh'ing with alacritty
 alias ssh='TERM=xterm-256color ssh'
+alias tmux='TERM=xterm-256color tmux'
 alias t='tmux'
 alias tl='tmux list-s'
 alias ta='tmux a'
