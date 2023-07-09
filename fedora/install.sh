@@ -131,16 +131,6 @@ install_nvim() {
     sudo dnf install -y \
         neovim fzf ripgrep python3-neovim nodejs
     sudo npm install yarn -g
-
-    # nvchad
-    git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
-    ln -s ~/dev/dotfiles/nvchad ~/.config/nvim/lua/custom
-    ln -s ~/dev/dotfiles/nvchad/coc-settings.json ~/.config/nvim/
-
-    # Old
-    # curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-    #     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    # nvim --headless +PlugInstall +qall
 }
 
 ohmyzsh() {

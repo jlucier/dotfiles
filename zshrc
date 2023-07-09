@@ -99,10 +99,10 @@ grmb() {
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
 
-node_major=$(which node > /dev/null && node --version | cut -d . -f 1)
-if [[ $node_major == "v18" ]]; then
-    export NODE_OPTIONS=--openssl-legacy-provider
-fi
+# node_major=$(which node > /dev/null && node --version | cut -d . -f 1)
+# if [[ $node_major == "v18" ]]; then
+#     export NODE_OPTIONS=--openssl-legacy-provider
+# fi
 
 nvmload() {
   # these slow down terminal launch a lot, so I moved them to a function

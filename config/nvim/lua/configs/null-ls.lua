@@ -7,6 +7,10 @@ end
 local b = null_ls.builtins
 
 local sources = {
+  -- python
+  -- b.formatting.black,
+  -- b.diagnostics.flake8,
+
 	-- js / ts
 	b.formatting.prettier,
 	b.diagnostics.eslint,
