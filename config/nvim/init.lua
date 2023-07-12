@@ -24,7 +24,6 @@ vim.o.softtabstop = 2
 vim.o.signcolumn = "yes"
 vim.o.relativenumber = true
 vim.o.scrolloff = 4
-vim.o.laststatus = 3 -- global statusline
 vim.o.title = true
 vim.o.visualbell = true
 vim.o.noerrorbells = true

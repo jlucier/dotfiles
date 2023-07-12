@@ -32,7 +32,12 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     config = function()
-      require("lualine").setup()
+      require("lualine").setup({
+        sections = {
+          lualine_c = {},
+          lualine_x = { "filename", "filetype" },
+        },
+      })
     end,
   },
 
