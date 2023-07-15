@@ -40,7 +40,7 @@ lspconfig.lua_ls.setup({
   },
 })
 
-local servers = { "html", "cssls", "tsserver" }
+local servers = { "tsserver" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup({
@@ -48,30 +48,43 @@ for _, lsp in ipairs(servers) do
   })
 end
 
--- lspconfig.pyright.setup { blabla}
--- TODO setup project local
-
-local perch_docker = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
+local perch_dev = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
 local home = os.getenv("HOME")
 
+-- TODO this works for detecting what repo I want, but it does not spawn
+-- a new server per root directory as it seems it should
 lspconfig.pylsp.setup({
-  cmd = {
-    "docker",
-    "run",
-    "-i",
-    "--rm",
-    "-v",
-    home .. "/code/:/home/perch/code/:ro",
-    "-v",
-    home .. "/code/:" .. home .. "/code/:ro",
-    perch_docker,
-    "pylsp",
-    "--log-file",
-    "/tmp/lsp_python.log",
-  },
+  capabilities = capabilities,
+  on_new_config = function(new_config, new_root_dir)
+    local docker_image = nil
+
+    if string.find(new_root_dir, "perch_utils") then
+      docker_image = perch_dev
+    elseif string.find(new_root_dir, "perch_api") then
+      docker_image = "perch_api:dev"
+    end
+
+    if docker_image ~= nil then
+      new_config.cmd = {
+        "docker",
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        home .. "/code/:/home/perch/code/:ro",
+        "-v",
+        home .. "/code/:" .. home .. "/code/:ro",
+        docker_image,
+        "pylsp",
+        "--log-file",
+        "/tmp/lsp_python.log",
+      }
+    end
+
+    new_config.settings.pylsp.flake8.config = new_root_dir .. "/.flake8"
+  end,
   settings = {
     pylsp = {
-      enable = true,
       configurationSources = { "flake8" },
       plugins = {
         autopep8 = {
@@ -85,7 +98,6 @@ lspconfig.pylsp.setup({
         },
         flake8 = {
           enabled = true,
-          config = "/home/perch/code/perch_utils/.flake8",
         },
       },
     },
@@ -102,7 +114,7 @@ lspconfig.clangd.setup({
     home .. "/code/:/home/perch/code/:ro",
     "-v",
     home .. "/code/:" .. home .. "/code/:ro",
-    perch_docker,
+    perch_dev,
     "/usr/lib/llvm-10/bin/clangd",
     "--background-index",
   },
@@ -138,15 +150,13 @@ Rename.open = function()
   local cword = vim.fn.expand("<cword>")
   local buf = vim.api.nvim_create_buf(false, true)
   local win = vim.api.nvim_open_win(buf, true, opts)
+  local dorename = string.format("<cmd>lua Rename.dorename(%d)<CR>", win)
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, { cword })
-  vim.api.nvim_buf_set_keymap(
-    buf,
-    "i",
-    "<CR>",
-    string.format("<cmd>lua Rename.dorename(%d)<CR>", win),
-    { silent = true }
-  )
+  -- when hitting enter in either normal or insert mode, do the rename
+  vim.api.nvim_buf_set_keymap(buf, "i", "<CR>", dorename, { silent = true })
+  vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", dorename, { silent = true })
+  -- when hitting escape in normal, exit
   vim.api.nvim_buf_set_keymap(
     buf,
     "n",
