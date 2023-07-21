@@ -40,13 +40,14 @@ lspconfig.lua_ls.setup({
   },
 })
 
-local servers = { "tsserver" }
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    capabilities = capabilities,
-  })
-end
+lspconfig.tsserver.setup({
+  capabilities = capabilities,
+  on_attach = function(client)
+    -- let null-ls do formatting for javascript
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
+})
 
 local perch_dev = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
 local home = os.getenv("HOME")
