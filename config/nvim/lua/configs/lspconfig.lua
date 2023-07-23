@@ -2,6 +2,11 @@ local lspconfig = require("lspconfig")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+local function disable_format(client)
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+end
+
 capabilities.textDocument.completion.completionItem = {
   documentationFormat = { "markdown", "plaintext" },
   snippetSupport = true,
@@ -42,11 +47,8 @@ lspconfig.lua_ls.setup({
 
 lspconfig.tsserver.setup({
   capabilities = capabilities,
-  on_attach = function(client)
-    -- let null-ls do formatting for javascript
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end,
+  -- let null-ls do formatting for javascript
+  on_attach = disable_format,
 })
 
 local perch_dev = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
@@ -106,6 +108,9 @@ lspconfig.pylsp.setup({
 })
 
 lspconfig.clangd.setup({
+  capabilities = capabilities,
+  -- don't autoformat my cpp
+  on_attach = disable_format,
   cmd = {
     "docker",
     "run",

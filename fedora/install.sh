@@ -20,14 +20,11 @@ dnf_setup() {
         https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$fv.noarch.rpm \
         https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$fv.noarch.rpm
 
+    sudo dnf group install -y "C Development Tools and Libraries"
     sudo dnf update --refresh
 }
 
-install_build_essential() {
-    sudo dnf group install -y "C Development Tools and Libraries"
-}
-
-install_de() {
+hardo_de() {
     sudo dnf install -y \
         picom \
         sxhkd \
@@ -73,14 +70,17 @@ install_de() {
         https://raw.githubusercontent.com/phillipberndt/autorandr/master/autorandr.py
     sudo chmod +x /usr/local/bin/autorandr
 
-    # 1pass
-    sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
-    sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" > /etc/yum.repos.d/1password.repo'
-    sudo dnf install -y 1password
+    # rofi
+    sudo dnf install -y rofi
+    git clone --depth=1 https://github.com/adi1090x/rofi.git
+    cd rofi
+    ./setup.sh
+    cd ..
+    # use sudo to skip the prompts about protected files
+    sudo rm -r rofi
 
-    # spotify
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    sudo flatpak install -y flathub com.spotify.Client
+    # enable graphical login
+    sudo systemctl set-default graphical.target
 }
 
 install_docker() {
@@ -108,33 +108,7 @@ dotconfig() {
         ln -s $f ~/.config/
     done
 
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-}
-
-rofi() {
-    sudo dnf install -y rofi
-    git clone --depth=1 https://github.com/adi1090x/rofi.git
-    cd rofi
-    ./setup.sh
-    cd ..
-    # use sudo to skip the prompts about protected files
-    sudo rm -r rofi
-}
-
-brave() {
-    sudo dnf config-manager --add-repo \
-        https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-    sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-    sudo dnf install -y brave-browser
-}
-
-install_nvim() {
-    sudo dnf install -y \
-        neovim fzf ripgrep python3-neovim nodejs
-    sudo npm install yarn -g
-}
-
-ohmyzsh() {
+    # oh my zsh
     sudo dnf install -y zsh sqlite
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
     chsh -s $(which zsh)
@@ -142,12 +116,36 @@ ohmyzsh() {
     then
         ln -s $repo/jlucier.zsh-theme ~/.oh-my-zsh/themes/
     fi
+
+    # tmux
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+    # nvim
+    sudo dnf install -y \
+        neovim fzf ripgrep python3-neovim nodejs
+    sudo npm install yarn -g
 }
 
-alacritty() {
+install_apps() {
+    # alacritty
     sudo dnf install -y alacritty
     sudo update-alternatives --install \
         /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
+
+    # brave
+    sudo dnf config-manager --add-repo \
+        https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+    sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+    sudo dnf install -y brave-browser
+
+    # 1pass
+    sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
+    sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" > /etc/yum.repos.d/1password.repo'
+    sudo dnf install -y 1password
+
+    # spotify
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak install -y flathub com.spotify.Client
 }
 
 nvidia() {
@@ -170,28 +168,13 @@ extras() {
 
 ## MAIN
 
-
+dnf_setup
 fonts
 dotconfig
-
-dnf_setup
-
-# install core dependencies
-install_build_essential
-install_de
 install_docker
+extras
 
 if [[ $NVIDIA == yes ]]
 then
     nvidia
 fi
-
-install_nvim
-rofi
-brave
-alacritty
-ohmyzsh
-extras
-
-# enable graphical login
-sudo systemctl set-default graphical.target
