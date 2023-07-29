@@ -1,6 +1,41 @@
 local lspconfig = require("lspconfig")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local perch_dev = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
+local home = os.getenv("HOME")
+local base_perch_docker_cmd = {
+  "docker",
+  "run",
+  "-i",
+  "--rm",
+  "-v",
+  home .. "/code/:/home/perch/code/:ro",
+  "-v",
+  home .. "/code/:" .. home .. "/code/:ro",
+}
+
+local function get_perch_docker_image(root_dir)
+  local docker_image = nil
+
+  if string.find(root_dir, "perch_utils") then
+    docker_image = perch_dev
+  elseif string.find(root_dir, "perch_api") then
+    docker_image = "perch_api:dev"
+  end
+
+  return docker_image
+end
+
+local function concat(t1, t2)
+  local t3 = {}
+  for _, v in pairs(t1) do
+    table.insert(t3, v)
+  end
+  for _, v in pairs(t2) do
+    table.insert(t3, v)
+  end
+  return t3
+end
 
 local function disable_format(client)
   client.server_capabilities.documentFormattingProvider = false
@@ -51,37 +86,21 @@ lspconfig.tsserver.setup({
   on_attach = disable_format,
 })
 
-local perch_dev = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
-local home = os.getenv("HOME")
-
 -- TODO this works for detecting what repo I want, but it does not spawn
 -- a new server per root directory as it seems it should
 lspconfig.pylsp.setup({
   capabilities = capabilities,
   on_new_config = function(new_config, new_root_dir)
-    local docker_image = nil
-
-    if string.find(new_root_dir, "perch_utils") then
-      docker_image = perch_dev
-    elseif string.find(new_root_dir, "perch_api") then
-      docker_image = "perch_api:dev"
-    end
-
+    local docker_image = get_perch_docker_image(new_root_dir)
     if docker_image ~= nil then
-      new_config.cmd = {
-        "docker",
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        home .. "/code/:/home/perch/code/:ro",
-        "-v",
-        home .. "/code/:" .. home .. "/code/:ro",
+      new_config.cmd = concat(base_perch_docker_cmd, {
         docker_image,
         "pylsp",
         "--log-file",
         "/tmp/lsp_python.log",
-      }
+      })
+    else
+      new_config.enabled = false
     end
 
     new_config.settings.pylsp.flake8.config = new_root_dir .. "/.flake8"
@@ -107,23 +126,25 @@ lspconfig.pylsp.setup({
   },
 })
 
+lspconfig.pyright.setup({
+  capabilities = capabilities,
+  on_new_config = function(new_config, new_root_dir)
+    if get_perch_docker_image(new_root_dir) ~= nil then
+      new_config.enabled = false
+    end
+  end,
+})
+
 lspconfig.clangd.setup({
   capabilities = capabilities,
-  -- don't autoformat my cpp
-  on_attach = disable_format,
-  cmd = {
-    "docker",
-    "run",
-    "--rm",
-    "-i",
-    "-v",
-    home .. "/code/:/home/perch/code/:ro",
-    "-v",
-    home .. "/code/:" .. home .. "/code/:ro",
+  -- -- don't autoformat my cpp
+  -- on_attach = disable_format,
+  cmd = concat(base_perch_docker_cmd, {
     perch_dev,
     "/usr/lib/llvm-10/bin/clangd",
     "--background-index",
-  },
+    "--clang-tidy",
+  }),
   settings = {
     rootPatterns = { "compile_commands.json" },
     clangd = {
@@ -134,6 +155,8 @@ lspconfig.clangd.setup({
     },
   },
 })
+
+-- Rename functionality
 
 local Rename = {}
 
