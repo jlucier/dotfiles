@@ -111,7 +111,7 @@ dotconfig() {
     # oh my zsh
     sudo dnf install -y zsh sqlite
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-    chsh -s $(which zsh)
+    sudo usermod -s $(which zsh) $USER
     if [ -f $repo/jlucier.zsh-theme ]
     then
         ln -s $repo/jlucier.zsh-theme ~/.oh-my-zsh/themes/

@@ -5,8 +5,8 @@ vim.o.splitright = true
 vim.o.history = 1000
 vim.o.undolevels = 1000
 vim.o.wrap = false
-vim.o.nobackup = true
-vim.o.noswapfile = true
+vim.o.backup = false
+vim.o.swapfile = false
 
 -- numbers
 vim.o.number = true
@@ -58,6 +58,17 @@ autocmd({ "BufWritePre" }, {
   group = onsave,
   callback = function()
     vim.lsp.buf.format()
+  end,
+})
+
+-- tab settings
+autocmd({ "FileType" }, {
+  callback = function(opts)
+    local ft = vim.bo[opts.buf].filetype
+    if ft == "cpp" or ft == "python" then
+      vim.opt_local.tabstop = 4
+      vim.opt_local.shiftwidth = 4
+    end
   end,
 })
 
