@@ -1,7 +1,7 @@
 local lspconfig = require("lspconfig")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local perch_dev = os.getenv("PERCH_IMAGE_REPO") .. ":dev"
+local perch_dev = (os.getenv("PERCH_IMAGE_REPO") or "") .. ":dev"
 local home = os.getenv("HOME")
 local base_perch_docker_cmd = {
   "docker",
