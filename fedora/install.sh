@@ -46,7 +46,6 @@ hardo_de() {
         playerctl \
         NetworkManager NetworkManager-wifi network-manager-applet \
         lxsession \
-        flatpak \
         vim \
         tmux \
         htop \
@@ -127,6 +126,8 @@ dotconfig() {
 }
 
 install_apps() {
+    sudo dnf install flatpak
+
     # alacritty
     sudo dnf install -y alacritty
     sudo update-alternatives --install \
@@ -145,7 +146,10 @@ install_apps() {
 
     # spotify
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    sudo flatpak install -y flathub com.spotify.Client
+    flatpak install -y flathub com.spotify.Client
+    # obsidian
+    flatpak install -y flathub md.obsidian.Obsidian
+
 }
 
 nvidia() {
@@ -173,6 +177,7 @@ fonts
 dotconfig
 install_docker
 extras
+install_apps
 
 if [[ $NVIDIA == yes ]]
 then
