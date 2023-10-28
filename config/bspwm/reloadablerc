@@ -8,7 +8,6 @@ autorandr --change
 
 main=$(xrandr | grep primary | awk '{print $1}')
 second=$(xrandr | grep " connected" | grep -v primary | awk '{print $1}')
-echo $main $second
 
 all_mons=$(xrandr --query | grep " connected" | cut -d" " -f1)
 mon_count=$(xrandr --query | grep " connected" | wc -l)

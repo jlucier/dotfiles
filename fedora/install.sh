@@ -3,13 +3,7 @@
 # An auto setup script for taking a server install -> a "desktop environment" with my stuff set up.
 # WIP
 
-NVIDIA=
 repo=$(pwd)
-
-if [[ $1 == 'nvidia' ]]
-then
-    NVIDIA=yes
-fi
 
 dnf_setup() {
     sudo cp $repo/fedora/dnf.conf /etc/dnf/
@@ -25,11 +19,13 @@ dnf_setup() {
 }
 
 hardo_de() {
+    # still don't have gnome-keyring fully working, might just swap to sddm
     sudo dnf install -y \
         picom \
         sxhkd \
         bspwm \
         polybar \
+        jq \
         dunst \
         nitrogen \
         arc-theme \
@@ -44,8 +40,11 @@ hardo_de() {
         brightnessctl \
         pavucontrol \
         playerctl \
+        pulseaudio-utils \
         NetworkManager NetworkManager-wifi network-manager-applet \
         lxsession \
+        gnome-keyring \
+        setxkbmap \
         vim \
         tmux \
         htop \
@@ -126,7 +125,7 @@ dotconfig() {
 }
 
 install_apps() {
-    sudo dnf install flatpak
+    sudo dnf install -y flatpak firefox
 
     # alacritty
     sudo dnf install -y alacritty
@@ -173,13 +172,11 @@ extras() {
 ## MAIN
 
 dnf_setup
+# hardo_de
 fonts
 dotconfig
 install_docker
 extras
 install_apps
-
-if [[ $NVIDIA == yes ]]
-then
-    nvidia
-fi
+# NOTE: comment this out to not install nvidia
+nvidia
