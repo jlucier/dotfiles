@@ -114,6 +114,12 @@ require("lazy").setup({
         "typescript-language-server",
         "prettier",
 
+        -- python
+        "pyright",
+
+        -- other
+        "gopls",
+
         -- c/cpp stuff
         -- "clangd",
         -- "clang-format",
