@@ -26,10 +26,8 @@ vim.o.relativenumber = true
 vim.o.scrolloff = 4
 vim.o.title = true
 vim.o.visualbell = true
-vim.o.noerrorbells = true
 vim.o.showmatch = true
 vim.o.cursorline = true
-vim.o.colorcolumn = 100
 
 -- search
 vim.o.ignorecase = true
