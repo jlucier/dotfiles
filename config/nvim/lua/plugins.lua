@@ -32,12 +32,7 @@ require("lazy").setup({
   {
     "nvim-lualine/lualine.nvim",
     config = function()
-      require("lualine").setup({
-        sections = {
-          lualine_c = {},
-          lualine_x = { "filename", "filetype" },
-        },
-      })
+      require("lualine").setup()
     end,
   },
 
@@ -139,15 +134,6 @@ require("lazy").setup({
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      -- format & linting
-      {
-        "jose-elias-alvarez/null-ls.nvim",
-        config = function()
-          require("configs.null-ls")
-        end,
-      },
-    },
     config = function()
       require("configs.lspconfig")
     end,
