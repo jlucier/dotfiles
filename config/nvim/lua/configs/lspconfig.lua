@@ -106,12 +106,9 @@ lspconfig.pylsp.setup({
     else
       new_config.enabled = false
     end
-
-    new_config.settings.pylsp.flake8.config = new_root_dir .. "/.flake8"
   end,
   settings = {
     pylsp = {
-      configurationSources = { "flake8" },
       plugins = {
         autopep8 = {
           enabled = false,
@@ -123,11 +120,15 @@ lspconfig.pylsp.setup({
           enabled = false,
         },
         flake8 = {
-          enabled = true,
+          enabled = false,
         },
       },
     },
   },
+})
+
+lspconfig.ruff_lsp.setup({
+  capabilities = capabilities,
 })
 
 lspconfig.pyright.setup({

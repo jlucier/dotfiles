@@ -47,6 +47,7 @@ setopt HIST_FIND_NO_DUPS
 export VISUAL=nvim
 export EDITOR=$VISUAL
 alias vim='nvim'
+alias aoc='cd ~/dev/advent-of-code/'
 
 VIM_SESS_DIR=$HOME/.vim-sess
 

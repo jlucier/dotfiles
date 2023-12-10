@@ -116,6 +116,7 @@ require("lazy").setup({
 
         -- python
         "pyright",
+        "ruff-lsp",
 
         -- other
         "gopls",
