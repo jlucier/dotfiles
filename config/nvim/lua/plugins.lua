@@ -102,16 +102,6 @@ require("lazy").setup({
         -- lua stuff
         "lua-language-server",
         "stylua",
-
-        -- web dev stuff
-        "css-lsp",
-        "html-lsp",
-        "typescript-language-server",
-        "prettier",
-
-        -- python
-        "pyright",
-
         -- other
         "gopls",
 
