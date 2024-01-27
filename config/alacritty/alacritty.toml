@@ -1,0 +1,13 @@
+import = [
+  "/home/jordan/.config/alacritty/catpuccin-mocha.toml",
+  "/home/jordan/.config/alacritty/font.toml",
+  "/home/jordan/.config/alacritty/extra.toml",
+]
+
+[cursor.style]
+blinking = "On"
+shape = "Block"
+
+[scrolling]
+history = 10000
+multiplier = 3
