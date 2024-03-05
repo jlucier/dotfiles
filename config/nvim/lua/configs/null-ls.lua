@@ -10,7 +10,7 @@ local sources = {
   -- python
   -- b.formatting.black,
   -- b.diagnostics.flake8,
-  b.diagnostics.mypy,
+  -- b.diagnostics.mypy,
 
   -- js / ts
   b.formatting.prettier,
