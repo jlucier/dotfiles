@@ -25,7 +25,6 @@ hardo_de() {
         sxhkd \
         bspwm \
         polybar \
-        jq \
         dunst \
         nitrogen \
         arc-theme \
@@ -164,7 +163,7 @@ nvidia() {
 }
 
 extras() {
-    sudo dnf install -y syncthing
+    sudo dnf install -y syncthing jq
     systemctl --user enable --now syncthing.service
 }
 
