@@ -8,8 +8,6 @@ local b = null_ls.builtins
 
 local sources = {
   -- python
-  -- b.formatting.black,
-  -- b.diagnostics.flake8,
   -- b.diagnostics.mypy,
 
   -- js / ts

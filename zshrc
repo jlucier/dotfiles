@@ -117,3 +117,5 @@ fi
 if [ -f $HOME/.perchrc ]; then
     source $HOME/.perchrc
 fi
+
+#gsettings set org.gnome.desktop.input-sources xkb-options "['caps:super']"
