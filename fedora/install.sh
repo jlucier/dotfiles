@@ -163,7 +163,7 @@ nvidia() {
 }
 
 extras() {
-    sudo dnf install -y syncthing jq
+    sudo dnf install -y syncthing jq htop wireguard-tools
     systemctl --user enable --now syncthing.service
 }
 
