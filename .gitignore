@@ -1,4 +1,4 @@
-config/alacritty/extra.yml
+config/alacritty/extra.toml
 config/nvim/lazy-lock.json
 config/tmux/plugins
 **/*.key

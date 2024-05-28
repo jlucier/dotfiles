@@ -119,3 +119,4 @@ if [ -f $HOME/.perchrc ]; then
 fi
 
 #gsettings set org.gnome.desktop.input-sources xkb-options "['caps:super']"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

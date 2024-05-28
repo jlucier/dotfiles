@@ -1,7 +1,7 @@
 import = [
-  "/home/jordan/.config/alacritty/catpuccin-mocha.toml",
-  "/home/jordan/.config/alacritty/font.toml",
-  "/home/jordan/.config/alacritty/extra.toml",
+  "~/.config/alacritty/catpuccin-mocha.toml",
+  "~/.config/alacritty/font.toml",
+  "~/.config/alacritty/extra.toml",
 ]
 
 [cursor.style]
