@@ -84,7 +84,7 @@ lspconfig.lua_ls.setup({
   },
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
   capabilities = capabilities,
   -- let null-ls do formatting for javascript
   on_attach = disable_format,
@@ -134,8 +134,14 @@ lspconfig.ruff_lsp.setup({
 lspconfig.pyright.setup({
   capabilities = capabilities,
   on_new_config = function(new_config, new_root_dir)
-    if get_perch_docker_image(new_root_dir) ~= nil then
+    local docker_image = get_perch_docker_image(new_root_dir)
+    if docker_image ~= nil then
       new_config.enabled = false
+      -- new_config.cmd = concat(base_perch_docker_cmd, {
+      --   "perch:pyright",
+      --   "pyright-langserver",
+      --   "--stdio",
+      -- })
     end
   end,
 })
@@ -144,12 +150,17 @@ lspconfig.clangd.setup({
   capabilities = capabilities,
   -- -- don't autoformat my cpp
   -- on_attach = disable_format,
-  cmd = concat(base_perch_docker_cmd, {
-    perch_dev,
-    "/usr/lib/llvm-10/bin/clangd",
-    "--background-index",
-    "--clang-tidy",
-  }),
+  on_new_config = function(new_config, new_root_dir)
+    local docker_image = get_perch_docker_image(new_root_dir)
+    if docker_image ~= nil then
+      new_config.cmd = concat(base_perch_docker_cmd, {
+        perch_dev,
+        "/usr/lib/llvm-10/bin/clangd",
+        "--background-index",
+        "--clang-tidy",
+      })
+    end
+  end,
   settings = {
     rootPatterns = { "compile_commands.json" },
     clangd = {

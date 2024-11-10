@@ -1,4 +1,4 @@
-import = [
+general.import = [
   "~/.config/alacritty/catpuccin-mocha.toml",
   "~/.config/alacritty/font.toml",
   "~/.config/alacritty/extra.toml",

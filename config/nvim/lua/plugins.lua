@@ -122,6 +122,7 @@ require("lazy").setup({
         "gopls",
 
         -- c/cpp stuff
+        "cmake-language-server",
         -- "clangd",
         -- "clang-format",
       },
