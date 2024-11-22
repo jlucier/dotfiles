@@ -127,7 +127,7 @@ lspconfig.pylsp.setup({
   },
 })
 
-lspconfig.ruff_lsp.setup({
+lspconfig.ruff.setup({
   capabilities = capabilities,
 })
 
