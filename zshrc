@@ -47,7 +47,6 @@ setopt HIST_FIND_NO_DUPS
 export VISUAL=nvim
 export EDITOR=$VISUAL
 alias vim='nvim'
-alias aoc='cd ~/dev/advent-of-code/'
 
 VIM_SESS_DIR=$HOME/.vim-sess
 
@@ -72,26 +71,27 @@ vims () {
 }
 complete -F _vims_complete vims
 
+# Jump into project
+alias aoc='cd ~/dev/advent-of-code/'
+alias dot='cd ~/dev/dotfiles/'
+
 # General
 alias clip="xclip -selection clipboard"
-alias gs="gst"
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
   --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
-alias dt='ssh dt'
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \
     --exclude="*.o" --exclude="*.sqlite3" --exclude="app.db" --exclude="build" --exclude=node_modules \
     --exclude=__pycache__ --exclude=".pytest*" --exclude="*.cpython*.so" --exclude="*.egg" \
     --exclude="*.egg-info" --exclude="**/*.DS_Store"'
-alias sleepmac='pmset sleepnow'
 # helps when ssh'ing with alacritty
 alias ssh='TERM=xterm-256color ssh'
 alias tmux='TERM=xterm-256color tmux'
 alias t='tmux'
 alias tl='tmux list-s'
 alias ta='tmux a'
-alias dot='cd ~/dev/dotfiles/'
 
 # git
+alias gs="gst"
 
 grmb() {
   git fetch -a --prune
