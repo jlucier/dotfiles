@@ -71,6 +71,10 @@ vims () {
 }
 complete -F _vims_complete vims
 
+# VPN
+alias up="wg-quick up"
+alias down="wg-quick down"
+
 # Jump into project
 alias aoc='cd ~/dev/advent-of-code/'
 alias dot='cd ~/dev/dotfiles/'
