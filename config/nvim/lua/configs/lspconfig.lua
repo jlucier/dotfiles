@@ -90,6 +90,10 @@ lspconfig.ts_ls.setup({
   on_attach = disable_format,
 })
 
+lspconfig.zls.setup({
+  capabilities = capabilities,
+})
+
 -- TODO this works for detecting what repo I want, but it does not spawn
 -- a new server per root directory as it seems it should
 lspconfig.pylsp.setup({

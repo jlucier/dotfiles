@@ -120,6 +120,7 @@ require("lazy").setup({
 
         -- other
         "gopls",
+        "zls",
 
         -- c/cpp stuff
         "cmake-language-server",
@@ -171,6 +172,7 @@ require("lazy").setup({
         "rust",
         "go",
         "lua",
+        "zig",
       },
       indent = {
         enable = true,
