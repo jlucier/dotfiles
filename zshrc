@@ -93,10 +93,6 @@ alias ta='tmux a'
 # git
 alias gs="gst"
 
-# zoxide
-eval "$(zoxide init zsh)"
-alias cd="z"
-
 grmb() {
   git fetch -a --prune
   git branch -D $(git branch -va | grep '\[gone\]' | awk '{ print $1 }' ORS=' '; echo)
@@ -123,3 +119,8 @@ fi
 
 #gsettings set org.gnome.desktop.input-sources xkb-options "['caps:super']"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# zoxide
+eval "$(zoxide init zsh)"
+alias cd="z"
+
