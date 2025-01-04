@@ -75,10 +75,6 @@ complete -F _vims_complete vims
 alias up="wg-quick up"
 alias down="wg-quick down"
 
-# Jump into project
-alias aoc='cd ~/dev/advent-of-code/'
-alias dot='cd ~/dev/dotfiles/'
-
 # General
 alias clip="xclip -selection clipboard"
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
@@ -97,6 +93,10 @@ alias ta='tmux a'
 # git
 alias gs="gst"
 
+# zoxide
+eval "$(zoxide init zsh)"
+alias cd="z"
+
 grmb() {
   git fetch -a --prune
   git branch -D $(git branch -va | grep '\[gone\]' | awk '{ print $1 }' ORS=' '; echo)
@@ -104,7 +104,6 @@ grmb() {
 
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
-export NODE_OPTIONS=--openssl-legacy-provider
 
 nvmload() {
   # these slow down terminal launch a lot, so I moved them to a function
