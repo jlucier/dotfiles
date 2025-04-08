@@ -145,11 +145,12 @@ require("lazy").setup({
     dependencies = {
       -- format & linting
       {
-        "jose-elias-alvarez/null-ls.nvim",
+        "nvimdev/guard.nvim",
         config = function()
-          require("configs.null-ls")
+          require("configs.guard")
         end,
       },
+      "nvimdev/guard-collection",
     },
     config = function()
       require("configs.lspconfig")

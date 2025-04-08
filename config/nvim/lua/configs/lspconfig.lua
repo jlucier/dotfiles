@@ -19,8 +19,6 @@ local function get_perch_docker_image(root_dir)
 
   if string.find(root_dir, "perch_utils") then
     docker_image = perch_dev
-  elseif string.find(root_dir, "perch_api") then
-    docker_image = "perch_api:dev"
   end
 
   return docker_image
