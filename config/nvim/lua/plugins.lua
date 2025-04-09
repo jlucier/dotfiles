@@ -121,6 +121,7 @@ require("lazy").setup({
         -- other
         "gopls",
         "zls",
+        "ansible-language-server",
 
         -- c/cpp stuff
         "cmake-language-server",
