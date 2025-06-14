@@ -1,4 +1,5 @@
 config/alacritty/extra.toml
 config/nvim/lazy-lock.json
 config/tmux/plugins
+config/ghostty/machine-config
 **/*.key
