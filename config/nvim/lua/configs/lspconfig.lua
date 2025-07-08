@@ -64,7 +64,13 @@ lspconfig.gopls.setup({
   capabilities = capabilities,
 })
 
-lspconfig.ansiblels.setup({})
+lspconfig.ansiblels.setup({
+  capabilities = capabilities,
+})
+
+lspconfig.jsonls.setup({
+  capabilities = capabilities,
+})
 
 lspconfig.lua_ls.setup({
   capabilities = capabilities,
@@ -109,7 +115,6 @@ lspconfig.pylsp.setup({
         "--log-file",
         "/tmp/lsp_python.log",
       })
-      print(docker_image)
     else
       new_config.enabled = false
     end
