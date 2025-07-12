@@ -13,6 +13,24 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "tpope/vim-surround",
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "github/copilot.vim",
+    },
+    config = function()
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+        },
+      })
+    end,
+  },
 
   "nvim-lua/plenary.nvim",
   {
@@ -178,6 +196,9 @@ require("lazy").setup({
         "zig",
       },
       indent = {
+        enable = true,
+      },
+      highlight = {
         enable = true,
       },
     },
