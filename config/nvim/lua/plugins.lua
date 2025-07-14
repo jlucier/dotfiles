@@ -11,6 +11,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.copilot_enabled = false
+
 require("lazy").setup({
   "tpope/vim-surround",
   {
@@ -22,11 +24,20 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot",
+            adapter = "anthropic",
           },
           inline = {
-            adapter = "copilot",
+            adapter = "anthropic",
           },
+        },
+        adapters = {
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              env = {
+                api_key = "cmd:cat ~/work_sync/.anthropic",
+              },
+            })
+          end,
         },
       })
     end,
