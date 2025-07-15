@@ -27,6 +27,9 @@ require("lazy").setup({
           inline = {
             adapter = "anthropic",
           },
+          cmd = {
+            adapter = "anthropic",
+          },
         },
         adapters = {
           anthropic = function()
