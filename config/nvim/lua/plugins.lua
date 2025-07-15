@@ -11,8 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.copilot_enabled = false
-
 require("lazy").setup({
   "tpope/vim-surround",
   {
