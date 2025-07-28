@@ -44,33 +44,6 @@ export VISUAL=nvim
 export EDITOR=$VISUAL
 alias vim='nvim'
 
-VIM_SESS_DIR=$HOME/.vim-sess
-
-_vims_complete() {
-  # thanks: https://stackoverflow.com/questions/39624071/autocomplete-in-bash-script
-
-  local file
-    # iterate all files in a directory that start with our search string
-    for file in $VIM_SESS_DIR/*; do
-        # If the glob doesn't match, we'll get the glob itself, so make sure
-        # we have an existing file. This check also skips entries
-        # that are not a regular file
-        [[ -f $file ]] || continue
-
-        # add the file (just filename) to the list of autocomplete suggestions
-        COMPREPLY+=( $(basename "$file") )
-    done
-}
-
-vims () {
-  vim -S $VIM_SESS_DIR/${1}
-}
-complete -F _vims_complete vims
-
-# VPN
-alias up="wg-quick up"
-alias down="wg-quick down"
-
 # General
 alias clip="xclip -selection clipboard"
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
@@ -113,8 +86,16 @@ if [ -f $HOME/.perchrc ]; then
     source $HOME/.perchrc
 fi
 
-#gsettings set org.gnome.desktop.input-sources xkb-options "['caps:super']"
-
 # zoxide
 eval "$(zoxide init zsh)"
 alias cd="z"
+
+wakedt() {
+  reqstatus=$(curl -s -o /dev/null -w "%{http_code}" http://192.168.13.99/power)
+
+  if [ $reqstatus -eq 200 ]; then
+    echo "OK"
+  else
+    echo "Not OK (status: $reqstatus)"
+  fi
+}
