@@ -1,5 +1,4 @@
-local lspconfig = require("lspconfig")
-
+-- Shared configuration
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local perch_dev = (os.getenv("PERCH_IMAGE_REPO") or "") .. ":dev"
 local home = os.getenv("HOME")
@@ -60,20 +59,13 @@ capabilities.textDocument.completion.completionItem = {
   },
 }
 
-lspconfig.gopls.setup({
+-- Set default capabilities for all LSP servers using wildcard config
+vim.lsp.config['*'] = {
   capabilities = capabilities,
-})
+}
 
-lspconfig.ansiblels.setup({
-  capabilities = capabilities,
-})
-
-lspconfig.jsonls.setup({
-  capabilities = capabilities,
-})
-
-lspconfig.lua_ls.setup({
-  capabilities = capabilities,
+-- Only configure servers that need custom settings
+vim.lsp.config.lua_ls = {
   settings = {
     Lua = {
       diagnostics = {
@@ -90,105 +82,159 @@ lspconfig.lua_ls.setup({
       },
     },
   },
+}
+
+-- Disable formatting for ts_ls when it attaches
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == "ts_ls" then
+      disable_format(client)
+    end
+  end,
 })
 
-lspconfig.ts_ls.setup({
-  capabilities = capabilities,
-  -- let null-ls do formatting for javascript
-  on_attach = disable_format,
-})
+-- Python LSPs with dynamic behavior based on project detection
+-- Using FileType autocommand with vim.lsp.start() for full control over cmd and conditional enabling
 
-lspconfig.zls.setup({
-  capabilities = capabilities,
-})
+-- Track which buffers have already started LSP clients to avoid duplicates
+local python_lsp_started = {}
 
--- TODO this works for detecting what repo I want, but it does not spawn
--- a new server per root directory as it seems it should
-lspconfig.pylsp.setup({
-  capabilities = capabilities,
-  on_new_config = function(new_config, new_root_dir)
-    local docker_image = get_perch_docker_image(new_root_dir)
-    if docker_image ~= nil then
-      new_config.cmd = concat(base_perch_docker_cmd, {
-        docker_image,
-        "pylsp",
-        "--log-file",
-        "/tmp/lsp_python.log",
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function(args)
+    local bufnr = args.buf
+
+    -- Skip if we already started LSPs for this buffer
+    if python_lsp_started[bufnr] then
+      return
+    end
+
+    -- Find the root directory for this Python file
+    local root_dir = vim.fs.root(bufnr, { "pyproject.toml", "setup.py", "setup.cfg",
+                                           "requirements.txt", "Pipfile", ".git" })
+
+    if not root_dir then
+      return
+    end
+
+    local docker_image = get_perch_docker_image(root_dir)
+    local is_perch_project = docker_image ~= nil
+
+    -- Start pylsp only for perch projects with Docker
+    if is_perch_project then
+      vim.lsp.start({
+        name = "pylsp",
+        cmd = concat(base_perch_docker_cmd, {
+          docker_image,
+          "pylsp",
+          "--log-file",
+          "/tmp/lsp_python.log",
+        }),
+        root_dir = root_dir,
+        capabilities = capabilities,
+        settings = {
+          pylsp = {
+            plugins = {
+              autopep8 = { enabled = false },
+              pycodestyle = { enabled = false },
+              pyflakes = { enabled = false },
+              flake8 = { enabled = false },
+            },
+          },
+        },
+      })
+
+      -- Start ruff for perch projects
+      vim.lsp.start({
+        name = "ruff",
+        cmd = { "ruff", "server" },
+        root_dir = root_dir,
+        capabilities = capabilities,
       })
     else
-      new_config.enabled = false
+      -- Start pyright for non-perch projects
+      vim.lsp.start({
+        name = "pyright",
+        cmd = { "pyright-langserver", "--stdio" },
+        root_dir = root_dir,
+        capabilities = capabilities,
+      })
     end
-  end,
-  settings = {
-    pylsp = {
-      plugins = {
-        autopep8 = {
-          enabled = false,
-        },
-        pycodestyle = {
-          enabled = false,
-        },
-        pyflakes = {
-          enabled = false,
-        },
-        flake8 = {
-          enabled = false,
-        },
-      },
-    },
-  },
-})
 
-lspconfig.ruff.setup({
-  capabilities = capabilities,
-  on_new_config = function(new_config, new_root_dir)
-    local docker_image = get_perch_docker_image(new_root_dir)
-    if docker_image == nil then
-      new_config.enabled = false
-    end
+    python_lsp_started[bufnr] = true
   end,
 })
 
-lspconfig.pyright.setup({
-  capabilities = capabilities,
-  on_new_config = function(new_config, new_root_dir)
-    local docker_image = get_perch_docker_image(new_root_dir)
-    if docker_image ~= nil then
-      new_config.enabled = false
-      -- new_config.cmd = concat(base_perch_docker_cmd, {
-      --   "perch:pyright",
-      --   "pyright-langserver",
-      --   "--stdio",
-      -- })
-    end
+-- Clean up tracking when buffer is deleted
+vim.api.nvim_create_autocmd("BufDelete", {
+  callback = function(args)
+    python_lsp_started[args.buf] = nil
   end,
 })
 
-lspconfig.clangd.setup({
-  capabilities = capabilities,
-  -- -- don't autoformat my cpp
-  -- on_attach = disable_format,
-  on_new_config = function(new_config, new_root_dir)
-    local docker_image = get_perch_docker_image(new_root_dir)
-    if docker_image ~= nil then
-      new_config.cmd = concat(base_perch_docker_cmd, {
+-- Clangd with dynamic Docker cmd for perch projects
+-- Using FileType autocommand for dynamic command configuration
+
+local clangd_started = {}
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "c", "cpp", "objc", "objcpp", "cuda" },
+  callback = function(args)
+    local bufnr = args.buf
+
+    -- Skip if we already started clangd for this buffer
+    if clangd_started[bufnr] then
+      return
+    end
+
+    -- Find the root directory
+    local root_dir = vim.fs.root(bufnr, { ".clangd", "compile_commands.json",
+                                           "compile_flags.txt", ".git" })
+
+    if not root_dir then
+      return
+    end
+
+    local docker_image = get_perch_docker_image(root_dir)
+    local cmd
+
+    if docker_image then
+      -- Use Docker for perch projects
+      cmd = concat(base_perch_docker_cmd, {
         perch_dev,
         "/usr/lib/llvm-10/bin/clangd",
         "--background-index",
         "--clang-tidy",
       })
+    else
+      -- Use local clangd
+      cmd = { "clangd", "--background-index", "--clang-tidy" }
     end
-  end,
-  settings = {
-    rootPatterns = { "compile_commands.json" },
-    clangd = {
-      filetypes = { "c", "cc", "cpp", "c++" },
-      initializationOptions = {
+
+    vim.lsp.start({
+      name = "clangd",
+      cmd = cmd,
+      root_dir = root_dir,
+      capabilities = capabilities,
+      init_options = {
         cacheDirectory = "/tmp/clangd",
       },
-    },
-  },
+    })
+
+    clangd_started[bufnr] = true
+  end,
 })
+
+-- Clean up tracking when buffer is deleted
+vim.api.nvim_create_autocmd("BufDelete", {
+  callback = function(args)
+    clangd_started[args.buf] = nil
+  end,
+})
+
+-- Enable simple LSPs (Python and C/C++ are handled via FileType autocommands above)
+vim.lsp.enable({ 'gopls', 'ansiblels', 'jsonls', 'lua_ls', 'ts_ls', 'zls' })
 
 -- Rename functionality
 
