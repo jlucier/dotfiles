@@ -72,6 +72,23 @@ autocmd({ "FileType" }, {
   end,
 })
 
+-- Set *rc files to bash syntax if no other filetype detected
+autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*rc",
+  callback = function()
+    if vim.bo.filetype == "" then
+      vim.bo.filetype = "bash"
+    end
+  end,
+})
+
+-- Copilot configuration
+-- Reduce abort errors by increasing idle time before suggestions
+vim.g.copilot_idle_delay = 150
+-- Hide copilot suggestions in insert mode to reduce conflicts with nvim-cmp
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+
 require("plugins")
 require("mappings").setup()
 

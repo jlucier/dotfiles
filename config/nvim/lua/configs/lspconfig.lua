@@ -1,278 +1,122 @@
 -- Shared configuration
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local perch_dev = (os.getenv("PERCH_IMAGE_REPO") or "") .. ":dev"
-local home = os.getenv("HOME")
-local base_perch_docker_cmd = {
-  "docker",
-  "run",
-  "-i",
-  "--rm",
-  "-v",
-  home .. "/code/:/home/perch/code/:ro",
-  "-v",
-  home .. "/code/:" .. home .. "/code/:ro",
-}
-
-local function get_perch_docker_image(root_dir)
-  local docker_image = nil
-
-  if string.find(root_dir, "api") then
-    docker_image = "perch_api:dev"
-  elseif string.find(root_dir, "perch_utils") then
-    docker_image = perch_dev
-  end
-
-  return docker_image
-end
-
-local function concat(t1, t2)
-  local t3 = {}
-  for _, v in pairs(t1) do
-    table.insert(t3, v)
-  end
-  for _, v in pairs(t2) do
-    table.insert(t3, v)
-  end
-  return t3
-end
 
 local function disable_format(client)
-  client.server_capabilities.documentFormattingProvider = false
-  client.server_capabilities.documentRangeFormattingProvider = false
+	client.server_capabilities.documentFormattingProvider = false
+	client.server_capabilities.documentRangeFormattingProvider = false
 end
 
+-- Set consistent position encoding for all LSP clients
+-- Use only UTF-16 to ensure all clients use the same encoding
+capabilities.general = capabilities.general or {}
+capabilities.general.positionEncodings = { "utf-16" }
+
 capabilities.textDocument.completion.completionItem = {
-  documentationFormat = { "markdown", "plaintext" },
-  snippetSupport = true,
-  preselectSupport = true,
-  insertReplaceSupport = true,
-  labelDetailsSupport = true,
-  deprecatedSupport = true,
-  commitCharactersSupport = true,
-  tagSupport = { valueSet = { 1 } },
-  resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  },
+	documentationFormat = { "markdown", "plaintext" },
+	snippetSupport = true,
+	preselectSupport = true,
+	insertReplaceSupport = true,
+	labelDetailsSupport = true,
+	deprecatedSupport = true,
+	commitCharactersSupport = true,
+	tagSupport = { valueSet = { 1 } },
+	resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	},
 }
 
 -- Set default capabilities for all LSP servers using wildcard config
-vim.lsp.config['*'] = {
-  capabilities = capabilities,
+vim.lsp.config["*"] = {
+	capabilities = capabilities,
 }
 
 -- Only configure servers that need custom settings
 vim.lsp.config.lua_ls = {
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-          [vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
-        },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
-      },
-    },
-  },
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+			workspace = {
+				library = {
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+					[vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
+				},
+				maxPreload = 100000,
+				preloadFileSize = 10000,
+			},
+		},
+	},
 }
 
 -- Disable formatting for ts_ls when it attaches
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.name == "ts_ls" then
-      disable_format(client)
-    end
-  end,
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client.name == "ts_ls" then
+			disable_format(client)
+		end
+	end,
 })
 
--- Python LSPs with dynamic behavior based on project detection
--- Using FileType autocommand with vim.lsp.start() for full control over cmd and conditional enabling
+-- Try to load project-specific LSP configuration (kept out of tree)
+-- If it exists, it will handle Python and C/C++ setup
+-- Otherwise, use standard vim.lsp.enable for all servers
+local has_project_lsp, project_lsp = pcall(require, "perch_lsp")
 
--- Track which buffers have already started LSP clients to avoid duplicates
-local python_lsp_started = {}
+if has_project_lsp then
+	-- Project-specific LSP setup (handles pyright/clangd in Docker for perch projects)
+	project_lsp.setup_lsp(capabilities)
+else
+	-- Standard LSP setup for Python and C/C++
+	vim.lsp.enable({ "pyright", "clangd" })
+end
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "python",
-  callback = function(args)
-    local bufnr = args.buf
-
-    -- Skip if we already started LSPs for this buffer
-    if python_lsp_started[bufnr] then
-      return
-    end
-
-    -- Find the root directory for this Python file
-    local root_dir = vim.fs.root(bufnr, { "pyproject.toml", "setup.py", "setup.cfg",
-                                           "requirements.txt", "Pipfile", ".git" })
-
-    if not root_dir then
-      return
-    end
-
-    local docker_image = get_perch_docker_image(root_dir)
-    local is_perch_project = docker_image ~= nil
-
-    -- Start pylsp only for perch projects with Docker
-    if is_perch_project then
-      vim.lsp.start({
-        name = "pylsp",
-        cmd = concat(base_perch_docker_cmd, {
-          docker_image,
-          "pylsp",
-          "--log-file",
-          "/tmp/lsp_python.log",
-        }),
-        root_dir = root_dir,
-        capabilities = capabilities,
-        settings = {
-          pylsp = {
-            plugins = {
-              autopep8 = { enabled = false },
-              pycodestyle = { enabled = false },
-              pyflakes = { enabled = false },
-              flake8 = { enabled = false },
-            },
-          },
-        },
-      })
-
-      -- Start ruff for perch projects
-      vim.lsp.start({
-        name = "ruff",
-        cmd = { "ruff", "server" },
-        root_dir = root_dir,
-        capabilities = capabilities,
-      })
-    else
-      -- Start pyright for non-perch projects
-      vim.lsp.start({
-        name = "pyright",
-        cmd = { "pyright-langserver", "--stdio" },
-        root_dir = root_dir,
-        capabilities = capabilities,
-      })
-    end
-
-    python_lsp_started[bufnr] = true
-  end,
-})
-
--- Clean up tracking when buffer is deleted
-vim.api.nvim_create_autocmd("BufDelete", {
-  callback = function(args)
-    python_lsp_started[args.buf] = nil
-  end,
-})
-
--- Clangd with dynamic Docker cmd for perch projects
--- Using FileType autocommand for dynamic command configuration
-
-local clangd_started = {}
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "c", "cpp", "objc", "objcpp", "cuda" },
-  callback = function(args)
-    local bufnr = args.buf
-
-    -- Skip if we already started clangd for this buffer
-    if clangd_started[bufnr] then
-      return
-    end
-
-    -- Find the root directory
-    local root_dir = vim.fs.root(bufnr, { ".clangd", "compile_commands.json",
-                                           "compile_flags.txt", ".git" })
-
-    if not root_dir then
-      return
-    end
-
-    local docker_image = get_perch_docker_image(root_dir)
-    local cmd
-
-    if docker_image then
-      -- Use Docker for perch projects
-      cmd = concat(base_perch_docker_cmd, {
-        perch_dev,
-        "/usr/lib/llvm-10/bin/clangd",
-        "--background-index",
-        "--clang-tidy",
-      })
-    else
-      -- Use local clangd
-      cmd = { "clangd", "--background-index", "--clang-tidy" }
-    end
-
-    vim.lsp.start({
-      name = "clangd",
-      cmd = cmd,
-      root_dir = root_dir,
-      capabilities = capabilities,
-      init_options = {
-        cacheDirectory = "/tmp/clangd",
-      },
-    })
-
-    clangd_started[bufnr] = true
-  end,
-})
-
--- Clean up tracking when buffer is deleted
-vim.api.nvim_create_autocmd("BufDelete", {
-  callback = function(args)
-    clangd_started[args.buf] = nil
-  end,
-})
-
--- Enable simple LSPs (Python and C/C++ are handled via FileType autocommands above)
-vim.lsp.enable({ 'gopls', 'ansiblels', 'jsonls', 'lua_ls', 'ts_ls', 'zls' })
+-- Enable other simple LSPs (including ruff for all Python projects)
+vim.lsp.enable({ "ruff", "gopls", "ansiblels", "jsonls", "lua_ls", "ts_ls", "zls" })
 
 -- Rename functionality
 
 local Rename = {}
 
 Rename.dorename = function(win)
-  local new_name = vim.trim(vim.fn.getline("."))
-  vim.api.nvim_win_close(win, true)
-  vim.lsp.buf.rename(new_name)
+	local new_name = vim.trim(vim.fn.getline("."))
+	vim.api.nvim_win_close(win, true)
+	vim.lsp.buf.rename(new_name)
 end
 
 Rename.open = function()
-  local opts = {
-    relative = "cursor",
-    row = 0,
-    col = 0,
-    width = 30,
-    height = 1,
-    style = "minimal",
-    border = "single",
-  }
-  local cword = vim.fn.expand("<cword>")
-  local buf = vim.api.nvim_create_buf(false, true)
-  local win = vim.api.nvim_open_win(buf, true, opts)
-  local dorename = string.format("<cmd>lua Rename.dorename(%d)<CR>", win)
+	local opts = {
+		relative = "cursor",
+		row = 0,
+		col = 0,
+		width = 30,
+		height = 1,
+		style = "minimal",
+		border = "single",
+	}
+	local cword = vim.fn.expand("<cword>")
+	local buf = vim.api.nvim_create_buf(false, true)
+	local win = vim.api.nvim_open_win(buf, true, opts)
+	local dorename = string.format("<cmd>lua Rename.dorename(%d)<CR>", win)
 
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, { cword })
-  -- when hitting enter in either normal or insert mode, do the rename
-  vim.api.nvim_buf_set_keymap(buf, "i", "<CR>", dorename, { silent = true })
-  vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", dorename, { silent = true })
-  -- when hitting escape in normal, exit
-  vim.api.nvim_buf_set_keymap(
-    buf,
-    "n",
-    "<ESC>",
-    string.format("<cmd>lua vim.api.nvim_win_close(%d, true)<CR>", win),
-    { silent = true }
-  )
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { cword })
+	-- when hitting enter in either normal or insert mode, do the rename
+	vim.api.nvim_buf_set_keymap(buf, "i", "<CR>", dorename, { silent = true })
+	vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", dorename, { silent = true })
+	-- when hitting escape in normal, exit
+	vim.api.nvim_buf_set_keymap(
+		buf,
+		"n",
+		"<ESC>",
+		string.format("<cmd>lua vim.api.nvim_win_close(%d, true)<CR>", win),
+		{ silent = true }
+	)
 end
 
 _G.Rename = Rename
