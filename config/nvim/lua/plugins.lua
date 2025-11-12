@@ -14,9 +14,23 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   "tpope/vim-surround",
   {
+    "github/copilot.vim",
+    config = function()
+      -- Reduce abort errors by increasing idle time before suggestions
+      vim.g.copilot_idle_delay = 150
+      -- Hide copilot suggestions in insert mode to reduce conflicts with nvim-cmp
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false
+      })
+    end,
+  },
+  {
     "olimorris/codecompanion.nvim",
     dependencies = {
-      "github/copilot.vim",
+      "nvim-lua/plenary.nvim",
     },
     config = function()
       require("codecompanion").setup({
