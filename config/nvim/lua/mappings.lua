@@ -274,6 +274,13 @@ mappings.gitsigns = {
       end,
       "Toggle deleted",
     },
+
+    ["<leader>gd"] = {
+      function()
+        require("gitsigns").diffthis()
+      end,
+      "Git diff",
+    },
   },
 }
 

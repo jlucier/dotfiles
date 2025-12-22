@@ -84,5 +84,3 @@ autocmd({ "BufRead", "BufNewFile" }, {
 
 require("plugins")
 require("mappings").setup()
-
-vim.cmd.colorscheme("catppuccin-mocha")
