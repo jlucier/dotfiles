@@ -179,6 +179,7 @@ require("lazy").setup({
         "html-lsp",
         "typescript-language-server",
         "prettier",
+        "svelte-language-server",
 
         -- python
         "pyright",
@@ -239,6 +240,7 @@ require("lazy").setup({
         "c",
         "cpp",
         "rust",
+        "svelte",
         "go",
         "lua",
         "zig",

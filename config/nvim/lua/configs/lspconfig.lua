@@ -78,7 +78,7 @@ else
 end
 
 -- Enable other simple LSPs (including ruff for all Python projects)
-vim.lsp.enable({ "ruff", "gopls", "ansiblels", "jsonls", "lua_ls", "ts_ls", "zls" })
+vim.lsp.enable({ "ruff", "gopls", "ansiblels", "jsonls", "lua_ls", "ts_ls", "zls", "svelte" })
 
 -- Rename functionality
 
