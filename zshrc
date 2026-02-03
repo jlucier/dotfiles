@@ -70,11 +70,18 @@ grmb() {
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
 
-nvmload() {
-  # these slow down terminal launch a lot, so I moved them to a function
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy load nvm - only loads when you first use node/npm/nvm/npx/yarn
+_nvm_lazy_load() {
+  unset -f nvm node npm npx yarn 2>/dev/null
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 }
+
+nvm() { _nvm_lazy_load && nvm "$@"; }
+node() { _nvm_lazy_load && node "$@"; }
+npm() { _nvm_lazy_load && npm "$@"; }
+npx() { _nvm_lazy_load && npx "$@"; }
+yarn() { _nvm_lazy_load && yarn "$@"; }
 
 extra_file=$HOME/.extra_zshrc
 if test -f "$extra_file"; then
