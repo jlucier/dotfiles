@@ -234,18 +234,21 @@ require("lazy").setup({
     config = function()
       require("nvim-treesitter").install({
         "bash",
-        "python",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "tsx",
         "c",
         "cpp",
+        "css",
+        "ecma",
+        "go",
+        "html",
+        "html_tags",
+        "javascript",
+        "jsx",
+        "lua",
+        "python",
         "rust",
         "svelte",
-        "go",
-        "lua",
+        "tsx",
+        "typescript",
         "zig",
       })
 
@@ -269,8 +272,6 @@ require("lazy").setup({
         },
         callback = function()
           vim.treesitter.start()
-          vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-          vim.wo.foldmethod = "expr"
           vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
       })
