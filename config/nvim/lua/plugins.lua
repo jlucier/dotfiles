@@ -183,7 +183,7 @@ require("lazy").setup({
 
         -- python
         "pyright",
-        "ruff-lsp",
+        "ruff",
 
         -- other
         "gopls",
@@ -227,9 +227,12 @@ require("lazy").setup({
   },
 
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
+    "neovim-treesitter/nvim-treesitter",
+    dependencies = { "neovim-treesitter/treesitter-parser-registry" },
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").install({
         "bash",
         "python",
         "html",
@@ -244,22 +247,39 @@ require("lazy").setup({
         "go",
         "lua",
         "zig",
-      },
-      indent = {
-        enable = true,
-      },
-      highlight = {
-        enable = true,
-      },
-    },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "bash",
+          "sh",
+          "python",
+          "html",
+          "css",
+          "javascript",
+          "typescript",
+          "typescriptreact",
+          "c",
+          "cpp",
+          "rust",
+          "svelte",
+          "go",
+          "lua",
+          "zig",
+        },
+        callback = function()
+          vim.treesitter.start()
+          vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          vim.wo.foldmethod = "expr"
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
   },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+      "neovim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope-fzf-native.nvim",
     },
     cmd = "Telescope",
