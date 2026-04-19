@@ -252,6 +252,8 @@ require("lazy").setup({
         "zig",
       })
 
+      vim.treesitter.language.register("tsx", "typescriptreact")
+
       vim.api.nvim_create_autocmd("FileType", {
         pattern = {
           "bash",
