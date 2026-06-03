@@ -93,10 +93,6 @@ if [ -f $HOME/.perchrc ]; then
     source $HOME/.perchrc
 fi
 
-# zoxide
-eval "$(zoxide init zsh)"
-alias cd="z"
-
 wakedt() {
   reqstatus=$(curl -s -o /dev/null -w "%{http_code}" http://192.168.13.99/power)
 
@@ -106,3 +102,12 @@ wakedt() {
     echo "Not OK (status: $reqstatus)"
   fi
 }
+
+# zoxide — must be initialized at the very end of this file so its hooks are
+# registered last (otherwise `zoxide doctor` warns about config order).
+eval "$(zoxide init zsh)"
+# Only hijack `cd` in interactive shells. Non-interactive shells (scripts,
+# tooling) get the real builtin `cd` so paths behave predictably.
+if [[ -o interactive ]]; then
+  alias cd="z"
+fi
