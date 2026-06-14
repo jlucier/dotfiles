@@ -111,3 +111,6 @@ eval "$(zoxide init zsh)"
 if [[ -o interactive ]]; then
   alias cd="z"
 fi
+
+# opencode
+export PATH=/home/jordan/.opencode/bin:$PATH
