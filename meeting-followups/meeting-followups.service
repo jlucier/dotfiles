@@ -1,0 +1,12 @@
+[Unit]
+Description=Reconcile recent meeting notes against the task board and queue follow-up cards
+# Needs the network up to reach the Anthropic API.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+# systemd user units get a minimal PATH; claude may shell out to node/other bins.
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=%h/dev/dotfiles/meeting-followups/reconcile.sh
+Nice=10
