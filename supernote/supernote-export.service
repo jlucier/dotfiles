@@ -1,0 +1,11 @@
+[Unit]
+Description=Convert Supernote .note files to dark-mode PDFs in the Obsidian vault
+# Only run once the network is up (first run downloads uv deps + a Python).
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+# Absolute uv path: systemd user units get a minimal PATH.
+ExecStart=%h/.local/bin/uv run --script %h/dev/dotfiles/supernote/supernote_export.py
+Nice=10

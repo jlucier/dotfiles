@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically export Supernote notes to dark-mode PDFs
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=10min
+# Catch up on a run missed while the machine was asleep/off.
+Persistent=true
+
+[Install]
+WantedBy=timers.target
