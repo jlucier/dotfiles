@@ -118,8 +118,10 @@ fi
 
 # --- notify (LIVE only): zero-content push that deep-links to the note ------
 if [[ "$DRY_RUN" == 0 ]]; then
-  # URL-encode the spaces in the note filename for the obsidian:// link.
+  # URL-encode the note path for the obsidian:// link: spaces -> %20 and the
+  # path separator -> %2F (Obsidian requires reserved chars encoded, esp. mobile).
   enc_file="${NOTE_REL// /%20}"
+  enc_file="${enc_file//\//%2F}"
   deeplink="obsidian://open?vault=${OBSIDIAN_VAULT}&file=${enc_file}"
   curl -fsS \
     -H "Title: 🗞️ Morning brief ready" \
