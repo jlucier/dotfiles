@@ -1,0 +1,12 @@
+[Unit]
+Description=Build the morning brief (calendar/board/Jira/inbox) and notify via ntfy
+# Needs the network up to reach the Anthropic API and the MCP connectors.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+# systemd user units get a minimal PATH; claude may shell out to node/other bins.
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=%h/dev/dotfiles/daily-briefing/brief.sh
+Nice=10

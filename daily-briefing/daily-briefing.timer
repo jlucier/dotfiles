@@ -1,0 +1,15 @@
+[Unit]
+Description=Weekday morning brief
+
+[Timer]
+# Weekdays at ~07:30 local — after the meeting-followups reconciler (07:00) so
+# this brief can pick up the follow-up cards it just created.
+OnCalendar=Mon..Fri *-*-* 07:30:00
+# Spread the wake-up a little so it doesn't fight other jobs.
+RandomizedDelaySec=5min
+# Catch up on a run missed while the machine was asleep/off (brief.sh re-checks
+# the weekday guard so a weekend catch-up still no-ops).
+Persistent=true
+
+[Install]
+WantedBy=timers.target
