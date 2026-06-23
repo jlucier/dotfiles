@@ -37,13 +37,15 @@ it forward.
 
 **1. Today's agenda.** Events in time order, each with a short prime:
 - Interview → flag **prep needed**, point to any CV / interview-prep note.
-- Standup / 1:1 → for each *other* attendee, list their open Jira work (see
-  Per-attendee tickets) plus a line of context from the latest relevant meeting
-  note or card.
-- Other → one line on purpose and any clearly related note/card.
+- **Standup** (title contains "Standup") → for each *other* attendee, list their
+  open Jira work (see Per-attendee tickets) plus a line of context from the
+  latest relevant meeting note or card.
+- 1:1 / other → context only: a line on purpose and any clearly related meeting
+  note or card. **Do not search Jira** for these.
 
-Skip per-attendee scrubbing for events whose title matches the ignored list
-(still list them as events).
+Search Jira tickets **only** for events whose title contains "Standup". Also skip
+scrubbing for any event whose title matches the ignored list (still list all
+events on the agenda either way).
 
 **Per-attendee tickets.** Resolve the attendee's email to an account
 (`lookupJiraAccountId`), then:
