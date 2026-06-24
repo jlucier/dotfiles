@@ -54,14 +54,15 @@ events on the agenda either way).
 age; cap to the ones that matter and note how many more. Link by the `webUrl` from
 the result.
 
-**2. Near-term priorities.** Active cards in `Today` / `This Week` /
-`Meeting Follow Ups`, synthesised into a short prioritised read — not a dump. Call
-out fresh `Meeting Follow Ups` cards (the reconciler makes them just before you
-run).
+**2. Near-term priorities.** Active cards in `P1` / `Meeting Follow Ups`,
+synthesised into a short prioritised read — not a dump. Call out fresh
+`Meeting Follow Ups` cards (the reconciler makes them just before you run).
+`stage` is the priority bucket: `P1` highest, then `P2`, then `P3` (backlog).
+(`time_stage` is the old time-based label, kept for history only — ignore it.)
 
-**3. Stale nudges.** Active, not-done cards overdue for their stage: `Today` with
-`created` > 3 working days, or `This Week` > 7 days. Prompt to finish, reschedule,
-or drop.
+**3. Stale tasks.** Active, not-done cards overdue for their priority: `P1` with
+`created` > 7 days, or `P2` > 14 days. Skip `P3` (backlog). For each, tell the
+user to do one thing — finish it, reschedule it, or drop it.
 
 **4. Inbox.** Walk `in:inbox` and, for each thread that matters, suggest one
 action — **respond / review PR / archive / snooze a few days** — with a one-line

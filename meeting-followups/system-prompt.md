@@ -5,7 +5,7 @@ that nothing on their board currently tracks.
 
 ## Sources
 - **Task board** — `~/notes/trello/tickets/*.md`, one card per file. Frontmatter:
-  `stage` (kanban column, e.g. "Today" / "Meeting Follow Ups"), `archived`
+  `stage` (kanban column, e.g. "P1" / "Meeting Follow Ups"), `archived`
   (`true` once off the active board), `done` / `completed`, `created`, `tags`.
   The body is the task detail. Cards you've created before live here too, in the
   "Meeting Follow Ups" stage.

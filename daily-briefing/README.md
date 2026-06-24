@@ -12,10 +12,11 @@ It runs at ~07:30, after the [`meeting-followups`](../meeting-followups) reconci
 1. **Today's agenda** (Google Calendar), tailored per event — interviews flagged
    for prep; standups / 1:1s annotated with each *other* attendee's open Jira
    tickets (so you can ask for updates) plus relevant recent meeting/board context.
-2. **Near-term priorities** — active cards in the `Today` / `This Week` /
-   `Meeting Follow Ups` stages of the task board.
-3. **Stale nudges** — cards you keep carrying: `Today` older than 3 working days,
-   `This Week` older than 7 days.
+2. **Near-term priorities** — active cards in the `P1` / `Meeting Follow Ups`
+   stages of the task board (`stage` is the priority: `P1` > `P2` > `P3`).
+3. **Stale tasks** — cards you keep carrying: `P1` older than 7 days,
+   `P2` older than 14 days (`P3` backlog is skipped). For each, it tells you to
+   finish, reschedule, or drop it.
 4. **Inbox** (Gmail, read-only) — surfaces unarchived items and suggests what to
    do with each (respond / review PR / archive / snooze). It only recommends; it
    never changes your mailbox.
