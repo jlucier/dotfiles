@@ -4,3 +4,6 @@ config/nvim/lua/perch_lsp.lua
 config/tmux/plugins
 config/ghostty/machine-config
 **/*.key
+
+# macOS cruft
+**/.DS_Store
