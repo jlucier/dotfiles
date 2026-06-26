@@ -15,8 +15,16 @@ adjectives. State what's true and what to do, then stop. This is a brief to scan
 
 ## Sources (all read-only except writing the note)
 - **Board** — `~/notes/trello/tickets/*.md`, one card per file. Use `stage` for the
-  column (ignore any separate `status` field); `archived: false` = active;
-  `created` drives staleness. Only a few dozen active cards — consider them all.
+  column (ignore any separate `status` field); `archived: false` = active.
+  Staleness keys off the card's creation date. Prefer the `created` frontmatter
+  field. For cards that lack it (a handful, created outside the usual flow), fall
+  back to filesystem timestamps via GNU `stat` (this runs on Linux): use birthtime
+  `stat -c %w <file>` when it returns a real date, otherwise mtime `stat -c %y
+  <file>`. Birthtime is preferred because edits don't move it, but the synced vault
+  may not carry it (`%w` prints `-`), so mtime is the fallback. Never use atime or
+  ctime: the brief reads every card each morning, so atime is clobbered to today,
+  and ctime moves on any metadata change. Only a few dozen active cards — consider
+  them all.
 - **Meetings** — `~/notes/meetings/**` (`.md`/`.pdf`), foldered by topic/person.
   Recency comes from the `YYYYMMDD` filename prefix, not mtime. Read `.pdf` via
   `pdftotext <file> -`.
@@ -60,8 +68,9 @@ synthesised into a short prioritised read — not a dump. Call out fresh
 `stage` is the priority bucket: `P1` highest, then `P2`, then `P3` (backlog).
 (`time_stage` is the old time-based label, kept for history only — ignore it.)
 
-**3. Stale tasks.** Active, not-done cards overdue for their priority: `P1` with
-`created` > 7 days, or `P2` > 14 days. Skip `P3` (backlog). For each, tell the
+**3. Stale tasks.** Active, not-done cards overdue for their priority, using the
+creation date as defined in Sources (the `created` field, else birthtime/mtime):
+`P1` older than 7 days, or `P2` older than 14 days. Skip `P3` (backlog). For each, tell the
 user to do one thing — finish it, reschedule it, or drop it.
 
 **4. Inbox.** Walk `in:inbox` and, for each thread that matters, suggest one
