@@ -1,3 +1,15 @@
+# Keep PATH entries unique (first occurrence wins). Without this, the bare
+# `export PATH=$PATH:...` lines below re-append inherited entries on every nested
+# interactive shell, so PATH grows duplicates.
+typeset -U path PATH
+
+# macOS: put Homebrew's bin ahead of the system paths so `python3` and friends
+# resolve to the brew versions instead of Apple's /usr/bin (3.9.6). Prepends
+# /opt/homebrew/{bin,sbin} and sets HOMEBREW_* / MANPATH.
+if [[ "$OSTYPE" == darwin* ]] && [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -111,6 +123,3 @@ eval "$(zoxide init zsh)"
 if [[ -o interactive ]]; then
   alias cd="z"
 fi
-
-# opencode
-export PATH=/home/jordan/.opencode/bin:$PATH
