@@ -46,6 +46,10 @@ local onsave = vim.api.nvim_create_augroup("onsave", { clear = true })
 autocmd({ "BufWritePre" }, {
   group = onsave,
   callback = function()
+    -- Skip non-modifiable and special buffers (help, checkhealth, terminals, ...)
+    if not vim.bo.modifiable or vim.bo.buftype ~= "" then
+      return
+    end
     local l = vim.fn.line(".")
     local c = vim.fn.col(".")
     vim.cmd("%s/\\s\\+$//e")
@@ -53,13 +57,8 @@ autocmd({ "BufWritePre" }, {
   end,
 })
 
--- format on save
-autocmd({ "BufWritePre" }, {
-  group = onsave,
-  callback = function()
-    vim.lsp.buf.format()
-  end,
-})
+-- format on save is handled by guard.nvim (see lua/configs/guard.lua), which
+-- uses the configured formatter per filetype and falls back to the LSP otherwise.
 
 -- tab settings
 autocmd({ "FileType" }, {

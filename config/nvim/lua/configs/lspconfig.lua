@@ -78,7 +78,30 @@ else
 end
 
 -- Enable other simple LSPs (including ruff for all Python projects)
-vim.lsp.enable({ "ruff", "gopls", "ansiblels", "jsonls", "lua_ls", "ts_ls", "zls", "svelte" })
+-- gopls omitted: requires the `go` toolchain. Add it back here when Go is set up.
+vim.lsp.enable({ "ruff", "ansiblels", "jsonls", "lua_ls", "ts_ls", "zls", "svelte", "cmake" })
+
+-- Compact view of every running client: name, root dir, the launch command
+-- (shows the docker image + mounts for perch clients), and the python paths sent.
+vim.api.nvim_create_user_command("LspStatus", function()
+  local clients = vim.lsp.get_clients()
+  if vim.tbl_isempty(clients) then
+    print("No active LSP clients")
+    return
+  end
+  for _, client in ipairs(clients) do
+    print(("● %s  (root: %s)"):format(client.name, client.root_dir or "n/a"))
+    print("  cmd: " .. vim.inspect(client.config.cmd))
+    local py = vim.tbl_get(client.config, "settings", "python")
+    if py then
+      print("  pythonPath: " .. tostring(py.pythonPath))
+      local extra = vim.tbl_get(py, "analysis", "extraPaths")
+      if extra then
+        print("  extraPaths: " .. vim.inspect(extra))
+      end
+    end
+  end
+end, {})
 
 -- Rename functionality
 

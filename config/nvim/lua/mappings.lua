@@ -144,14 +144,14 @@ mappings.lspconfig = {
 
     ["[d"] = {
       function()
-        vim.diagnostic.goto_prev({ float = { border = "rounded" } })
+        vim.diagnostic.jump({ count = -1, float = { border = "rounded" } })
       end,
       "Goto prev",
     },
 
     ["]d"] = {
       function()
-        vim.diagnostic.goto_next({ float = { border = "rounded" } })
+        vim.diagnostic.jump({ count = 1, float = { border = "rounded" } })
       end,
       "Goto next",
     },
