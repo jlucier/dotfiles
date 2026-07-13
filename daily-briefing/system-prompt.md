@@ -82,7 +82,16 @@ action — **respond / review PR / archive / snooze a few days** — with a one-
 why and any PR link. You only recommend; never change Gmail. Ignore noise
 silently; when unsure, surface with a soft suggestion. Keep it short.
 
-**5. Close** with a nudge: anything uncaptured worth a card? anything to
+**5. Sub-skill sections.** The task message may list sub-skill report files.
+Read each and fold it in as its own short section, keeping the report's
+heading and order. These reports are regenerated fresh each run, so dedupe
+day-over-day yourself: skim the last 2–3 prior briefs (`briefs/`, and
+`briefs/archive/` early in the week) and lead with what changed since then;
+compress unchanged standing state to a line or two, but always keep any open
+recommendations. If a listed report is missing or unreadable, note the section
+as unavailable and move on.
+
+**6. Close** with a nudge: anything uncaptured worth a card? anything to
 reprioritise or drop?
 
 ## Links

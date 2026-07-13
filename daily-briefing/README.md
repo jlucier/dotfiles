@@ -21,7 +21,8 @@ It runs at ~04:00, after the [`meeting-followups`](../meeting-followups) reconci
 4. **Inbox** (Gmail, read-only) — surfaces unarchived items and suggests what to
    do with each (respond / review PR / archive / snooze). It only recommends; it
    never changes your mailbox.
-5. A prompt to add anything uncaptured / reprioritize.
+5. **Private sub-skill sections** (optional; see below).
+6. A prompt to add anything uncaptured / reprioritize.
 
 The brief is written to `~/notes/briefs/YYYYMMDD - <Weekday>.md`. Briefs from
 prior weeks (anything dated before the current week's Monday) are moved to
@@ -44,10 +45,11 @@ allowlist; no permission bypass.
 
 ## Configuration (not in this repo)
 
-All org-specific values live in an untracked file outside the repo so nothing
-sensitive is committed:
+All org-specific values live in an untracked directory outside the repo so
+nothing sensitive is committed (override the directory with
+`DAILY_BRIEFING_PRIVATE`):
 
-`~/work_sync/dev/daily-briefing.env`
+`~/work_sync/dev/daily-briefing/daily-briefing.env`
 
 ```sh
 JIRA_CLOUD_ID="<atlassian cloud id>"
@@ -58,8 +60,23 @@ OBSIDIAN_VAULT="<vault name for the obsidian:// link>"
 NTFY_TOPIC="<your private ntfy topic>"
 ```
 
-Override the path with `DAILY_BRIEFING_ENV` if you keep it elsewhere. Subscribe
-your phone's ntfy app to the same topic to receive the morning push.
+Override the env file path alone with `DAILY_BRIEFING_ENV` if you keep it
+elsewhere. Subscribe your phone's ntfy app to the same topic to receive the
+morning push.
+
+## Private sub-skills (not in this repo)
+
+Extra brief sections whose content is org-specific live in the same private
+directory, next to the env file:
+
+`~/work_sync/dev/daily-briefing/sub-skills/<name>/run.sh`
+
+Before the main brief runs, `brief.sh` executes each sub-skill's `run.sh` with
+the contract `run.sh <output-report.md> <MODE>`. The script writes a markdown
+report (typically its own small `claude -p` with a tight tool allowlist), or
+exits nonzero to have its section skipped. The main brief reads the reports and
+folds each in as its own section, deduping against recent prior briefs. A
+missing private dir is a no-op.
 
 ## Pieces
 

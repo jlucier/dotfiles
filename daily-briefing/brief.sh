@@ -21,10 +21,18 @@ BRIEFS="$NOTES/briefs"
 MODEL="claude-opus-4-8"
 EFFORT="medium"
 SYSTEM_PROMPT_FILE="$HERE/system-prompt.md"
-CONFIG="${DAILY_BRIEFING_ENV:-$HOME/work_sync/dev/daily-briefing.env}"
+
+# Everything org-specific (config + sub-skills) is colocated in one untracked
+# directory outside this repo.
+PRIVATE_DIR="${DAILY_BRIEFING_PRIVATE:-$HOME/work_sync/dev/daily-briefing}"
+CONFIG="${DAILY_BRIEFING_ENV:-$PRIVATE_DIR/daily-briefing.env}"
 
 DRY_RUN=0
 [[ "${1:-}" == "--dry-run" ]] && DRY_RUN=1
+
+# DRY-RUN vs LIVE only changes whether the wrapper fires the ntfy push (below)
+# and the weekday guard; the agents' behaviour is identical either way.
+MODE="$([[ "$DRY_RUN" == 1 ]] && echo DRY-RUN || echo LIVE)"
 
 # --- config -----------------------------------------------------------------
 if [[ ! -f "$CONFIG" ]]; then
@@ -68,6 +76,28 @@ for f in "$BRIEFS"/*.md; do
 done
 shopt -u nullglob
 
+# --- private sub-skills (in PRIVATE_DIR, next to the env file) ---------------
+# Optional extra brief sections. Each sub-skill is a directory holding an
+# executable run.sh with the contract:
+#   run.sh <output-report.md> <MODE>
+# It writes a markdown report for the main brief to fold in, or exits nonzero
+# (the section is skipped, never the whole brief). No sub-skills = no-op.
+SNIPPET_DIR="$(mktemp -d)"
+trap 'rm -rf "$SNIPPET_DIR"' EXIT
+SNIPPETS=()
+shopt -s nullglob
+for run in "$PRIVATE_DIR"/sub-skills/*/run.sh; do
+  name="$(basename "$(dirname "$run")")"
+  out="$SNIPPET_DIR/${name}.md"
+  echo "sub-skill ${name}: running..." >&2
+  if "$run" "$out" "$MODE" && [[ -s "$out" ]]; then
+    SNIPPETS+=("$out")
+  else
+    echo "sub-skill ${name} failed; skipping its section" >&2
+  fi
+done
+shopt -u nullglob
+
 # --- assemble the run -------------------------------------------------------
 if [[ -n "$IGNORED_MEETINGS" ]]; then
   IGNORE_CLAUSE="Skip per-attendee ticket scrubbing for any calendar event whose \
@@ -77,9 +107,16 @@ else
 relevant standups/1:1s."
 fi
 
+SNIPPET_CLAUSE=""
+EXTRA_DIRS=()
+if (( ${#SNIPPETS[@]} )); then
+  SNIPPET_CLAUSE=" Sub-skill reports to fold in (read each): ${SNIPPETS[*]}."
+  EXTRA_DIRS=(--add-dir "$SNIPPET_DIR")
+fi
+
 COMMON_FACTS="Today is ${WEEKDAY}, ${TODAY}. Jira cloudId: ${JIRA_CLOUD_ID}. \
 Jira project key: ${JIRA_PROJECT}. Your work email: ${USER_EMAIL}. \
-${IGNORE_CLAUSE} Write the brief to: ${NOTE_PATH}"
+${IGNORE_CLAUSE}${SNIPPET_CLAUSE} Write the brief to: ${NOTE_PATH}"
 
 # Read tools, the board/meeting helpers, file writing for the note, and the
 # read-only Calendar / Jira / Gmail tools. The agent never mutates Gmail — it
@@ -96,9 +133,6 @@ mcp__claude_ai_Gmail__search_threads \
 mcp__claude_ai_Gmail__get_thread \
 mcp__claude_ai_Gmail__list_labels"
 
-# DRY-RUN vs LIVE only changes whether the wrapper fires the ntfy push (below)
-# and the weekday guard; the agent's behaviour is identical either way.
-MODE="$([[ "$DRY_RUN" == 1 ]] && echo DRY-RUN || echo LIVE)"
 MODE_PROMPT="Run in ${MODE} mode. ${COMMON_FACTS}"
 
 run_claude() {
@@ -107,6 +141,7 @@ run_claude() {
     --effort "$EFFORT" \
     --append-system-prompt "$(cat "$SYSTEM_PROMPT_FILE")" \
     --add-dir "$NOTES" \
+    "${EXTRA_DIRS[@]}" \
     --allowedTools $ALLOWED_TOOLS \
     --permission-mode acceptEdits
 }
