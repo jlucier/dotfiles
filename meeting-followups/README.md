@@ -28,7 +28,8 @@ Pieces:
 - `reconcile.sh` — wrapper that invokes `claude -p` with the model, prompt,
   `--add-dir ~/notes`, and a tight tool allowlist. `--dry-run` reports without
   writing.
-- `meeting-followups.service` / `.timer` — systemd user units, fire daily ~07:00.
+- `meeting-followups.service` / `.timer` — systemd user units, fire daily ~03:30
+  (before the [`daily-briefing`](../daily-briefing) run at 04:00).
 
 The session is scoped by `--add-dir ~/notes` and an `--allowedTools` allowlist
 (read tools + `pdftotext`/`find`/`ls`/`stat`, plus `Write`/`Edit` only in live

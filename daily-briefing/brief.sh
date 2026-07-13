@@ -8,8 +8,8 @@
 #   brief.sh --dry-run    # read + write the note only; NO Gmail writes, NO push
 #                         #   (also bypasses the weekday guard so you can test)
 #
-# Invoked unattended by daily-briefing.timer, weekdays ~07:30 (after the
-# meeting-followups reconciler). Org-specific values come from an untracked
+# Invoked unattended by daily-briefing.timer, weekdays ~04:00 (after the
+# meeting-followups reconciler at 03:30). Org-specific values come from an untracked
 # config file outside this repo (see CONFIG below); nothing sensitive lives here.
 
 set -euo pipefail
@@ -51,17 +51,19 @@ PREFIX="$(date +%Y%m%d)"
 NOTE_REL="briefs/${PREFIX} - ${WEEKDAY}"
 NOTE_PATH="$NOTES/${NOTE_REL}.md"
 
-# --- archive briefs older than 7 days ---------------------------------------
+# --- archive briefs from prior weeks -----------------------------------------
+# Anything dated before this week's Monday moves to archive/, so the Monday run
+# sweeps the whole previous week and the folder only ever holds the current week.
 mkdir -p "$BRIEFS/archive"
-CUTOFF="$(date -d '7 days ago' +%Y%m%d)"
+WEEK_START="$(date -d "-$(( $(date +%u) - 1 )) days" +%Y%m%d)"
 shopt -s nullglob
 for f in "$BRIEFS"/*.md; do
   base="$(basename "$f")"
   d="${base:0:8}"
   [[ "$d" =~ ^[0-9]{8}$ ]] || continue
-  if [[ "$d" -lt "$CUTOFF" ]]; then
+  if [[ "$d" -lt "$WEEK_START" ]]; then
     mv -- "$f" "$BRIEFS/archive/"
-    echo "archived old brief: $base" >&2
+    echo "archived prior-week brief: $base" >&2
   fi
 done
 shopt -u nullglob

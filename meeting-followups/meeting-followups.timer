@@ -2,9 +2,10 @@
 Description=Daily meeting-to-task follow-up reconciliation
 
 [Timer]
-# Fire daily at ~07:00 local, before the workday starts.
-OnCalendar=*-*-* 07:00:00
-# Spread the wake-up a little so it doesn't fight other 7am jobs.
+# Fire daily at ~03:30 local, before the daily brief (04:00) so the brief can
+# pick up the follow-up cards this job just created.
+OnCalendar=*-*-* 03:30:00
+# Spread the wake-up a little so it doesn't fight other jobs.
 RandomizedDelaySec=5min
 # Catch up on a run missed while the machine was asleep/off.
 Persistent=true

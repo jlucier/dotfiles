@@ -62,16 +62,20 @@ events on the agenda either way).
 age; cap to the ones that matter and note how many more. Link by the `webUrl` from
 the result.
 
-**2. Near-term priorities.** Active cards in `P1` / `Meeting Follow Ups`,
-synthesised into a short prioritised read — not a dump. Call out fresh
+**2. Near-term priorities.** Active cards in `In Progress` / `P1` /
+`Meeting Follow Ups`, synthesised into a short prioritised read — not a dump.
+Lead with `In Progress` (work already underway). Call out fresh
 `Meeting Follow Ups` cards (the reconciler makes them just before you run).
-`stage` is the priority bucket: `P1` highest, then `P2`, then `P3` (backlog).
-(`time_stage` is the old time-based label, kept for history only — ignore it.)
+`stage` is the column:
+`In Progress` is in-flight work, then `P1` highest priority, `P2`, `P3`
+(backlog). (`time_stage` is the old time-based label, kept for history only —
+ignore it.)
 
-**3. Stale tasks.** Active, not-done cards overdue for their priority, using the
+**3. Stale tasks.** Active, not-done cards overdue for their stage, using the
 creation date as defined in Sources (the `created` field, else birthtime/mtime):
-`P1` older than 7 days, or `P2` older than 14 days. Skip `P3` (backlog). For each, tell the
-user to do one thing — finish it, reschedule it, or drop it.
+`In Progress` or `P1` older than 7 days, or `P2` older than 14 days. Skip `P3`
+(backlog). For each, tell the user to do one thing — finish it, reschedule it,
+or drop it.
 
 **4. Inbox.** Walk `in:inbox` and, for each thread that matters, suggest one
 action — **respond / review PR / archive / snooze a few days** — with a one-line

@@ -4,26 +4,29 @@ A weekday unattended Claude session (Opus 4.8, medium effort) that assembles a
 "morning brief" and saves it as a note in the Obsidian vault, then fires a
 zero-content [ntfy](https://ntfy.sh) push that deep-links straight to the note.
 
-It runs at ~07:30, after the [`meeting-followups`](../meeting-followups) reconciler
-(07:00), so it can pick up the follow-up cards that job just created.
+It runs at ~04:00, after the [`meeting-followups`](../meeting-followups) reconciler
+(03:30), so it can pick up the follow-up cards that job just created.
 
 ## What the brief contains
 
 1. **Today's agenda** (Google Calendar), tailored per event — interviews flagged
    for prep; standups / 1:1s annotated with each *other* attendee's open Jira
    tickets (so you can ask for updates) plus relevant recent meeting/board context.
-2. **Near-term priorities** — active cards in the `P1` / `Meeting Follow Ups`
-   stages of the task board (`stage` is the priority: `P1` > `P2` > `P3`).
-3. **Stale tasks** — cards you keep carrying: `P1` older than 7 days,
-   `P2` older than 14 days (`P3` backlog is skipped). For each, it tells you to
-   finish, reschedule, or drop it.
+2. **Near-term priorities** — active cards in the `In Progress` / `P1` /
+   `Meeting Follow Ups` stages of the task board (`stage` is the column:
+   `In Progress` is in-flight work, then priority `P1` > `P2` > `P3`).
+3. **Stale tasks** — cards you keep carrying: `In Progress` or `P1` older than
+   7 days, `P2` older than 14 days (`P3` backlog is skipped). For each, it tells
+   you to finish, reschedule, or drop it.
 4. **Inbox** (Gmail, read-only) — surfaces unarchived items and suggests what to
    do with each (respond / review PR / archive / snooze). It only recommends; it
    never changes your mailbox.
 5. A prompt to add anything uncaptured / reprioritize.
 
-The brief is written to `~/notes/briefs/YYYYMMDD - <Weekday>.md`. Briefs older
-than 7 days are moved to `~/notes/briefs/archive/` at the start of each run.
+The brief is written to `~/notes/briefs/YYYYMMDD - <Weekday>.md`. Briefs from
+prior weeks (anything dated before the current week's Monday) are moved to
+`~/notes/briefs/archive/` at the start of each run, so the folder only holds
+the current week.
 
 ## Inputs and access
 
@@ -66,7 +69,7 @@ your phone's ntfy app to the same topic to receive the morning push.
 - `brief.sh` — wrapper: sources config, archives old briefs, runs `claude -p`
   (with a one-shot retry for cold-start connector failures), then pushes ntfy.
   `--dry-run` writes the note but skips the push and ignores the weekday guard.
-- `daily-briefing.service` / `.timer` — systemd user units, weekdays ~07:30.
+- `daily-briefing.service` / `.timer` — systemd user units, weekdays ~04:00.
 
 ## One-time setup
 
