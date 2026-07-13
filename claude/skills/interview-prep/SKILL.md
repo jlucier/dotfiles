@@ -14,6 +14,8 @@ Produce a short, practical interview prep document from a CV. The goal: give the
 
 2. **Check for hiring context.** Look for an existing hiring directory with interview guides, TL question banks, or past interview notes. Use these to calibrate tone and depth.
 
+   **Match the round.** Ask the user which round this prep is for if it isn't obvious. First-round screens are a programming problem plus light background — there is no time for live design problems, so keep the doc to background-drill questions and leave design/system problems out. Design problems belong to later rounds and live in the shared round plans in the hiring directory (e.g. `Design Round - Principal CV.md`); a later-round prep doc should derive from the shared plan and tailor it, not invent new problems.
+
 3. **Research the employer if needed.** A quick web search on an unfamiliar company can sharpen the questions significantly.
 
 4. **Write the doc.** Three sections:
