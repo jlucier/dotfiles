@@ -1,0 +1,12 @@
+onboarding = false
+
+[theme]
+name = "kanagawa"
+auto_switch = false
+
+[keys]
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
+
+[ui]
+tab_bar_position = "bottom"
