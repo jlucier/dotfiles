@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "litellm/coding-default",
+  "providers": {
+    "litellm": {
+      "package": "@opencode-ai/ai/providers/openai-compatible",
+      "name": "LiteLLM (homeboi)",
+      "settings": {
+        "baseURL": "https://litellm.homeboi.jordan.lucier.co/v1",
+        "apiKey": "{env:OPENCODE_LITELLM_API_KEY}"
+      },
+      "models": {
+        "coding-default": {
+          "name": "Qwen 3.8 27B - UD-Q6_K_XL",
+          "modelID": "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q6_K_XL",
+          "variants": [
+            {
+              "id": "low",
+              "settings": {
+                "reasoningEffort": "low"
+              }
+            },
+            {
+              "id": "medium",
+              "settings": {
+                "reasoningEffort": "medium"
+              }
+            },
+            {
+              "id": "xhigh"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -82,6 +82,11 @@ grmb() {
 export PATH="$HOME/.local/bin:$PATH:/usr/local/go/bin"
 export NVM_DIR="$HOME/.nvm"
 
+litellm_keyfile=$HOME/sync/dev/litellm.key
+if test -f $litellm_keyfile; then
+  export OPENCODE_LITELLM_API_KEY=$(cat $litellm_keyfile)
+fi
+
 # Lazy load nvm - only loads when you first use node/npm/nvm/npx/yarn
 _nvm_lazy_load() {
   unset -f nvm node npm npx yarn 2>/dev/null
