@@ -3,8 +3,8 @@
 # stdin receives the session JSON payload documented at
 # https://code.claude.com/docs/en/statusline
 #
-# Install on a new machine (this file lives in ~/dev/dotfiles/claude/):
-#   ln -s ~/dev/dotfiles/claude/statusline.sh ~/.claude/statusline.sh
+# Install on a new machine (this file lives in ~/dev/dotfiles/ai/claude/):
+#   ln -s ~/dev/dotfiles/ai/claude/statusline.sh ~/.claude/statusline.sh
 #   then add to ~/.claude/settings.json:
 #     "statusLine": { "type": "command", "command": "~/.claude/statusline.sh", "padding": 0 }
 # Requires: jq, git.

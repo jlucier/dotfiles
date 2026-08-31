@@ -1,0 +1,14 @@
+{
+  "lastChangelogVersion": "0.84.4",
+  "theme": "dark",
+  "defaultProvider": "litellm",
+  "defaultModel": "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q6_K_XL",
+  "compaction": {
+    "enabled": true
+  },
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "tuiMode": "fullscreen",
+  "hideThinkingBlock": true
+}

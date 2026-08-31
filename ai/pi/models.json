@@ -1,0 +1,24 @@
+{
+  "providers": {
+    "litellm": {
+      "baseUrl": "https://litellm.homeboi.jordan.lucier.co/v1",
+      "api": "openai-completions",
+      "apiKey": "$OPENCODE_LITELLM_API_KEY",
+      "models": [
+        {
+          "id": "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q5_K_XL",
+          "reasoning": true,
+          "contextWindow": 262144,
+          "thinkingLevelMap": {
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": null,
+            "xhigh": "xhigh",
+            "max": null
+          }
+        }
+      ]
+    }
+  }
+}

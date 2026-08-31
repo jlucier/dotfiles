@@ -12,7 +12,7 @@
       "models": {
         "coding-default": {
           "name": "Qwen 3.8 27B - UD-Q6_K_XL",
-          "modelID": "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q6_K_XL",
+          "modelID": "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q5_K_XL",
           "variants": [
             {
               "id": "low",
