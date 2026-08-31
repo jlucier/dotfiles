@@ -67,6 +67,8 @@ autocmd({ "FileType" }, {
     if ft == "cpp" or ft == "python" then
       vim.opt_local.tabstop = 4
       vim.opt_local.shiftwidth = 4
+    elseif ft == "markdown" then
+      vim.opt_local.wrap = true
     end
   end,
 })
