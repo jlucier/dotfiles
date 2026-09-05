@@ -33,7 +33,14 @@
   },
   "skipWorkflowUsageWarning": true,
   "remoteControlAtStartup": false,
-  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "agentPushNotifEnabled": true,
+  "editorMode": "vim",
+  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": false,
+    "pr": false,
+    "sessionUrl": false
+  }
 }
