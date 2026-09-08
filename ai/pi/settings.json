@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.84.4",
+  "lastChangelogVersion": "0.85.1",
   "theme": "dark",
   "defaultProvider": "litellm",
   "defaultModel": "hf.co/unsloth/Qwen3.8-27B-GGUF:UD-Q6_K_XL",
@@ -10,5 +10,8 @@
     "showTerminalProgress": true
   },
   "tuiMode": "fullscreen",
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "packages": [
+    "npm:pi-claude-bridge"
+  ]
 }
