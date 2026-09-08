@@ -14,11 +14,11 @@
       "CronList"
     ],
     "defaultMode": "auto",
-    "disableBypassPermissionsMode": "disable",
-    "disableBundledSkills": true,
-    "disableWorkflows": true,
-    "disableArtifact": true
+    "disableBypassPermissionsMode": "disable"
   },
+  "disableBundledSkills": true,
+  "disableWorkflows": true,
+  "disableArtifact": true,
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh",
@@ -39,8 +39,8 @@
   "editorMode": "vim",
   "includeCoAuthoredBy": false,
   "attribution": {
-    "commit": false,
-    "pr": false,
+    "commit": "",
+    "pr": "",
     "sessionUrl": false
   }
 }
