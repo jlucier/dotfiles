@@ -39,10 +39,10 @@ folders on the device just appear at the mirrored path under `~/notes`.
    ```sh
    uv run --script ~/dev/dotfiles/supernote/supernote_export.py --dry-run
    ```
-2. **Install the timer** (runs every 10 min):
+2. **Install the timer** (runs every 10 min). The repo `install.sh` links the
+   units under `--systemd`; enable them once:
    ```sh
-   ln -s ~/dev/dotfiles/supernote/supernote-export.service ~/.config/systemd/user/
-   ln -s ~/dev/dotfiles/supernote/supernote-export.timer   ~/.config/systemd/user/
+   ~/dev/dotfiles/install.sh --systemd
    systemctl --user daemon-reload
    systemctl --user enable --now supernote-export.timer
    ```

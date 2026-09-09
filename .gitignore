@@ -1,4 +1,3 @@
-config/alacritty/extra.toml
 config/nvim/lazy-lock.json
 config/nvim/lua/perch_lsp.lua
 config/tmux/plugins

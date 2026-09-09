@@ -42,10 +42,10 @@ mode). No permission bypass.
    ```sh
    ~/dev/dotfiles/meeting-followups/reconcile.sh --dry-run
    ```
-3. **Install the timer:**
+3. **Install the timer.** The repo `install.sh` links the units under
+   `--systemd`; enable them once:
    ```sh
-   ln -s ~/dev/dotfiles/meeting-followups/meeting-followups.service ~/.config/systemd/user/
-   ln -s ~/dev/dotfiles/meeting-followups/meeting-followups.timer   ~/.config/systemd/user/
+   ~/dev/dotfiles/install.sh --systemd
    systemctl --user daemon-reload
    systemctl --user enable --now meeting-followups.timer
    ```
