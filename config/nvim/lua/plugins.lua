@@ -107,6 +107,10 @@ require("lazy").setup({
       git = {
         enable = true,
       },
+      filters = {
+        dotfiles = false,
+        git_ignored = false,
+      },
       renderer = {
         highlight_git = true,
         icons = {
@@ -238,5 +242,27 @@ require("lazy").setup({
       "nvim-telescope/telescope-fzf-native.nvim",
     },
     cmd = "Telescope",
+    opts = {
+      defaults = {
+        file_ignore_patterns = { "^%.git/", "/%.git/" },
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--hidden",
+          "--no-ignore",
+        },
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
+          no_ignore = true,
+        },
+      },
+    },
   },
 })
