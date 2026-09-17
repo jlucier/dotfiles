@@ -213,6 +213,24 @@ else
   skip "$HOME/.oh-my-zsh/themes/jlucier.zsh-theme" "oh-my-zsh is not installed"
 fi
 
+# --- ssh ------------------------------------------------------------------
+# ~/.ssh/config only includes config.d/*. The personal hosts and keys come from
+# ~/ssh_sync (a Syncthing folder) and are linked when that folder is present;
+# a work config goes into config.d/ by hand. The synced config refers to keys
+# as ~/.ssh/personal/<name>. Syncthing does not keep file modes, so the private
+# keys get chmod 600 on every run.
+group "ssh"
+run mkdir -p -m 700 "$HOME/.ssh/config.d"
+link "$HOME/.ssh/config" "$REPO/ssh/config"
+
+if [ -d "$HOME/ssh_sync" ]; then
+  link "$HOME/.ssh/config.d/personal" "$HOME/ssh_sync/config"
+  link "$HOME/.ssh/personal"          "$HOME/ssh_sync/keys"
+  run find "$HOME/ssh_sync/keys" -type f ! -name '*.pub' -exec chmod 600 {} +
+else
+  skip "$HOME/.ssh/config.d/personal, $HOME/.ssh/personal" "no ~/ssh_sync"
+fi
+
 # --- terminals and editor -------------------------------------------------
 group "terminals and editor"
 link "$HOME/.config/ghostty"   "$REPO/config/ghostty"
