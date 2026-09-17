@@ -125,6 +125,31 @@ kwin_key "Window Quick Tile Right"  "Meta+Right"
 kwin_key "Window Quick Tile Top"    "Meta+Up"
 kwin_key "Window Quick Tile Bottom" "Meta+Down"
 
+# --- window rules ---------------------------------------------------------
+echo
+echo "--- window rules ---"
+
+# Ghostty draws no titlebar or frame. kwinrulesrc lists rule ids in
+# [General] rules; each id is a group. A fixed id keeps the rerun idempotent.
+# wmclassmatch 1 is an exact match on the Wayland app id; noborderrule 2 is
+# "force".
+rule=ghostty-noborder
+rules="$(kreadconfig6 --file kwinrulesrc --group General --key rules --default "")"
+
+case ",$rules," in
+  *",$rule,"*) ;;
+  *) rules="${rules:+$rules,}$rule" ;;
+esac
+
+kwriteconfig6 --file kwinrulesrc --group General --key rules "$rules"
+kwriteconfig6 --file kwinrulesrc --group General --key count "$(echo "$rules" | tr , '\n' | grep -c .)"
+kwriteconfig6 --file kwinrulesrc --group "$rule" --key Description "Ghostty: no titlebar"
+kwriteconfig6 --file kwinrulesrc --group "$rule" --key wmclass com.mitchellh.ghostty
+kwriteconfig6 --file kwinrulesrc --group "$rule" --key wmclassmatch 1
+kwriteconfig6 --file kwinrulesrc --group "$rule" --key noborder --type bool true
+kwriteconfig6 --file kwinrulesrc --group "$rule" --key noborderrule 2
+echo "kwinrule $rule"
+
 # --- application shortcuts ------------------------------------------------
 echo
 echo "--- application shortcuts ---"
@@ -149,8 +174,9 @@ fi
 echo
 echo "--- reload ---"
 
-# The kwin shortcuts are already live. The keyboard layout and the desktop
-# count reload here. The launch shortcuts load at the next login.
+# The kwin shortcuts are already live. The keyboard layout, the desktop
+# count, and the window rules reload here. The launch shortcuts load at the
+# next login.
 dbus-send --session --type=signal /Layouts org.kde.keyboard.reloadConfig
 gdbus call --session --dest org.kde.KWin --object-path /KWin --method org.kde.KWin.reconfigure >/dev/null
 
