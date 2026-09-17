@@ -17,16 +17,21 @@
 # The systemd group is Linux only, and you must opt in to it with --systemd.
 # Those timers suit a desktop that runs all the time, not a laptop.
 #
+# --desktop-env sets up the whole desktop on Fedora KDE Plasma:
+#   fedora/kde/install.sh   packages, flatpaks, fonts, ghostty, shell, AI tools
+#   (the links below)
+#   fedora/kde/plasma.sh    Caps Lock as Meta, virtual desktops, shortcuts
+#
 # These files are in the repo but are not linked:
 #   config/bspwm              legacy bspwm desktop, superseded by KDE Plasma
 #   config/polybar            legacy bspwm desktop
 #   config/picom.conf         legacy bspwm desktop
 #   bg.jpg                    config/bspwm/reloadablerc reads it by absolute path
 #   keychron/*.json           imported through the VIA web app
-#   kde_keys.kksrc            imported through KDE System Settings
-#   kde6_keys.kksrc           imported through KDE System Settings
-#   fedora/dnf.conf           fedora/install.sh copies it with sudo
-#   fedora/ly.pp              fedora/install.sh loads it with semodule
+#   fedora/dnf.conf           the fedora install scripts copy it with sudo
+#   fedora/kde/zen.desktop    fedora/kde/install.sh copies it with sudo
+#   fedora/kde/1password-allowed-browsers   same
+#   fedora/bspwm/*            legacy bspwm desktop, see fedora/bspwm/install.sh
 #   supernote/*.py            the systemd units run it by absolute path
 #   meeting-followups/*.sh    the systemd unit runs it by absolute path
 set -euo pipefail
@@ -35,14 +40,19 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 DRY_RUN=0
 WANT_SYSTEMD=0
+WANT_DESKTOP=0
+PERSONAL=0
 
 usage() {
   cat <<'USAGE'
-Usage: install.sh [--dry-run] [--systemd]
+Usage: install.sh [--dry-run] [--systemd] [--desktop-env [--personal]]
 
-  --dry-run   Report the changes, write nothing.
-  --systemd   Also link the systemd user units. Linux only. Use this on a
-              desktop that runs all the time, not on a laptop.
+  --dry-run      Report the changes, write nothing.
+  --systemd      Also link the systemd user units. Linux only. Use this on a
+                 desktop that runs all the time, not on a laptop.
+  --desktop-env  Also install the programs and apply the desktop settings.
+                 Fedora KDE Plasma only.
+  --personal     With --desktop-env, also install Discord and Steam.
 USAGE
 }
 
@@ -50,6 +60,8 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --dry-run) DRY_RUN=1 ;;
     --systemd) WANT_SYSTEMD=1 ;;
+    --desktop-env) WANT_DESKTOP=1 ;;
+    --personal) PERSONAL=1 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "unknown argument: $1" >&2; usage >&2; exit 2 ;;
   esac
@@ -164,6 +176,31 @@ group() {
 
 echo "repo=$REPO platform=$PLATFORM"
 
+# --- desktop environment: packages ----------------------------------------
+# Runs before the links so that oh-my-zsh exists when the theme is linked.
+desktop_supported() {
+  [ "$PLATFORM" = linux ] || return 1
+  [ -f /etc/fedora-release ] || return 1
+  case "${XDG_CURRENT_DESKTOP:-}" in
+    *KDE*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+if [ "$WANT_DESKTOP" -eq 1 ]; then
+  group "desktop environment: packages"
+
+  if ! desktop_supported; then
+    skip "fedora/kde/install.sh" "not a Fedora KDE Plasma session"
+  elif [ "$DRY_RUN" -eq 1 ]; then
+    say "RUN      fedora/kde/install.sh"
+  else
+    personal_flag=()
+    [ "$PERSONAL" -eq 1 ] && personal_flag=(--personal)
+    "$REPO/fedora/kde/install.sh" "${personal_flag[@]}"
+  fi
+fi
+
 # --- shell ----------------------------------------------------------------
 group "shell"
 link "$HOME/.zshrc" "$REPO/zshrc"
@@ -210,6 +247,19 @@ else
   link "$units/supernote-export.timer"    "$REPO/supernote/supernote-export.timer"
   link "$units/meeting-followups.service" "$REPO/meeting-followups/meeting-followups.service"
   link "$units/meeting-followups.timer"   "$REPO/meeting-followups/meeting-followups.timer"
+fi
+
+# --- desktop environment: settings ----------------------------------------
+if [ "$WANT_DESKTOP" -eq 1 ]; then
+  group "desktop environment: settings"
+
+  if ! desktop_supported; then
+    skip "fedora/kde/plasma.sh" "not a Fedora KDE Plasma session"
+  elif [ "$DRY_RUN" -eq 1 ]; then
+    say "RUN      fedora/kde/plasma.sh"
+  else
+    "$REPO/fedora/kde/plasma.sh"
+  fi
 fi
 
 echo

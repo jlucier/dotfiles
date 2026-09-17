@@ -1,6 +1,7 @@
 #! /bin/bash -e
 #
-# An auto setup script for taking a server install -> a "desktop environment" with my stuff set up.
+# Legacy: takes a Fedora server install to the bspwm desktop. Run from the repo root.
+# fedora/kde/install.sh replaces this for KDE Plasma.
 # WIP
 
 repo=$(pwd)
@@ -58,7 +59,7 @@ hardo_de() {
     sudo make install installsystemd
     sudo systemctl enable ly.service
     # got strategy from here: https://github.com/fairyglade/ly/issues/433
-    sudo semodule -X 300 -i $repo/fedora/ly.pp
+    sudo semodule -X 300 -i $repo/fedora/bspwm/ly.pp
     cd ..
     rm -rf ly
 

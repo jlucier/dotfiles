@@ -57,7 +57,12 @@ export EDITOR=$VISUAL
 alias vim='nvim'
 
 # General
-alias clip="xclip -selection clipboard"
+# Copy stdin to the system clipboard.
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias clip="pbcopy"
+else
+  alias clip="wl-copy"
+fi
 alias grep="grep --color=auto -I --exclude-dir .pytest_cache --exclude-dir .git \
   --exclude-dir __pycache__ --exclude-dir build --exclude-dir '*.egg-info'"
 alias rsync='rsync -azxvpe ssh --exclude=".git*" --exclude=".*.swp" --exclude="*.pyc" --exclude="*.md" \

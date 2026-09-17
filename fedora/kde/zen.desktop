@@ -1,0 +1,22 @@
+[Desktop Entry]
+Version=1.0
+Name=Zen Browser
+GenericName=Web Browser
+Comment=Experience tranquillity while browsing the web without people tracking you!
+Exec=/opt/zen/zen %u
+Icon=zen
+Terminal=false
+Type=Application
+StartupWMClass=zen
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+Actions=new-window;new-private-window;
+
+[Desktop Action new-window]
+Name=Open a New Window
+Exec=/opt/zen/zen --new-window %u
+
+[Desktop Action new-private-window]
+Name=Open a New Private Window
+Exec=/opt/zen/zen --private-window %u

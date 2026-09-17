@@ -6,3 +6,4 @@ config/ghostty/machine-config
 
 # macOS cruft
 **/.DS_Store
+ai/claude/skills/synced/
