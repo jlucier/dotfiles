@@ -202,19 +202,32 @@ fonts() {
 }
 
 # --- ghostty --------------------------------------------------------------
-# Built from main. The Fedora zig package (0.16) is newer than the zig that the
-# latest ghostty release accepts, and main tracks the current zig.
+# Built from a pinned commit on main. The Fedora zig package (0.16) is newer
+# than the zig that the latest ghostty release accepts, and main tracks the
+# current zig.
+#
+# The pin is the last commit before ghostty-org/ghostty#14052 (merged
+# 2026-09-14). That change removed GtkGLArea: ghostty now renders in its own
+# EGL context and passes each frame to GTK as a DMA-BUF exported with
+# eglExportDMABUFImageMESA. The proprietary NVIDIA EGL does not provide that
+# extension, so glvnd hands the display to Mesa, Mesa has no driver for the
+# card, and ghostty renders in software with llvmpipe. The result is heavy
+# artifacting. Move the pin forward once upstream supports NVIDIA on the new
+# path.
+GHOSTTY_COMMIT=d30379c5b
+
 ghostty() {
   group "ghostty"
 
   local src="$HOME/.local/src/ghostty"
 
   if [ -d "$src/.git" ]; then
-    git -C "$src" pull --ff-only
+    git -C "$src" fetch origin
   else
     mkdir -p "$(dirname "$src")"
     git clone https://github.com/ghostty-org/ghostty.git "$src"
   fi
+  git -C "$src" checkout --detach "$GHOSTTY_COMMIT"
 
   # -p installs bin/, share/applications/, share/icons/ under ~/.local, which
   # is on PATH and in the XDG data dirs, so Plasma sees the launcher.
