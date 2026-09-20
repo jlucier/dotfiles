@@ -120,8 +120,8 @@ kwin_key "Window Minimize" "Meta+M${TAB}Meta+PgDown"
 
 # Quick tile is the Plasma default. Set it anyway so a default change upstream
 # does not remove it.
-kwin_key "Window Quick Tile Left"   "Meta+Left"
-kwin_key "Window Quick Tile Right"  "Meta+Right"
+kwin_key "Window Quick Tile Left"   "Meta+Shift+H${TAB}Meta+Left"
+kwin_key "Window Quick Tile Right"  "Meta+Shift+L${TAB}Meta+Right"
 kwin_key "Window Quick Tile Top"    "Meta+Up"
 kwin_key "Window Quick Tile Bottom" "Meta+Down"
 
