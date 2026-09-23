@@ -3,3 +3,8 @@ modelRoles:
 hideThinkingBlock: true
 terminal:
   showProgress: true
+disabledProviders:
+  - web
+  - local
+  - amazon-bedrock
+  - bedrock-mantle
