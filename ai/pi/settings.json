@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.87.0",
+  "lastChangelogVersion": "0.87.1",
   "theme": "dark",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
@@ -15,6 +15,7 @@
     "npm:pi-claude-bridge",
     "npm:pi-subagents",
     "npm:pi-web-access",
+    "npm:pi-web-fetch",
     "npm:pi-background-tasks"
   ]
 }
