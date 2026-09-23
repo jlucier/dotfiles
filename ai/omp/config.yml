@@ -1,0 +1,5 @@
+modelRoles:
+  default: openai-codex/gpt-6-sol:medium
+hideThinkingBlock: true
+terminal:
+  showProgress: true

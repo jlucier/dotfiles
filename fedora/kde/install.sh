@@ -265,7 +265,7 @@ ai_tools() {
   group "AI tools"
 
   local name url
-  for name in herdr pi claude; do
+  for name in herdr omp claude; do
     if command -v "$name" >/dev/null 2>&1; then
       echo "OK       $name"
       continue
@@ -273,7 +273,7 @@ ai_tools() {
 
     case "$name" in
       herdr)  url=https://herdr.dev/install.sh ;;
-      pi)     url=https://pi.dev/install.sh ;;
+      omp)    url=https://omp.sh/install ;;
       claude) url=https://claude.ai/install.sh ;;
     esac
 

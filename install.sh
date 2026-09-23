@@ -4,7 +4,7 @@
 # Idempotent: a rerun leaves correct links alone and repoints wrong ones.
 #
 # Explicit `link` calls handle one-off paths. `link_dir` covers every top-level
-# entry of a repo directory, so a new file in ai/claude/, ai/pi/, or
+# entry of a repo directory, so a new file in ai/claude/, ai/omp/, or
 # config/herdr/ gets linked on the next run. Use `link_dir` when the
 # destination directory also holds runtime state that must not enter the repo.
 #
@@ -247,10 +247,11 @@ link_dir "$REPO/config/herdr" "$HOME/.config/herdr"
 group "AI harnesses"
 link_dir "$REPO/ai/claude"   "$HOME/.claude"
 link_dir "$REPO/ai/opencode" "$HOME/.config/opencode"
-link_dir "$REPO/ai/pi"       "$HOME/.pi/agent"
+link_dir "$REPO/ai/omp"      "$HOME/.omp/agent"
 
-# pi reads its instructions from AGENTS.md; share the claude CLAUDE.md.
-link "$HOME/.pi/agent/AGENTS.md" "$REPO/ai/claude/CLAUDE.md"
+# OMP shares the Claude instructions and appended style without copying them.
+link "$HOME/.omp/agent/AGENTS.md" "$REPO/ai/claude/CLAUDE.md"
+link "$HOME/.omp/agent/APPEND_SYSTEM.md" "$REPO/ai/claude/output-styles/simplified-technical-english.md"
 
 # --- systemd user units (Linux only, opt in) ------------------------------
 group "systemd user units"
