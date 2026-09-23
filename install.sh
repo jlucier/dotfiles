@@ -226,7 +226,9 @@ link "$HOME/.ssh/config" "$REPO/ssh/config"
 if [ -d "$HOME/ssh_sync" ]; then
   link "$HOME/.ssh/config.d/personal" "$HOME/ssh_sync/config"
   link "$HOME/.ssh/personal"          "$HOME/ssh_sync/keys"
-  run find "$HOME/ssh_sync/keys" -type f ! -name '*.pub' -exec chmod 600 {} +
+  if [ -d "$HOME/ssh_sync/keys" ]; then
+    run find "$HOME/ssh_sync/keys" -type f ! -name '*.pub' -exec chmod 600 {} +
+  fi
 else
   skip "$HOME/.ssh/config.d/personal, $HOME/.ssh/personal" "no ~/ssh_sync"
 fi
