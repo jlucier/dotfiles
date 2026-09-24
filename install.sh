@@ -253,7 +253,25 @@ link_dir "$REPO/ai/omp"      "$HOME/.omp/agent"
 
 # OMP shares the Claude instructions and appended style without copying them.
 link "$HOME/.omp/agent/AGENTS.md" "$REPO/ai/claude/CLAUDE.md"
-link "$HOME/.omp/agent/APPEND_SYSTEM.md" "$REPO/ai/claude/output-styles/simplified-technical-english.md"
+
+# The model roles differ between personal and work machines, so they are in a
+# Syncthing folder and not in the repo: ~/sync/dev on personal machines and
+# ~/work_sync/dev on work machines. zshrc loads the link as a PI_CONFIG_FILES
+# overlay when its target exists. The overlay shadows /model role changes that
+# omp writes to config.yml, so edit the synced file by hand.
+omp_roles=""
+for dir in "$HOME/sync/dev" "$HOME/work_sync/dev"; do
+  if [ -f "$dir/omp-model-roles.yml" ]; then
+    omp_roles="$dir/omp-model-roles.yml"
+    break
+  fi
+done
+
+if [ -n "$omp_roles" ]; then
+  link "$HOME/.omp/agent/model-roles.yml" "$omp_roles"
+else
+  skip "$HOME/.omp/agent/model-roles.yml" "no omp-model-roles.yml in ~/sync/dev or ~/work_sync/dev"
+fi
 
 # --- systemd user units (Linux only, opt in) ------------------------------
 group "systemd user units"

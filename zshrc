@@ -92,6 +92,14 @@ if test -f $litellm_keyfile; then
   export OPENCODE_LITELLM_API_KEY=$(cat $litellm_keyfile)
 fi
 
+# omp loads the model roles for this machine from the Syncthing file that
+# install.sh links. omp stops with an error when an overlay file is missing, so
+# set the variable only when the link target exists.
+omp_roles_file=$HOME/.omp/agent/model-roles.yml
+if test -f $omp_roles_file; then
+  export PI_CONFIG_FILES=$omp_roles_file
+fi
+
 # Lazy load nvm - only loads when you first use node/npm/nvm/npx/yarn
 _nvm_lazy_load() {
   unset -f nvm node npm npx yarn 2>/dev/null
