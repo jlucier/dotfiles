@@ -6,3 +6,5 @@ disabledProviders:
   - amazon-bedrock
   - bedrock-mantle
 setupVersion: 2
+statusLine:
+  compactThinkingLevel: false
