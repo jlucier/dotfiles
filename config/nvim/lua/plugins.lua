@@ -243,26 +243,59 @@ require("lazy").setup({
       "nvim-telescope/telescope-fzf-native.nvim",
     },
     cmd = "Telescope",
-    opts = {
-      defaults = {
-        file_ignore_patterns = { "^%.git/", "/%.git/" },
-        vimgrep_arguments = {
-          "rg",
-          "--color=never",
-          "--no-heading",
-          "--with-filename",
-          "--line-number",
-          "--column",
-          "--smart-case",
-          "--hidden",
-          "--no-ignore",
+    opts = function()
+      -- Directories that no picker shows. live_grep keeps --no-ignore so that it
+      -- still finds gitignored files such as .env files and Ansible inventories.
+      local excluded_dirs = {
+        ".git",
+        ".uv_cache",
+        ".venv*",
+        ".mypy_cache",
+        ".sysroots",
+        ".ruff_cache",
+        ".pytest_cache",
+        ".clangd",
+        "__pycache__",
+        "*.egg-info",
+        "_deps",
+        "build",
+        "build-*",
+      }
+
+      local vimgrep_arguments = {
+        "rg",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+        "--hidden",
+        "--no-ignore",
+      }
+      local file_ignore_patterns = {}
+
+      for _, dir in ipairs(excluded_dirs) do
+        -- rg does not go into the directory, so live_grep does not read its files.
+        table.insert(vimgrep_arguments, "--glob=!" .. dir .. "/")
+
+        -- Pickers that do not use vimgrep_arguments filter their results with Lua patterns.
+        local pattern = dir:gsub("[%^%$%(%)%%%.%[%]%+%-%?]", "%%%0"):gsub("%*", "[^/]*")
+        table.insert(file_ignore_patterns, "^" .. pattern .. "/")
+        table.insert(file_ignore_patterns, "/" .. pattern .. "/")
+      end
+
+      return {
+        defaults = {
+          file_ignore_patterns = file_ignore_patterns,
+          vimgrep_arguments = vimgrep_arguments,
         },
-      },
-      pickers = {
-        find_files = {
-          hidden = true,
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
         },
-      },
-    },
+      }
+    end,
   },
 })
