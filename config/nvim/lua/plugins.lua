@@ -184,8 +184,8 @@ require("lazy").setup({
   },
 
   {
-    "neovim-treesitter/nvim-treesitter",
-    dependencies = { "neovim-treesitter/treesitter-parser-registry" },
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     lazy = false,
     build = ":TSUpdate",
     config = function()
@@ -239,7 +239,7 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      "neovim-treesitter/nvim-treesitter",
+      "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope-fzf-native.nvim",
     },
     cmd = "Telescope",
@@ -256,6 +256,8 @@ require("lazy").setup({
         ".pytest_cache",
         ".clangd",
         "__pycache__",
+        "zig-out",
+        ".zig-cache",
         "*.egg-info",
         "_deps",
         "build",
