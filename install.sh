@@ -22,6 +22,9 @@
 #   (the links below)
 #   fedora/kde/plasma.sh    Caps Lock as Meta, virtual desktops, shortcuts
 #
+# --sync-wallpaper IMAGE updates the Plasma desktop, lock screen, and Plasma
+# Login wallpaper. On its own it runs only this operation.
+#
 # These files are in the repo but are not linked:
 #   config/bspwm              legacy bspwm desktop, superseded by KDE Plasma
 #   config/polybar            legacy bspwm desktop
@@ -41,18 +44,25 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DRY_RUN=0
 WANT_SYSTEMD=0
 WANT_DESKTOP=0
+WANT_WALLPAPER=0
+WALLPAPER_IMAGE=""
 PERSONAL=0
 
 usage() {
   cat <<'USAGE'
 Usage: install.sh [--dry-run] [--systemd] [--desktop-env [--personal]]
+                  [--sync-wallpaper IMAGE]
 
-  --dry-run      Report the changes, write nothing.
-  --systemd      Also link the systemd user units. Linux only. Use this on a
-                 desktop that runs all the time, not on a laptop.
-  --desktop-env  Also install the programs and apply the desktop settings.
-                 Fedora KDE Plasma only.
-  --personal     With --desktop-env, also install Discord and Steam.
+  --dry-run           Report the changes, write nothing.
+  --systemd           Also link the systemd user units. Linux only. Use this on a
+                      desktop that runs all the time, not on a laptop.
+  --desktop-env       Also install the programs and apply the desktop settings.
+                      Fedora KDE Plasma only.
+  --personal          With --desktop-env, also install Discord and Steam.
+  --sync-wallpaper    Set the Plasma desktop, lock screen, and Plasma Login
+                      wallpaper from IMAGE. On its own, runs only this action.
+                      Fedora KDE Plasma only; requires administrator access.
+                      IMAGE must be an absolute path to an image file.
 USAGE
 }
 
@@ -61,6 +71,17 @@ while [ $# -gt 0 ]; do
     --dry-run) DRY_RUN=1 ;;
     --systemd) WANT_SYSTEMD=1 ;;
     --desktop-env) WANT_DESKTOP=1 ;;
+    --sync-wallpaper)
+      if [ "$WANT_WALLPAPER" -eq 1 ] || [ $# -lt 2 ] || [ -z "$2" ]; then
+        echo "--sync-wallpaper requires exactly one image path" >&2
+        usage >&2
+        exit 2
+      fi
+      WANT_WALLPAPER=1
+      WALLPAPER_IMAGE="$2"
+      shift 2
+      continue
+      ;;
     --personal) PERSONAL=1 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "unknown argument: $1" >&2; usage >&2; exit 2 ;;
@@ -187,6 +208,22 @@ desktop_supported() {
   esac
 }
 
+if [ "$WANT_WALLPAPER" -eq 1 ] && [ "$WANT_DESKTOP" -eq 0 ] && [ "$WANT_SYSTEMD" -eq 0 ]; then
+  if ! desktop_supported; then
+    echo "wallpaper sync requires a Fedora KDE Plasma session" >&2
+    exit 1
+  fi
+
+  if [ "$DRY_RUN" -eq 1 ]; then
+    say "RUN      fedora/kde/wallpaper.sh $WALLPAPER_IMAGE"
+  else
+    "$REPO/fedora/kde/wallpaper.sh" "$WALLPAPER_IMAGE"
+  fi
+
+  exit 0
+fi
+
+
 if [ "$WANT_DESKTOP" -eq 1 ]; then
   group "desktop environment: packages"
 
@@ -300,6 +337,19 @@ if [ "$WANT_DESKTOP" -eq 1 ]; then
     "$REPO/fedora/kde/plasma.sh"
   fi
 fi
+
+if [ "$WANT_WALLPAPER" -eq 1 ]; then
+  group "desktop environment: wallpaper"
+
+  if ! desktop_supported; then
+    skip "fedora/kde/wallpaper.sh" "not a Fedora KDE Plasma session"
+  elif [ "$DRY_RUN" -eq 1 ]; then
+    say "RUN      fedora/kde/wallpaper.sh $WALLPAPER_IMAGE"
+  else
+    "$REPO/fedora/kde/wallpaper.sh" "$WALLPAPER_IMAGE"
+  fi
+fi
+
 
 echo
 echo "created=$created fixed=$fixed ok=$ok replaced=$replaced skipped=$skipped"

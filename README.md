@@ -7,12 +7,14 @@ Pretty self explanatory.
 idempotent, so a rerun leaves correct links alone and repoints wrong ones.
 
 ```sh
-./install.sh --dry-run        # report the changes, write nothing
-./install.sh                  # create the links
-./install.sh --systemd        # also link the systemd user units
-./install.sh --desktop-env    # also install programs and apply Plasma settings
-./install.sh --desktop-env --personal   # also Discord and Steam
+./install.sh --dry-run
+./install.sh
+./install.sh --systemd
+./install.sh --desktop-env
+./install.sh --desktop-env --personal
+./install.sh --sync-wallpaper "$HOME/sync/pictures/wallpapers/FW 13 Pro Wallpaper 7.png"
 ```
+
 
 The systemd user units (`supernote`, `meeting-followups`) are Linux only and
 opt in, because those timers suit a desktop that runs all the time. `--systemd`
@@ -25,3 +27,9 @@ tpm, the AI tools) before the links, and `fedora/kde/plasma.sh` (Caps Lock as
 Meta, five virtual desktops, global shortcuts) after them. Both scripts are
 idempotent and can run on their own. Shortcut changes take effect after a
 logout.
+
+`--sync-wallpaper IMAGE` is a standalone Fedora KDE Plasma operation when used
+without other action flags. It sets the desktop and lock-screen wallpaper and
+configures Plasma Login to use the same image. `--dry-run` reports the operation
+without making changes.
+
