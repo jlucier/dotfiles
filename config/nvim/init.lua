@@ -84,4 +84,5 @@ autocmd({ "BufRead", "BufNewFile" }, {
 })
 
 require("plugins")
+vim.cmd.colorscheme("awake-dusk")
 require("mappings").setup()

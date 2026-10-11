@@ -207,6 +207,7 @@ require("lazy").setup({
         "tsx",
         "typescript",
         "zig",
+        "yaml",
       })
 
       vim.treesitter.language.register("tsx", "typescriptreact")
@@ -228,6 +229,7 @@ require("lazy").setup({
           "go",
           "lua",
           "zig",
+          "yaml",
         },
         callback = function()
           vim.treesitter.start()
