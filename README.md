@@ -25,7 +25,3 @@ tpm, the AI tools) before the links, and `fedora/kde/plasma.sh` (Caps Lock as
 Meta, five virtual desktops, global shortcuts) after them. Both scripts are
 idempotent and can run on their own. Shortcut changes take effect after a
 logout.
-
-The bspwm desktop (`config/bspwm`, `config/polybar`, `config/picom.conf`) and
-`fedora/bspwm/` stay in the repo, but `install.sh` ignores them.
-`fedora/bspwm/install.sh` takes a Fedora server install to that desktop.
