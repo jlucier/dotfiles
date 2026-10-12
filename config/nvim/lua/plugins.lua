@@ -260,6 +260,8 @@ require("lazy").setup({
         "__pycache__",
         "zig-out",
         ".zig-cache",
+        "zig-pkg",
+        "vendor",
         "*.egg-info",
         "_deps",
         "build",
