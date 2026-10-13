@@ -118,12 +118,12 @@ kwin_key "Window Close"    "Meta+Shift+Q${TAB}Alt+F4"
 kwin_key "Window Maximize" "Meta+F${TAB}Meta+PgUp"
 kwin_key "Window Minimize" "Meta+M${TAB}Meta+PgDown"
 
-# Quick tile is the Plasma default. Set it anyway so a default change upstream
-# does not remove it.
+# Meta+arrow quick tile is the Plasma default. Set it anyway so a default
+# change upstream does not remove it. Meta+Shift+H/J/K/L add vim-style keys.
 kwin_key "Window Quick Tile Left"   "Meta+Shift+H${TAB}Meta+Left"
 kwin_key "Window Quick Tile Right"  "Meta+Shift+L${TAB}Meta+Right"
-kwin_key "Window Quick Tile Top"    "Meta+Up"
-kwin_key "Window Quick Tile Bottom" "Meta+Down"
+kwin_key "Window Quick Tile Top"    "Meta+Shift+K${TAB}Meta+Up"
+kwin_key "Window Quick Tile Bottom" "Meta+Shift+J${TAB}Meta+Down"
 
 # --- window rules ---------------------------------------------------------
 echo
