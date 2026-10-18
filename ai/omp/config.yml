@@ -2,9 +2,17 @@ hideThinkingBlock: true
 terminal:
   showProgress: true
 disabledProviders:
-  - local
   - amazon-bedrock
   - bedrock-mantle
 setupVersion: 2
 statusLine:
   compactThinkingLevel: false
+dev:
+  autoqaConsent: denied
+modelRoles:
+  dictation: local/nemotron-streaming-en-0.6b
+  speech: local/kokoro
+stt:
+  enabled: true
+  language: en
+  submitTrigger: never
