@@ -26,7 +26,11 @@ Produce a short, practical interview prep document from a CV. The goal: give the
 
    **Questions** — For each focus area, 3–5 opening questions. These should crack the project open so the interviewer can then drill down naturally. Anchor to specifics from the CV. Ask about decisions made, tradeoffs, and what broke — not just what they built.
 
-5. **Write to the interview notes file.** Append to an existing file or create one at `hiring/interviews/YYYYMMDD - Name.md`.
+5. **Write to the interview notes file.** Write the file directly, any edits can happen on the live file.
+   - First round: `hiring/interviews/YYYYMMDD - Name.md`. Include the interview problem prompt (see `hiring/CLAUDE.md`).
+   - Later rounds: a new file `hiring/interviews/YYYYMMDD - Name Design Round.md`. Do not append to the first-round file. Link the shared round plan and the first-round notes at the top.
+   - Use the interview date if known, else today's date, and tell the user which date you used.
+   - Copy the CV into `hiring/prep/` and put its path at the top of the file.
 
 ## Output format
 
