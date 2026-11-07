@@ -6,4 +6,11 @@ config/ghostty/machine-config
 
 # macOS cruft
 **/.DS_Store
-ai/claude/skills/synced/
+
+# Claude synced claude.ai skills into ai/claude/skills/synced while ~/.claude/skills
+# was a link to that folder. install.sh skips ignored entries, so a leftover
+# folder is not linked.
+ai/claude/skills/
+
+# Work skills are in ~/work_sync/dev/skills, not in this public repo.
+ai/skills/perch-hardware-failures/

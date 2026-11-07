@@ -14,7 +14,7 @@
 #   regular file or directory             -> replaced with a symlink
 #   missing                               -> created
 #
-# link_dir also removes links in dest whose target in the repo was deleted.
+# link_dir and prune remove links whose target in the repo was deleted.
 #
 # The systemd group is Linux only, and you must opt in to it with --systemd.
 # Those timers suit a desktop that runs all the time, not a laptop.
@@ -104,6 +104,10 @@ removed=0
 replaced=0
 skipped=0
 
+# Paths that link handled in this run, one per line. prune skips them, because a
+# dry run does not repoint a link.
+linked=$'\n'
+
 # Run a command, unless this is a dry run.
 run() {
   if [ "$DRY_RUN" -eq 1 ]; then
@@ -152,6 +156,8 @@ link() {
     return
   fi
 
+  linked="$linked$link"$'\n'
+
   unnest_parent "$(dirname "$link")"
   run mkdir -p "$(dirname "$link")"
 
@@ -188,18 +194,41 @@ link_dir() {
 
   for entry in "$src"/*; do
     [ -e "$entry" ] || continue
+
+    # Ignored entries hold machine-local data, not config.
+    if git -C "$REPO" check-ignore -q "$entry"; then
+      continue
+    fi
+
     name="$(basename "$entry")"
     link "$dest/$name" "$entry"
   done
 
-  # Remove links whose repo target was deleted, so a file deleted from the repo
-  # also leaves dest on the next run. Links to paths outside the repo stay.
+  prune "$dest"
+}
+
+# Remove links in dest whose target was deleted, so a file deleted from the repo
+# also leaves dest on the next run. Only links into the repo, or into the extra
+# roots given after dest, are removed.
+prune() {
+  local dest="$1" entry target root match
+  shift
+
   for entry in "$dest"/* "$dest"/.[!.]*; do
     [ -L "$entry" ] && [ ! -e "$entry" ] || continue
-    case "$(readlink "$entry")" in
-      "$REPO"/*) ;;
-      *) continue ;;
+    case "$linked" in
+      *$'\n'"$entry"$'\n'*) continue ;;
     esac
+
+    target="$(readlink "$entry")"
+    match=0
+    for root in "$REPO" "$@"; do
+      case "$target" in
+        "$root"/*) match=1 ;;
+      esac
+    done
+    [ "$match" -eq 1 ] || continue
+
     run rm -f "$entry"
     say "REMOVED  $entry  (repo target deleted)"
     removed=$((removed + 1))
@@ -307,6 +336,28 @@ link_dir "$REPO/ai/omp"      "$HOME/.omp/agent"
 # OMP and Codex share the Claude instructions without copying them.
 link "$HOME/.omp/agent/AGENTS.md" "$REPO/ai/claude/CLAUDE.md"
 link "$HOME/.codex/AGENTS.md"     "$REPO/ai/claude/CLAUDE.md"
+
+# Claude and Codex get one link per skill. The directories cannot be links,
+# because Claude syncs claude.ai skills into ~/.claude/skills/synced and Codex
+# keeps its bundled skills in ~/.codex/skills/.system. OMP reads both
+# directories itself.
+#
+# Work skills are not in this public repo. They are in skills/ of a Syncthing
+# folder, the same as the omp model roles below.
+skill_syncs=("$HOME/sync/dev/skills" "$HOME/work_sync/dev/skills")
+
+for root in "$REPO/ai/skills" "${skill_syncs[@]}"; do
+  for skill in "$root"/*/SKILL.md; do
+    [ -e "$skill" ] || continue
+    dir="$(dirname "$skill")"
+    name="$(basename "$dir")"
+    link "$HOME/.claude/skills/$name" "$dir"
+    link "$HOME/.codex/skills/$name"  "$dir"
+  done
+done
+
+prune "$HOME/.claude/skills" "${skill_syncs[@]}"
+prune "$HOME/.codex/skills"  "${skill_syncs[@]}"
 
 # The model roles differ between personal and work machines, so they are in a
 # Syncthing folder and not in the repo: ~/sync/dev on personal machines and
