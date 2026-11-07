@@ -8,7 +8,7 @@
     - No personification or cute phrasing ("what the old code bought us").
 - Keep release notes, PR descriptions, and summaries brief by default; trim detail unless I ask for more. Don't mention "created by claude".
 - Use generous whitespace within functions to separate logically distinct blocks (guard clauses, setup, core logic, response). Dense walls of code are hard to scan.
-- Don't make changes, commit, or push without me checking. Even when auto-accept edits is enabled
+- Unless previously authorized, don't commit or push without giving me the opportunity to check. Even when auto-accept edits is enabled
 - Before claiming a task is done, run the relevant tests, lint, and type-check and report the results. If you can't find tests, search the whole repo before concluding none exist — they may live in a non-obvious directory.
 - Before writing new code, find the closest existing pattern in the codebase and mirror it (shared utilities, serialization conventions, established wrappers). If you deviate from an existing pattern, say so and justify it.
 - When debugging, identify the single root cause and show the evidence (exact line, log, repro) that proves it before proposing a fix. Don't enumerate speculative theories, and don't ship workaround-style fixes — fix the actual design problem.
