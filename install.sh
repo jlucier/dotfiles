@@ -14,6 +14,8 @@
 #   regular file or directory             -> replaced with a symlink
 #   missing                               -> created
 #
+# link_dir also removes links in dest whose target in the repo was deleted.
+#
 # The systemd group is Linux only, and you must opt in to it with --systemd.
 # Those timers suit a desktop that runs all the time, not a laptop.
 #
@@ -98,6 +100,7 @@ esac
 created=0
 fixed=0
 ok=0
+removed=0
 replaced=0
 skipped=0
 
@@ -187,6 +190,19 @@ link_dir() {
     [ -e "$entry" ] || continue
     name="$(basename "$entry")"
     link "$dest/$name" "$entry"
+  done
+
+  # Remove links whose repo target was deleted, so a file deleted from the repo
+  # also leaves dest on the next run. Links to paths outside the repo stay.
+  for entry in "$dest"/* "$dest"/.[!.]*; do
+    [ -L "$entry" ] && [ ! -e "$entry" ] || continue
+    case "$(readlink "$entry")" in
+      "$REPO"/*) ;;
+      *) continue ;;
+    esac
+    run rm -f "$entry"
+    say "REMOVED  $entry  (repo target deleted)"
+    removed=$((removed + 1))
   done
 }
 
@@ -288,8 +304,9 @@ link_dir "$REPO/ai/claude"   "$HOME/.claude"
 link_dir "$REPO/ai/opencode" "$HOME/.config/opencode"
 link_dir "$REPO/ai/omp"      "$HOME/.omp/agent"
 
-# OMP shares the Claude instructions and appended style without copying them.
+# OMP and Codex share the Claude instructions without copying them.
 link "$HOME/.omp/agent/AGENTS.md" "$REPO/ai/claude/CLAUDE.md"
+link "$HOME/.codex/AGENTS.md"     "$REPO/ai/claude/CLAUDE.md"
 
 # The model roles differ between personal and work machines, so they are in a
 # Syncthing folder and not in the repo: ~/sync/dev on personal machines and
@@ -352,7 +369,7 @@ fi
 
 
 echo
-echo "created=$created fixed=$fixed ok=$ok replaced=$replaced skipped=$skipped"
+echo "created=$created fixed=$fixed ok=$ok removed=$removed replaced=$replaced skipped=$skipped"
 
 if [ "$PLATFORM" = linux ] && [ "$WANT_SYSTEMD" -eq 1 ]; then
   cat <<'HINT'

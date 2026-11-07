@@ -30,7 +30,6 @@
     "command": "~/.claude/statusline.sh",
     "padding": 0
   },
-  "outputStyle": "Simplified Technical English",
   "effortLevel": "medium",
   "tui": "fullscreen",
   "voice": {
